@@ -1,15 +1,27 @@
 {
-  "name": "vanilla-spa-frontend",
+  "name": "digexmp1-a3-frontend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Coffee on web app frontend, created for digexmp1-a3.",
   "main": "index.js",
   "scripts": {
     "dev": "parcel src/index.html",
     "prod": "parcel build src/index.html"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ary-na/digexmp1-a3-frontend.git"
+  },
+  "keywords": [
+    "Coffee on",
+    "Cafe",
+    "Barista"
+  ],
+  "author": "Arian Najafi Yamchelo",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ary-na/digexmp1-a3-frontend/issues"
+  },
+  "homepage": "https://github.com/ary-na/digexmp1-a3-frontend#readme",
   "dependencies": {
     "@polymer/lit-element": "^0.7.1",
     "gsap": "^3.12.2",
