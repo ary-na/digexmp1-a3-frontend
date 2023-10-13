@@ -10,7 +10,7 @@ import editProfileView from './views/pages/editProfile'
 const routes = {
 	'/': homeView,	
 	'404' : fourOFourView,
-	'/signin': signinView,
+	'/login': signinView,
 	'/signup': signupView,
 	'/profile': profileView,
 	'/editProfile': editProfileView	

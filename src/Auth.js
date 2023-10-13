@@ -9,33 +9,10 @@ class Auth {
   constructor(){
     this.currentUser = {}
   }
-  
-  async signUp(userData, fail = false){  
+
+  async signUp(userData, fail = false){
     const response = await fetch(`${App.apiBase}/user`, {
-      method: 'POST',      
-      body: userData
-    })
-
-    // if response not ok
-    if(!response.ok){      
-      // console log error
-      const err = await response.json()
-      if(err) console.log(err)
-      // show error      
-      Toast.show(`Problem getting user: ${response.status}`)   
-      // run fail() functon if set
-      if(typeof fail == 'function') fail()
-    }
-    /// sign up success - show toast and redirect to sign in page
-    Toast.show('Account created, please sign in')        
-    // redirect to signin
-    gotoRoute('/signin')
-  }
-
-
-  async signIn(userData, fail = false){
-    const response = await fetch(`${App.apiBase}/auth/signin`, {
-      method: 'POST',      
+      method: 'POST',
       body: userData
     })
 
@@ -45,7 +22,30 @@ class Auth {
       const err = await response.json()
       if(err) console.log(err)
       // show error      
-      Toast.show(`Problem signing in: ${err.message}`, 'error')   
+      Toast.show(`Problem getting user: ${response.status}`)
+      // run fail() functon if set
+      if(typeof fail == 'function') fail()
+    }
+    /// sign up success - show toast and redirect to sign in page
+    Toast.show('Account created, please sign in')
+    // redirect to signin
+    gotoRoute('/login')
+  }
+
+
+  async signIn(userData, fail = false){
+    const response = await fetch(`${App.apiBase}/auth/login`, {
+      method: 'POST',
+      body: userData
+    })
+
+    // if response not ok
+    if(!response.ok){
+      // console log error
+      const err = await response.json()
+      if(err) console.log(err)
+      // show error      
+      Toast.show(`Problem signing in: ${err.message}`, 'error')
       // run fail() functon if set
       if(typeof fail == 'function') fail()
     }
@@ -54,9 +54,10 @@ class Auth {
     const data = await response.json()
     Toast.show(`Welcome  ${data.user.firstName}`)
     // save access token (jwt) to local storage
-    localStorage.setItem('accessToken', data.accessToken)
+    if (!localStorage.getItem('accessToken'))
+      localStorage.setItem('accessToken', data.accessToken)
     // set current user
-    this.currentUser = data.user      
+    this.currentUser = data.user
     // console.log(this.currentUser)           
     // redirect to home
     Router.init()
@@ -67,26 +68,26 @@ class Auth {
   async check(success){
     // show splash screen while loading ...   
     render(splash, App.rootEl)
-    
+
     // check local token is there
     if(!localStorage.accessToken){
       // no local token!
-      Toast.show("Please sign in")    
+      Toast.show("Please sign in")
       // redirect to sign in page      
-      gotoRoute('/signin')
+      gotoRoute('/login')
       return
     }
-    
+
     // token must exist - validate token via the backend
     const response = await fetch(`${App.apiBase}/auth/validate`, {
       method: 'GET',
-      headers: {        
+      headers: {
         "Authorization": `Bearer ${localStorage.accessToken}`
       }
     })
-    
+
     // if response not ok
-    if(!response.ok){             
+    if(!response.ok){
       // console log error
       const err = await response.json()
       if(err) console.log(err)
@@ -94,10 +95,10 @@ class Auth {
       localStorage.removeItem('accessToken')
       Toast.show("session expired, please sign in")
       // redirect to sign in      
-      gotoRoute('/signin')
+      gotoRoute('/login')
       return
     }
-    
+
     // token is valid!
     const data = await response.json()
     // console.log(data)
@@ -110,9 +111,9 @@ class Auth {
   signOut(){
     Toast.show("You are signed out")
     // delete local token
-    localStorage.removeItem('accessToken')       
+    localStorage.removeItem('accessToken')
     // redirect to sign in    
-    gotoRoute('/signin')
+    gotoRoute('/login')
     // unset currentUser
     this.currentUser = null
   }

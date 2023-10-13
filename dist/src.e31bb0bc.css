@@ -185,7 +185,7 @@ sl-dialog::part(title) {
   transition: all 0.2 ease;
 }
 .toast-entry.is-error {
-  background: #d4195d;
+  background: rgb(212, 25, 93);
   color: #fff;
 }
 
