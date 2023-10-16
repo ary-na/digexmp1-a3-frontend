@@ -10,7 +10,7 @@ class Auth {
     this.currentUser = {}
   }
 
-  async signUp(userData, fail = false){
+  async register(userData, fail = false){
     const response = await fetch(`${App.apiBase}/user`, {
       method: 'POST',
       body: userData
@@ -27,13 +27,13 @@ class Auth {
       if(typeof fail == 'function') fail()
     }
     /// sign up success - show toast and redirect to sign in page
-    Toast.show('Account created, please sign in')
-    // redirect to signin
+    Toast.show('Account created, please login!')
+    // redirect to login
     gotoRoute('/login')
   }
 
 
-  async signIn(userData, fail = false){
+  async login(userData, fail = false){
     const response = await fetch(`${App.apiBase}/auth/login`, {
       method: 'POST',
       body: userData
@@ -72,7 +72,7 @@ class Auth {
     // check local token is there
     if(!localStorage.accessToken){
       // no local token!
-      Toast.show("Please sign in")
+      Toast.show("Please login")
       // redirect to sign in page      
       gotoRoute('/login')
       return

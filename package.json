@@ -25,6 +25,7 @@
   "dependencies": {
     "@polymer/lit-element": "^0.7.1",
     "gsap": "^3.12.2",
+    "lit-element": "^4.0.0",
     "lit-html": "^2.8.0",
     "moment": "^2.29.4",
     "parcel-plugin-static-files-copy": "^2.6.0",

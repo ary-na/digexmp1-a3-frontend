@@ -177,9 +177,12 @@ customElements.define('va-app-header', class AppHeader extends LitElement {
     </header>
 
     <sl-drawer class="app-side-menu" placement="left">
-      <img class="app-side-menu-logo" src="/images/logo.svg">
+      <img class="app-side-menu-logo" src="/images/logo-primary.svg">
       <nav class="app-side-menu-items">
         <a href="/" @click="${this.menuClick}">Home</a>
+        <a href="/menu" @click="${this.menuClick}">Menu</a>
+        <a href="/favouriteDrinks" @click="${this.menuClick}">Favourite Drinks</a>
+        <a href="/baristas" @click="${this.menuClick}">Baristas</a>
         <a href="/profile" @click="${this.menuClick}">Profile</a>
         <a href="#" @click="${() => Auth.signOut()}">Sign Out</a>
       </nav>  

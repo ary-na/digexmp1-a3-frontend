@@ -15,20 +15,22 @@ class ProfileView {
 
   render(){
     const template = html`
-      <va-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></va-app-header>
-      <div class="page-content calign">        
-        ${Auth.currentUser && Auth.currentUser.avatar ? html`
-          <sl-avatar style="--size: 200px; margin-bottom: 1em;" image=${(Auth.currentUser && Auth.currentUser.avatar) ? `${App.apiBase}/images/${Auth.currentUser.avatar}` : ''}></sl-avatar>
-        `:html`
-        <sl-avatar style="--size: 200px; margin-bottom: 1em;"></sl-avatar>
-        `}
-        <h2>${Auth.currentUser.firstName} ${Auth.currentUser.lastName}</h2>
-        <p>${Auth.currentUser.email}</p>
-        
-        <p>Updated: ${moment(Auth.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a')}</p>
+        <va-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></va-app-header>
+        <div class="page-content calign">
+            ${Auth.currentUser && Auth.currentUser.avatar ? html`
+                <sl-avatar style="--size: 200px; margin-bottom: 1em;"
+                           image=${(Auth.currentUser && Auth.currentUser.avatar) ? `${App.apiBase}/images/${Auth.currentUser.avatar}` : ''}></sl-avatar>
+            ` : html`
+                <sl-avatar style="--size: 200px; margin-bottom: 1em;"></sl-avatar>
+            `}
+            <h2>${Auth.currentUser.firstName} ${Auth.currentUser.lastName}</h2>
+            <p>${Auth.currentUser.email}</p>
+            
+            ${Auth.currentUser.bio ? html`<p>${Auth.currentUser.bio}</p>` : null}
+            <p>Updated: ${moment(Auth.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a')}</p>
 
-        <sl-button @click=${()=> gotoRoute('/editProfile')}>Edit Profile</sl-button>
-      </div>      
+            <sl-button @click=${() => gotoRoute('/editProfile')}>Edit Profile</sl-button>
+        </div>
     `
     render(template, App.rootEl)
   }

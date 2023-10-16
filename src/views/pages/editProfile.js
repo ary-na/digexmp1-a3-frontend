@@ -28,7 +28,7 @@ class EditProfileView {
 
   async updateProfileSubmitHandler(e){
     e.preventDefault()
-    const formData = e.detail.formData
+    const formData = new FormData(e.target)
     const submitBtn = document.querySelector('.submit-btn')
     submitBtn.setAttribute('loading', '')
     try {
@@ -52,17 +52,10 @@ class EditProfileView {
           <sl-spinner></sl-spinner>
         `:html`
           <p>Updated: ${moment(Auth.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a')}</p>
-          <sl-form class="page-form" @sl-submit=${this.updateProfileSubmitHandler.bind(this)}>
-            <div class="input-group">
+          <form class="page-form" @submit=${this.updateProfileSubmitHandler.bind(this)}>
               <sl-input type="text" name="firstName" value="${this.user.firstName}" placeholder="First Name"></sl-input>
-            </div>
-            <div class="input-group">
               <sl-input type="text" name="lastName" value="${this.user.lastName}" placeholder="Last Name"></sl-input>
-            </div>
-            <div class="input-group">
               <sl-input type="text" name="email" value="${this.user.email}" placeholder="Email Address"></sl-input>
-            </div>            
-            <div class="input-group">
               <label>Avatar</label><br>          
               ${(this.user.avatar) ? html`
                 <sl-avatar image="${App.apiBase}/images/${this.user.avatar}"></sl-avatar>
@@ -70,9 +63,9 @@ class EditProfileView {
               `: html`
                 <input type="file" name="avatar" />
               `}
-            </div>
-            <sl-button type="primary" class="submit-btn" submit>Update Profile</sl-button>
-          </sl-form>
+            <sl-textarea name="bio" label="bio" value="${this.user.bio}"></sl-textarea>
+            <sl-button type="submit" variant="primary" class="submit-btn">Update Profile</sl-button>
+          </form>
         `}
       </div>
     `
