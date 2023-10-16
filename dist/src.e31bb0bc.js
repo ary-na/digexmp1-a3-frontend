@@ -5957,7 +5957,13 @@ class Auth {
     // console.log(this.currentUser)           
     // redirect to home
     _Router.default.init();
-    (0, _Router.gotoRoute)('/');
+
+    // Redirect new user to guide page.
+    if (this.currentUser.newUser) {
+      (0, _Router.gotoRoute)('/guide');
+    } else {
+      (0, _Router.gotoRoute)('/');
+    }
   }
   async check(success) {
     // show splash screen while loading ...   
@@ -6160,7 +6166,6 @@ class RegisterView {
   }
   registerSubmitHandler(e) {
     e.preventDefault();
-    console.log("hi hi hi hi");
     const formData = new FormData(e.target);
     const submitBtn = document.querySelector('.submit-btn');
     submitBtn.setAttribute('loading', '');
@@ -11907,17 +11912,36 @@ var _Toast = _interopRequireDefault(require("./Toast"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 class UserAPI {
   async updateUser(userId, userData) {
+    let dataType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'form';
     // validate
     if (!userId || !userData) return;
+    let responseHeader;
+
+    // form data
+    if (dataType === 'form') {
+      // fetch response header normal (form data)
+      responseHeader = {
+        method: "PUT",
+        headers: {
+          "Authorization": "Bearer ".concat(localStorage.accessToken)
+        },
+        body: userData
+      };
+
+      // json data
+    } else if (dataType === 'json') {
+      responseHeader = {
+        method: "PUT",
+        headers: {
+          "Authorization": "Bearer ".concat(localStorage.accessToken),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      };
+    }
 
     // make fetch request to backend
-    const response = await fetch("".concat(_App.default.apiBase, "/user/").concat(userId), {
-      method: "PUT",
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      },
-      body: userData
-    });
+    const response = await fetch("".concat(_App.default.apiBase, "/user/").concat(userId), responseHeader);
 
     // if response not ok
     if (!response.ok) {
@@ -12030,9 +12054,11 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
-var _Router = require("./../../Router");
+var _Router = require("../../Router");
 var _Auth = _interopRequireDefault(require("./../../Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
+var _UserAPI = _interopRequireDefault(require("../../UserAPI"));
+var _Toast = _interopRequireDefault(require("../../Toast"));
 var _templateObject;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -12040,15 +12066,25 @@ class GuideView {
   init() {
     document.title = 'Guide';
     this.render();
+    this.updateCurrentUser();
     _Utils.default.pageIntroAnim();
   }
+  async updateCurrentUser() {
+    try {
+      await _UserAPI.default.updateUser(_Auth.default.currentUser._id, {
+        newUser: false
+      }, "json");
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <va-app-header title=\"Profile\" user=\"", "\"></va-app-header>\n      <div class=\"page-content\">        \n        <h1>Guide</h1>\n        <p>Page content ...</p>\n        \n      </div>      \n    "])), JSON.stringify(_Auth.default.currentUser));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <va-app-header title=\"Profile\" user=\"", "\"></va-app-header>\n            <div class=\"page-content calign\">\n                <h3 class=\"brand-color\">Welcome ", "!</h3>\n                <p>This is a quick tour to teach you the basics of using Haircuts ...</p>\n\n                <div class=\"guide-step\">\n                    <h4>Search Hairdressers</h4>\n                    <img src=\"https://plchldr.co/i/500x300?&bg=dddddd&fc=666666&text=IMAGE\">\n                </div>\n\n                <div class=\"guide-step\">\n                    <h4>Find a haircut</h4>\n                    <img src=\"https://plchldr.co/i/500x300?&bg=dddddd&fc=666666&text=IMAGE\">\n                </div>\n\n                <div class=\"guide-step\">\n                    <h4>Save haircuts to favourites</h4>\n                    <img src=\"https://plchldr.co/i/500x300?&bg=dddddd&fc=666666&text=IMAGE\">\n                </div>\n\n                <sl-button type=\"primary\" @click=", ">Okay got it!</sl-button>\n\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), _Auth.default.currentUser.firstName, () => (0, _Router.gotoRoute)('/'));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new GuideView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","./../../Auth":"Auth.js","./../../Utils":"Utils.js"}],"views/pages/baristas.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","./../../Auth":"Auth.js","./../../Utils":"Utils.js","../../UserAPI":"UserAPI.js","../../Toast":"Toast.js"}],"views/pages/baristas.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15413,7 +15449,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51639" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52162" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

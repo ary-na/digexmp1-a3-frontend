@@ -61,7 +61,13 @@ class Auth {
     // console.log(this.currentUser)           
     // redirect to home
     Router.init()
-    gotoRoute('/')
+
+    // Redirect new user to guide page.
+    if(this.currentUser.newUser){
+      gotoRoute('/guide')
+    } else {
+      gotoRoute('/')
+    }
   }
 
 

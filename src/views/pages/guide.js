@@ -1,27 +1,55 @@
 import App from './../../App'
-import {html, render } from 'lit-html'
-import {gotoRoute, anchorRoute} from './../../Router'
+import {html, render} from 'lit-html'
+import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from './../../Auth'
 import Utils from './../../Utils'
+import UserAPI from "../../UserAPI";
+import Toast from "../../Toast";
 
 class GuideView {
-  init(){
-    document.title = 'Guide'
-    this.render()    
-    Utils.pageIntroAnim()
-  }
+    init() {
+        document.title = 'Guide'
+        this.render()
+        this.updateCurrentUser()
+        Utils.pageIntroAnim()
+    }
 
-  render(){
-    const template = html`
-      <va-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></va-app-header>
-      <div class="page-content">        
-        <h1>Guide</h1>
-        <p>Page content ...</p>
-        
-      </div>      
-    `
-    render(template, App.rootEl)
-  }
+    async updateCurrentUser() {
+        try {
+            await UserAPI.updateUser(Auth.currentUser._id, {newUser: false}, "json")
+        } catch (err) {
+            Toast.show(err, 'error')
+        }
+    }
+
+    render() {
+        const template = html`
+            <va-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></va-app-header>
+            <div class="page-content calign">
+                <h3 class="brand-color">Welcome ${Auth.currentUser.firstName}!</h3>
+                <p>This is a quick tour to teach you the basics of using Haircuts ...</p>
+
+                <div class="guide-step">
+                    <h4>Search Hairdressers</h4>
+                    <img src="https://plchldr.co/i/500x300?&bg=dddddd&fc=666666&text=IMAGE">
+                </div>
+
+                <div class="guide-step">
+                    <h4>Find a haircut</h4>
+                    <img src="https://plchldr.co/i/500x300?&bg=dddddd&fc=666666&text=IMAGE">
+                </div>
+
+                <div class="guide-step">
+                    <h4>Save haircuts to favourites</h4>
+                    <img src="https://plchldr.co/i/500x300?&bg=dddddd&fc=666666&text=IMAGE">
+                </div>
+
+                <sl-button type="primary" @click=${() => gotoRoute('/')}>Okay got it!</sl-button>
+
+            </div>
+        `
+        render(template, App.rootEl)
+    }
 }
 
 

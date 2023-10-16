@@ -15,7 +15,6 @@ class RegisterView{
 
   registerSubmitHandler(e){
     e.preventDefault()
-    console.log("hi hi hi hi")
     const formData = new FormData(e.target)
     const submitBtn = document.querySelector('.submit-btn')
     submitBtn.setAttribute('loading', '')
