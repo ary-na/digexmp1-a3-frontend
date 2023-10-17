@@ -34,7 +34,7 @@ class RegisterView {
                         <h1>Welcome!</h1>
                         <p class="small text-muted mb-4">To get started, create an account.</p>
                         <form class="d-flex flex-column gap-2 mb-2" @submit=${this.registerSubmitHandler}>
-                            <sl-select name="accessLevel" label="Account type" placeholder="Select an account type..." required>
+                            <sl-select name="accessLevel" label="Account type" placeholder="Select an account type..." value="1" required>
                                 <sl-option value="1">Customer</sl-option>
                                 <sl-option value="2">Barista</sl-option>
                             </sl-select>
