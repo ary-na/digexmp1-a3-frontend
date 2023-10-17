@@ -5888,18 +5888,18 @@ class Toast {
   }
 }
 exports.default = Toast;
-},{"./App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","gsap":"../node_modules/gsap/index.js"}],"Auth.js":[function(require,module,exports) {
+},{"./App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","gsap":"../node_modules/gsap/index.js"}],"api/Auth.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _App = _interopRequireDefault(require("./App"));
-var _Router = _interopRequireWildcard(require("./Router"));
-var _splash = _interopRequireDefault(require("./views/partials/splash"));
+var _App = _interopRequireDefault(require("../App"));
+var _Router = _interopRequireWildcard(require("../Router"));
+var _splash = _interopRequireDefault(require("../views/partials/splash"));
 var _litHtml = require("lit-html");
-var _Toast = _interopRequireDefault(require("./Toast"));
+var _Toast = _interopRequireDefault(require("../Toast"));
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -6018,7 +6018,7 @@ class Auth {
   }
 }
 var _default = exports.default = new Auth();
-},{"./App":"App.js","./Router":"Router.js","./views/partials/splash":"views/partials/splash.js","lit-html":"../node_modules/lit-html/lit-html.js","./Toast":"Toast.js"}],"Utils.js":[function(require,module,exports) {
+},{"../App":"App.js","../Router":"Router.js","../views/partials/splash":"views/partials/splash.js","lit-html":"../node_modules/lit-html/lit-html.js","../Toast":"Toast.js"}],"Utils.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6061,7 +6061,7 @@ exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
 var _Router = require("./../../Router");
-var _Auth = _interopRequireDefault(require("./../../Auth"));
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
 var _templateObject;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -6079,7 +6079,7 @@ class HomeView {
   }
 }
 var _default = exports.default = new HomeView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","./../../Auth":"Auth.js","./../../Utils":"Utils.js"}],"views/pages/404.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js"}],"views/pages/404.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6113,7 +6113,7 @@ exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
 var _Router = require("../../Router");
-var _Auth = _interopRequireDefault(require("./../../Auth"));
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
 var _templateObject;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -6137,12 +6137,12 @@ class LoginView {
     });
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["      \n      <div class=\"page-content page-centered\">\n        <div class=\"signinup-box\">\n          <img class=\"signinup-logo\" src=\"/images/logo-primary.svg\" alt=\"Coffee on logo\">          \n          <form class=\"form-signup\" @submit=", ">\n              <sl-input name=\"email\" type=\"email\" placeholder=\"Email\" required></sl-input>\n              <sl-input name=\"password\" type=\"password\" placeholder=\"Password\" required toggle-password></sl-input>\n            <sl-button class=\"submit-btn\" type=\"primary\" submit style=\"width: 100%;\">Login</sl-button>\n          </form>\n          <p>Don't have an account? <a href=\"/register\" @click=", ">Register</a></p>\n        </div>\n      </div>\n    "])), this.loginSubmitHandler, _Router.anchorRoute);
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n                <div class=\"row justify-content-center h-100\">\n                    <div class=\"col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-4 bg-white shadow-sm rounded-1 my-auto p-4\">\n                        <img class=\"logo-size d-block mx-auto mb-4\" src=\"/images/logo-primary.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                        <h1>Welcome back!</h1>\n                        <p class=\"small text-muted mb-4\">Log in to your account to continue.</p>\n                        <form class=\"d-flex flex-column gap-2 mb-2\" @submit=", ">\n                            <sl-input name=\"email\" type=\"email\" label=\"Email\" placeholder=\"Enter your email...\" required></sl-input>\n                            <sl-input name=\"password\" type=\"password\" label=\"Password\" placeholder=\"Enter your password...\" required password-toggle></sl-input>\n                            <sl-button class=\"submit-btn\" type=\"submit\" variant=\"primary\">Login</sl-button>\n                        </form>\n                        <p>Don't have an account? <a href=\"/register\" @click=", ">Register</a></p>\n                    </div>\n                </div>\n            "])), this.loginSubmitHandler, _Router.anchorRoute);
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new LoginView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","./../../Auth":"Auth.js","./../../Utils":"Utils.js"}],"views/pages/register.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js"}],"views/pages/register.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6150,7 +6150,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
-var _Auth = _interopRequireDefault(require("./../../Auth"));
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _litHtml = require("lit-html");
 var _Router = require("../../Router");
 var _Utils = _interopRequireDefault(require("./../../Utils"));
@@ -6176,12 +6176,12 @@ class RegisterView {
     });
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <div class=\"page-content page-centered\">\n            <div class=\"signinup-box\">\n                <img class=\"signinup-logo\" src=\"/images/logo-primary.svg\">\n                <h1>Register</h1>\n                <form class=\"form-signup\" @submit=", ">\n                    <sl-select name=\"accessLevel\" label=\"Access Level\" help-text=\"Select access level...\" clearable required>\n                        <sl-option value=\"1\">Customer</sl-option>\n                        <sl-option value=\"2\">Barista</sl-option>\n                    </sl-select>\n                    <sl-input name=\"firstName\" type=\"text\" placeholder=\"First name\" required></sl-input>\n                    <sl-input name=\"lastName\" type=\"text\" placeholder=\"Last name\" required></sl-input>\n                    <sl-input name=\"email\" type=\"email\" placeholder=\"Email\" required></sl-input>\n                    <sl-input name=\"password\" type=\"password\" placeholder=\"Password\" required\n                              toggle-password></sl-input>\n                    <sl-button class=\"submit-btn\" type=\"primary\" submit style=\"width: 100%;\">Register</sl-button>\n                </form>\n                <p>Already have an account? <a href=\"/login\" @click=", ">Login</a></p>\n            </div>\n        </div>\n    "])), this.registerSubmitHandler, _Router.anchorRoute);
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n                <div class=\"row justify-content-center h-100\">\n                    <div class=\"col-xs-12 col-sm-9 col-md-6 col-lg-4 col-xl-4 bg-white shadow-sm rounded-1 my-auto p-4\">\n                        <img class=\"logo-size d-block mx-auto mb-4\" src=\"/images/logo-primary.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                        <h1>Welcome!</h1>\n                        <p class=\"small text-muted mb-4\">To get started, create an account.</p>\n                        <form class=\"d-flex flex-column gap-2 mb-2\" @submit=", ">\n                            <sl-select name=\"accessLevel\" label=\"Account type\" placeholder=\"Select an account type...\" required>\n                                <sl-option value=\"1\">Customer</sl-option>\n                                <sl-option value=\"2\">Barista</sl-option>\n                            </sl-select>\n                            <sl-input name=\"firstName\" type=\"text\" label=\"First name\" placeholder=\"Enter your first name...\" required></sl-input>\n                            <sl-input name=\"lastName\" type=\"text\" label=\"Last name\" placeholder=\"Enter your last name...\" required></sl-input>\n                            <sl-input name=\"email\" type=\"email\" label=\"Email\" placeholder=\"Enter your email...\" required></sl-input>\n                            <sl-input name=\"password\" type=\"password\" label=\"Password\" placeholder=\"Enter a password...\" required password-toggle></sl-input>\n                            <sl-button class=\"submit-btn\" type=\"submit\" variant=\"primary\">Create</sl-button>\n                        </form>\n                        <p>Already have an account? <a href=\"/login\" @click=", ">Login</a></p>\n                    </div>\n                </div>\n            "])), this.registerSubmitHandler, _Router.anchorRoute);
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new RegisterView();
-},{"./../../App":"App.js","./../../Auth":"Auth.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","./../../Utils":"Utils.js"}],"../node_modules/moment/moment.js":[function(require,module,exports) {
+},{"./../../App":"App.js","../../api/Auth":"api/Auth.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","./../../Utils":"Utils.js"}],"../node_modules/moment/moment.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 //! moment.js
@@ -11880,7 +11880,7 @@ exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
 var _Router = require("./../../Router");
-var _Auth = _interopRequireDefault(require("./../../Auth"));
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
 var _moment = _interopRequireDefault(require("moment"));
 var _templateObject, _templateObject2, _templateObject3, _templateObject4;
@@ -11899,18 +11899,18 @@ class ProfileView {
   }
 }
 var _default = exports.default = new ProfileView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","./../../Auth":"Auth.js","./../../Utils":"Utils.js","moment":"../node_modules/moment/moment.js"}],"UserAPI.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","moment":"../node_modules/moment/moment.js"}],"api/User.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _App = _interopRequireDefault(require("./App"));
+var _App = _interopRequireDefault(require("../App"));
 var _Auth = _interopRequireDefault(require("./Auth"));
-var _Toast = _interopRequireDefault(require("./Toast"));
+var _Toast = _interopRequireDefault(require("../Toast"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-class UserAPI {
+class User {
   async updateUser(userId, userData) {
     let dataType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'form';
     // validate
@@ -11986,8 +11986,8 @@ class UserAPI {
     return data;
   }
 }
-var _default = exports.default = new UserAPI();
-},{"./App":"App.js","./Auth":"Auth.js","./Toast":"Toast.js"}],"views/pages/editProfile.js":[function(require,module,exports) {
+var _default = exports.default = new User();
+},{"../App":"App.js","./Auth":"api/Auth.js","../Toast":"Toast.js"}],"views/pages/editProfile.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11996,10 +11996,10 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
-var _Router = require("./../../Router");
-var _Auth = _interopRequireDefault(require("./../../Auth"));
+var _Router = require("../../Router");
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
-var _UserAPI = _interopRequireDefault(require("./../../UserAPI"));
+var _User = _interopRequireDefault(require("../../api/User"));
 var _Toast = _interopRequireDefault(require("../../Toast"));
 var _moment = _interopRequireDefault(require("moment"));
 var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5;
@@ -12016,7 +12016,7 @@ class EditProfileView {
   }
   async getUser() {
     try {
-      this.user = await _UserAPI.default.getUser(_Auth.default.currentUser._id);
+      this.user = await _User.default.getUser(_Auth.default.currentUser._id);
       this.render();
     } catch (err) {
       _Toast.default.show(err, 'error');
@@ -12028,7 +12028,7 @@ class EditProfileView {
     const submitBtn = document.querySelector('.submit-btn');
     submitBtn.setAttribute('loading', '');
     try {
-      const updatedUser = await _UserAPI.default.updateUser(_Auth.default.currentUser._id, formData);
+      const updatedUser = await _User.default.updateUser(_Auth.default.currentUser._id, formData);
       delete updatedUser.password;
       this.user = updatedUser;
       _Auth.default.currentUser = updatedUser;
@@ -12045,7 +12045,7 @@ class EditProfileView {
   }
 }
 var _default = exports.default = new EditProfileView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","./../../Auth":"Auth.js","./../../Utils":"Utils.js","./../../UserAPI":"UserAPI.js","../../Toast":"Toast.js","moment":"../node_modules/moment/moment.js"}],"views/pages/guide.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/User":"api/User.js","../../Toast":"Toast.js","moment":"../node_modules/moment/moment.js"}],"views/pages/guide.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12055,9 +12055,9 @@ exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
 var _Router = require("../../Router");
-var _Auth = _interopRequireDefault(require("./../../Auth"));
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
-var _UserAPI = _interopRequireDefault(require("../../UserAPI"));
+var _User = _interopRequireDefault(require("../../api/User"));
 var _Toast = _interopRequireDefault(require("../../Toast"));
 var _templateObject;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -12071,7 +12071,7 @@ class GuideView {
   }
   async updateCurrentUser() {
     try {
-      await _UserAPI.default.updateUser(_Auth.default.currentUser._id, {
+      await _User.default.updateUser(_Auth.default.currentUser._id, {
         newUser: false
       }, "json");
     } catch (err) {
@@ -12084,7 +12084,7 @@ class GuideView {
   }
 }
 var _default = exports.default = new GuideView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","./../../Auth":"Auth.js","./../../Utils":"Utils.js","../../UserAPI":"UserAPI.js","../../Toast":"Toast.js"}],"views/pages/baristas.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/User":"api/User.js","../../Toast":"Toast.js"}],"views/pages/baristas.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12094,7 +12094,7 @@ exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
 var _Router = require("./../../Router");
-var _Auth = _interopRequireDefault(require("./../../Auth"));
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
 var _templateObject;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -12111,7 +12111,7 @@ class BaristasView {
   }
 }
 var _default = exports.default = new BaristasView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","./../../Auth":"Auth.js","./../../Utils":"Utils.js"}],"views/pages/favouriteDrinks.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js"}],"views/pages/favouriteDrinks.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12121,7 +12121,7 @@ exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
 var _Router = require("./../../Router");
-var _Auth = _interopRequireDefault(require("./../../Auth"));
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
 var _templateObject;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -12138,7 +12138,7 @@ class FavouriteDrinksView {
   }
 }
 var _default = exports.default = new FavouriteDrinksView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","./../../Auth":"Auth.js","./../../Utils":"Utils.js"}],"views/pages/menu.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js"}],"views/pages/menu.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12148,7 +12148,7 @@ exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
 var _Router = require("./../../Router");
-var _Auth = _interopRequireDefault(require("./../../Auth"));
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
 var _templateObject;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -12165,7 +12165,81 @@ class MenuView {
   }
 }
 var _default = exports.default = new MenuView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","./../../Auth":"Auth.js","./../../Utils":"Utils.js"}],"Router.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js"}],"api/Special.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _App = _interopRequireDefault(require("../App"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+class Special {
+  async getSpecials() {
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/special"), {
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting haircuts');
+    }
+
+    // convert response payload into json - return data
+    return await response.json();
+  }
+}
+var _default = exports.default = new Special();
+},{"../App":"App.js"}],"views/pages/specials.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _App = _interopRequireDefault(require("./../../App"));
+var _litHtml = require("lit-html");
+var _Router = require("../../Router");
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
+var _Utils = _interopRequireDefault(require("./../../Utils"));
+var _Special = _interopRequireDefault(require("../../api/Special"));
+var _Toast = _interopRequireDefault(require("../../Toast"));
+var _templateObject, _templateObject2;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+class SpecialsView {
+  init() {
+    document.title = 'Specials';
+    this.render();
+    this.specials = null;
+    _Utils.default.pageIntroAnim();
+    this.getSpecials();
+  }
+  async getSpecials() {
+    try {
+      this.specials = await _Special.default.getSpecials();
+      console.log(this.specials);
+      this.render();
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  render() {
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <va-app-header title=\"Profile\" user=\"", "\"></va-app-header>\n            <div class=\"page-content\">\n                <h1>Specials</h1>\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.specials.map(special => {
+      (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["<p>special ", "</p>"])), special.name);
+    }));
+    (0, _litHtml.render)(template, _App.default.rootEl);
+  }
+}
+var _default = exports.default = new SpecialsView();
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Special":"api/Special.js","../../Toast":"Toast.js"}],"Router.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12184,6 +12258,7 @@ var _guide = _interopRequireDefault(require("./views/pages/guide"));
 var _baristas = _interopRequireDefault(require("./views/pages/baristas"));
 var _favouriteDrinks = _interopRequireDefault(require("./views/pages/favouriteDrinks"));
 var _menu = _interopRequireDefault(require("./views/pages/menu"));
+var _specials = _interopRequireDefault(require("./views/pages/specials"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 // import views
 
@@ -12197,6 +12272,7 @@ const routes = {
   '/editProfile': _editProfile.default,
   '/menu': _menu.default,
   '/baristas': _baristas.default,
+  '/specials': _specials.default,
   '/favouriteDrinks': _favouriteDrinks.default,
   '/guide': _guide.default
 };
@@ -12244,7 +12320,7 @@ function anchorRoute(e) {
   const pathname = e.target.closest('a').pathname;
   AppRouter.gotoRoute(pathname);
 }
-},{"./views/pages/home":"views/pages/home.js","./views/pages/404":"views/pages/404.js","./views/pages/login":"views/pages/login.js","./views/pages/register":"views/pages/register.js","./views/pages/profile":"views/pages/profile.js","./views/pages/editProfile":"views/pages/editProfile.js","./views/pages/guide":"views/pages/guide.js","./views/pages/baristas":"views/pages/baristas.js","./views/pages/favouriteDrinks":"views/pages/favouriteDrinks.js","./views/pages/menu":"views/pages/menu.js"}],"App.js":[function(require,module,exports) {
+},{"./views/pages/home":"views/pages/home.js","./views/pages/404":"views/pages/404.js","./views/pages/login":"views/pages/login.js","./views/pages/register":"views/pages/register.js","./views/pages/profile":"views/pages/profile.js","./views/pages/editProfile":"views/pages/editProfile.js","./views/pages/guide":"views/pages/guide.js","./views/pages/baristas":"views/pages/baristas.js","./views/pages/favouriteDrinks":"views/pages/favouriteDrinks.js","./views/pages/menu":"views/pages/menu.js","./views/pages/specials":"views/pages/specials.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12252,7 +12328,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _Router = _interopRequireDefault(require("./Router"));
-var _Auth = _interopRequireDefault(require("./Auth"));
+var _Auth = _interopRequireDefault(require("./api/Auth"));
 var _Toast = _interopRequireDefault(require("./Toast"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 class App {
@@ -12277,7 +12353,7 @@ class App {
   }
 }
 var _default = exports.default = new App();
-},{"./Router":"Router.js","./Auth":"Auth.js","./Toast":"Toast.js"}],"../node_modules/@polymer/lit-element/node_modules/lit-html/lib/directive.js":[function(require,module,exports) {
+},{"./Router":"Router.js","./api/Auth":"api/Auth.js","./Toast":"Toast.js"}],"../node_modules/@polymer/lit-element/node_modules/lit-html/lib/directive.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15302,7 +15378,7 @@ LitElement.render = _shadyRender.render;
 
 var _litElement = require("@polymer/lit-element");
 var _Router = require("./../Router");
-var _Auth = _interopRequireDefault(require("./../Auth"));
+var _Auth = _interopRequireDefault(require("../api/Auth"));
 var _App = _interopRequireDefault(require("./../App"));
 var _templateObject, _templateObject2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -15354,7 +15430,7 @@ customElements.define('va-app-header', class AppHeader extends _litElement.LitEl
     return (0, _litElement.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>      \n      * {\n        box-sizing: border-box;\n      }\n      .app-header {\n        background: var(--brand-color);\n        position: fixed;\n        top: 0;\n        right: 0;\n        left: 0;\n        height: var(--app-header-height);\n        color: #fff;\n        display: flex;\n        z-index: 9;\n        box-shadow: 4px 0px 10px rgba(0,0,0,0.2);\n        align-items: center;\n      }\n      \n\n      .app-header-main {\n        flex-grow: 1;\n        display: flex;\n        align-items: center;\n      }\n\n      .app-header-main::slotted(h1){\n        color: #fff;\n      }\n\n      .app-logo a {\n        color: #fff;\n        text-decoration: none;\n        font-weight: bold;\n        font-size: 1.2em;\n        padding: .6em;\n        display: inline-block;        \n      }\n\n      .app-logo img {\n        width: 90px;\n      }\n      \n      .hamburger-btn::part(base) {\n        color: #fff;\n      }\n\n      .app-top-nav {\n        display: flex;\n        height: 100%;\n        align-items: center;\n      }\n\n      .app-top-nav a {\n        display: inline-block;\n        padding: .8em;\n        text-decoration: none;\n        color: #fff;\n      }\n      \n      .app-side-menu-items a {\n        display: block;\n        padding: .5em;\n        text-decoration: none;\n        font-size: 1.3em;\n        color: #333;\n      }\n\n      .app-side-menu-logo {\n        width: 120px;\n        margin-bottom: 1em;\n        position: absolute;\n        top: 2em;\n        left: 1.5em;\n      }\n\n      .page-title {\n        color: var(--app-header-txt-color);\n        margin-right: 0.5em;\n        font-size: var(--app-header-title-font-size);\n      }\n\n      /* active nav links */\n      .app-top-nav a.active,\n      .app-side-menu-items a.active {\n        font-weight: bold;\n      }\n\n      /* RESPONSIVE - MOBILE ------------------- */\n      @media all and (max-width: 768px){       \n        \n        .app-top-nav {\n          display: none;\n        }\n      }\n\n    </style>\n\n    <header class=\"app-header\">\n      <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\" style=\"font-size: 1.5em;\"></sl-icon-button>       \n      \n      <div class=\"app-header-main\">\n        ", "\n        <slot></slot>\n      </div>\n\n      <nav class=\"app-top-nav\">\n        <a href=\"/\" @click=\"", "\">Home</a>        \n        <sl-dropdown>\n          <a slot=\"trigger\" href=\"#\" @click=\"", "\">\n            <sl-avatar style=\"--size: 24px;\" image=", "></sl-avatar> ", "\n          </a>\n          <sl-menu>            \n            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n            <sl-menu-item @click=\"", "\">Sign Out</sl-menu-item>\n          </sl-menu>\n        </sl-dropdown>\n      </nav>\n    </header>\n\n    <sl-drawer class=\"app-side-menu\" placement=\"left\">\n      <img class=\"app-side-menu-logo\" src=\"/images/logo-primary.svg\">\n      <nav class=\"app-side-menu-items\">\n        <a href=\"/\" @click=\"", "\">Home</a>\n        <a href=\"/menu\" @click=\"", "\">Menu</a>\n        <a href=\"/favouriteDrinks\" @click=\"", "\">Favourite Drinks</a>\n        <a href=\"/baristas\" @click=\"", "\">Baristas</a>\n        <a href=\"/profile\" @click=\"", "\">Profile</a>\n        <a href=\"#\" @click=\"", "\">Sign Out</a>\n      </nav>  \n    </sl-drawer>\n    "])), this.hamburgerClick, this.title ? (0, _litElement.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n          <h1 class=\"page-title\">", "</h1>\n        "])), this.title) : "", _Router.anchorRoute, e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, () => (0, _Router.gotoRoute)('/profile'), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.signOut(), this.menuClick, this.menuClick, this.menuClick, this.menuClick, this.menuClick, () => _Auth.default.signOut());
   }
 });
-},{"@polymer/lit-element":"../node_modules/@polymer/lit-element/lit-element.js","./../Router":"Router.js","./../Auth":"Auth.js","./../App":"App.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"@polymer/lit-element":"../node_modules/@polymer/lit-element/lit-element.js","./../Router":"Router.js","../api/Auth":"api/Auth.js","./../App":"App.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {
@@ -15449,7 +15525,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52162" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54602" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

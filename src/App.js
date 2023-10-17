@@ -1,5 +1,5 @@
 import Router from './Router'
-import Auth from './Auth'
+import Auth from './api/Auth'
 import Toast from './Toast'
 
 

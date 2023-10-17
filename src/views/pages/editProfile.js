@@ -1,9 +1,9 @@
 import App from './../../App'
 import {html, render } from 'lit-html'
-import {gotoRoute, anchorRoute} from './../../Router'
-import Auth from './../../Auth'
+import {gotoRoute, anchorRoute} from '../../Router'
+import Auth from '../../api/Auth'
 import Utils from './../../Utils'
-import UserAPI from './../../UserAPI'
+import UserAPI from '../../api/User'
 import Toast from '../../Toast'
 import moment from 'moment'
 

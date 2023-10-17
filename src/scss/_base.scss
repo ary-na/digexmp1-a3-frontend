@@ -1,25 +1,29 @@
 // Base
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 }
 
 body {
-  padding: 0;  
-  margin: 0;
   color: var(--base-txt-color);
-  font-family: var(--base-font-family);
-  font-weight: 300;
+  font-family: var(--primary-font-family);
+  font-weight: 200;
   background: var(--body-bg);
+  height: 100vh;
+}
+
+#root {
   height: 100vh;
 }
 
 
 // headings ------------
 h1,h2,h3,h5,h6 {
-  margin: 0 0 .5em;
+  font-family: var(--secondary-font-family);
   color: var(--heading-color);
+  font-weight: 700;
 }
 
 // links ---------------
@@ -50,16 +54,16 @@ a {
 
 
 // helper classes ---------
-.calign {
-  text-align: center;
-}
-
 .large-text {
   font-size: 1.6em;
 }
 
 .brand-color {
   color: var(--brand-color);
+}
+
+.logo-size {
+  width: 50px;
 }
 
 // generic-entry ------------
@@ -69,16 +73,6 @@ a {
   margin-bottom: .5em;
   padding: 1em;
   background: #fff;
-}
-
-// root ---------------
-#root {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;  
-  overflow: hidden;
 }
 
 // page --------------------
@@ -101,18 +95,6 @@ a {
   justify-content: center;
 }
 
-// sign in + sign up pages ----------
-.signinup-box,
-.signup-box {  
-  max-width: 320px;
-  text-align: center;
-}
-
-.signinup-logo {
-  width: 200px;
-  margin-bottom: 1em;
-}
-
 // guide page ---------------
 .guide-step {
   padding: 1em;
@@ -121,14 +103,5 @@ a {
   img {
     width: 100%;
     height: auto;
-  }
-}
-
-// RESPONSIVE - MOBILE -------------------
-@media all and (max-width: 768px){ 
-
-  .signinup-box {
-    width: 90%;
-    max-width: none;
   }
 }

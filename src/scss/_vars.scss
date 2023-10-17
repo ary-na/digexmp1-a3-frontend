@@ -3,15 +3,17 @@
 :root {
   // base
   --base-txt-color: #0E1116;
-  --heading-color: #38A3A5;
-  --base-font-family: 'Work Sans', sans-serif;
+  //--heading-color: #38A3A5;
+  --heading-color: #22577A;
+  --primary-font-family: 'Inter', sans-serif;
+  --secondary-font-family: 'Raleway', sans-serif;
   --body-bg: #EEF8FC;
   
 
   // colors  
   $brand-color: #22577A;
   --brand-color: #{$brand-color};
-  --link-color: --brand-color;
+  --link-color: #38A3A5;
   
   // app header
   --app-header-height: 60px;

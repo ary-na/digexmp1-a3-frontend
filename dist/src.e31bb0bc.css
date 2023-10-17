@@ -1,11 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,300;0,500;1,100;1,200;1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
 :root {
   --base-txt-color: #0E1116;
-  --heading-color: #38A3A5;
-  --base-font-family: "Work Sans", sans-serif;
+  --heading-color: #22577A;
+  --primary-font-family: "Inter", sans-serif;
+  --secondary-font-family: "Raleway", sans-serif;
   --body-bg: #EEF8FC;
   --brand-color: #22577A;
-  --link-color: --brand-color;
+  --link-color: #38A3A5;
   --app-header-height: 60px;
   --app-header-txt-color: #fff;
   --app-header-title-font-size: 1.6em;
@@ -23,23 +24,27 @@
 }
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
 body {
-  padding: 0;
-  margin: 0;
   color: var(--base-txt-color);
-  font-family: var(--base-font-family);
-  font-weight: 300;
+  font-family: var(--primary-font-family);
+  font-weight: 200;
   background: var(--body-bg);
   height: 100vh;
 }
 
+#root {
+  height: 100vh;
+}
+
 h1, h2, h3, h5, h6 {
-  margin: 0 0 0.5em;
+  font-family: var(--secondary-font-family);
   color: var(--heading-color);
+  font-weight: 700;
 }
 
 a {
@@ -65,10 +70,6 @@ a {
   margin-bottom: 1em;
 }
 
-.calign {
-  text-align: center;
-}
-
 .large-text {
   font-size: 1.6em;
 }
@@ -77,21 +78,16 @@ a {
   color: var(--brand-color);
 }
 
+.logo-size {
+  width: 50px;
+}
+
 .generic-entry {
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.07);
   border-radius: 5px;
   margin-bottom: 0.5em;
   padding: 1em;
   background: #fff;
-}
-
-#root {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow: hidden;
 }
 
 .page-content {
@@ -113,17 +109,6 @@ a {
   justify-content: center;
 }
 
-.signinup-box,
-.signup-box {
-  max-width: 320px;
-  text-align: center;
-}
-
-.signinup-logo {
-  width: 200px;
-  margin-bottom: 1em;
-}
-
 .guide-step {
   padding: 1em;
   margin: 1.5em auto;
@@ -132,20 +117,6 @@ a {
 .guide-step img {
   width: 100%;
   height: auto;
-}
-
-@media all and (max-width: 768px) {
-  .signinup-box {
-    width: 90%;
-    max-width: none;
-  }
-}
-.input-group {
-  margin-bottom: 0.5em;
-}
-
-.page-form {
-  max-width: 700px;
 }
 
 sl-dialog::part(title) {

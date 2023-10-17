@@ -1,8 +1,8 @@
-import App from './App'
+import App from '../App'
 import Auth from './Auth'
-import Toast from './Toast'
+import Toast from '../Toast'
 
-class UserAPI {
+class User {
 
   async updateUser(userId, userData, dataType = 'form'){
     // validate
@@ -74,4 +74,4 @@ class UserAPI {
   }
 }
 
-export default new UserAPI()
+export default new User()
