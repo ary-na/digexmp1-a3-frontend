@@ -13,7 +13,7 @@ class TemplateView {
 
   render(){
     const template = html`
-      <va-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></va-app-header>
+      <co-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></va-app-header>
       <div class="page-content">        
         <h1>Page title</h1>
         <p>Page content ...</p>

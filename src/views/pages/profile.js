@@ -15,7 +15,7 @@ class ProfileView {
 
   render(){
     const template = html`
-        <va-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></va-app-header>
+        <co-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></co-app-header>
         <div class="page-content calign">
             ${Auth.currentUser && Auth.currentUser.avatar ? html`
                 <sl-avatar style="--size: 200px; margin-bottom: 1em;"

@@ -14,7 +14,7 @@ class HomeView {
 
   render(){
     const template = html`
-      <va-app-header title="Home" user=${JSON.stringify(Auth.currentUser)}></va-app-header>
+      <co-app-header title="Home" user=${JSON.stringify(Auth.currentUser)}></co-app-header>
       
       <div class="page-content">
         <h1 class="anim-in">Hey ${Auth.currentUser.firstName}</h1>

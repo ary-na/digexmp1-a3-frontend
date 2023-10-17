@@ -13,7 +13,7 @@ class MenuView {
 
   render(){
     const template = html`
-      <va-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></va-app-header>
+      <co-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></co-app-header>
       <div class="page-content">        
         <h1>Menu</h1>
         <p>Page content ...</p>

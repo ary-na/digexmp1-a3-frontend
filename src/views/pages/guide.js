@@ -24,7 +24,7 @@ class GuideView {
 
     render() {
         const template = html`
-            <va-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></va-app-header>
+            <co-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></co-app-header>
             <div class="page-content calign">
                 <h3 class="brand-color">Welcome ${Auth.currentUser.firstName}!</h3>
                 <p>This is a quick tour to teach you the basics of using Haircuts ...</p>
