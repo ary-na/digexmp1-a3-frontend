@@ -8,7 +8,7 @@ import Toast from "../../Toast";
 
 class SpecialsView {
     async init() {
-        document.title = 'Specials'
+        document.title = `${App.name} - Specials`
         this.specials = null
         await this.getSpecials()
         this.render()

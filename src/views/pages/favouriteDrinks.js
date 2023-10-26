@@ -6,7 +6,7 @@ import Utils from './../../Utils'
 
 class FavouriteDrinksView {
   init(){
-    document.title = 'Favourite Drinks'
+    document.title = `${App.name} - Favourite drinks`
     this.render()    
     Utils.pageIntroAnim()
   }

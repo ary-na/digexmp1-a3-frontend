@@ -10,7 +10,7 @@ import moment from 'moment'
 class EditProfileView {
   init(){
     console.log('EditProfileView.init')
-    document.title = 'Edit Profile'    
+    document.title = `${App.name} - Edit profile`
     this.user = null
     this.render()    
     Utils.pageIntroAnim()

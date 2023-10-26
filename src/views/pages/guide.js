@@ -8,7 +8,7 @@ import Toast from "../../Toast";
 
 class GuideView {
     init() {
-        document.title = 'Guide'
+        document.title = `${App.name} - Guide`
         this.render()
         this.updateCurrentUser()
         Utils.pageIntroAnim()

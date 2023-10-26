@@ -7,7 +7,7 @@ import Utils from './../../Utils'
 class HomeView {
   init(){    
     console.log('HomeView.init')
-    document.title = 'Home'    
+    document.title = `${App.name} - Home`
     this.render()    
     Utils.pageIntroAnim()    
   }

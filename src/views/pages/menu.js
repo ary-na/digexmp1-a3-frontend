@@ -6,7 +6,7 @@ import Utils from './../../Utils'
 
 class MenuView {
   init(){
-    document.title = 'Menu'
+    document.title = `${App.name} - Menu`
     this.render()    
     Utils.pageIntroAnim()
   }

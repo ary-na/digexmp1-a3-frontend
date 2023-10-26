@@ -6069,7 +6069,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 class HomeView {
   init() {
     console.log('HomeView.init');
-    document.title = 'Home';
+    document.title = "".concat(_App.default.name, " - Home");
     this.render();
     _Utils.default.pageIntroAnim();
   }
@@ -6121,7 +6121,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 class LoginView {
   init() {
     console.log('LoginView.init');
-    document.title = 'Login';
+    document.title = "".concat(_App.default.name, " - Login");
     this.render();
     _Utils.default.pageIntroAnim();
   }
@@ -6160,7 +6160,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 class RegisterView {
   init() {
     console.log('RegisterView.init');
-    document.title = 'Register';
+    document.title = "".concat(_App.default.name, " - Register");
     this.render();
     _Utils.default.pageIntroAnim();
   }
@@ -11889,7 +11889,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 class ProfileView {
   init() {
     console.log('ProfileView.init');
-    document.title = 'Profile';
+    document.title = "".concat(_App.default.name, " - Profile");
     this.render();
     _Utils.default.pageIntroAnim();
   }
@@ -12008,7 +12008,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 class EditProfileView {
   init() {
     console.log('EditProfileView.init');
-    document.title = 'Edit Profile';
+    document.title = "".concat(_App.default.name, " - Edit profile");
     this.user = null;
     this.render();
     _Utils.default.pageIntroAnim();
@@ -12064,7 +12064,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class GuideView {
   init() {
-    document.title = 'Guide';
+    document.title = "".concat(_App.default.name, " - Guide");
     this.render();
     this.updateCurrentUser();
     _Utils.default.pageIntroAnim();
@@ -12101,7 +12101,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class BaristasView {
   init() {
-    document.title = 'Baristas';
+    document.title = "".concat(_App.default.name, " - Baristas");
     this.render();
     _Utils.default.pageIntroAnim();
   }
@@ -12128,7 +12128,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class FavouriteDrinksView {
   init() {
-    document.title = 'Favourite Drinks';
+    document.title = "".concat(_App.default.name, " - Favourite drinks");
     this.render();
     _Utils.default.pageIntroAnim();
   }
@@ -12155,7 +12155,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class MenuView {
   init() {
-    document.title = 'Menu';
+    document.title = "".concat(_App.default.name, " - Menu");
     this.render();
     _Utils.default.pageIntroAnim();
   }
@@ -12240,7 +12240,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class SpecialsView {
   async init() {
-    document.title = 'Specials';
+    document.title = "".concat(_App.default.name, " - Specials");
     this.specials = null;
     await this.getSpecials();
     this.render();
@@ -12278,7 +12278,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class createSpecial {
   init() {
-    document.title = 'Create Special';
+    document.title = "".concat(_App.default.name, " - Create special");
     if (_Auth.default.currentUser.accessLevel === 2) this.render();else (0, _Router.gotoRoute)('/');
     _Utils.default.pageIntroAnim();
   }

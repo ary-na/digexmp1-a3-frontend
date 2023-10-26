@@ -8,7 +8,7 @@ import Toast from "../../Toast";
 
 class createSpecial {
     init() {
-        document.title = 'Create Special'
+        document.title = `${App.name} - Create special`
 
         if(Auth.currentUser.accessLevel === 2)
             this.render()

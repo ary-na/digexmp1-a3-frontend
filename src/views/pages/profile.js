@@ -8,7 +8,7 @@ import moment from 'moment'
 class ProfileView {
   init(){
     console.log('ProfileView.init')
-    document.title = 'Profile'    
+    document.title = `${App.name} - Profile`
     this.render()    
     Utils.pageIntroAnim()
   }
