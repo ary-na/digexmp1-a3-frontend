@@ -1,7 +1,6 @@
 import App from '../App'
 
 class Special {
-
     async getSpecials(){
 
         // fetch the json data
@@ -17,7 +16,6 @@ class Special {
             // throw error (exit this function)
             throw new Error('Problem getting haircuts')
         }
-
         // convert response payload into json - return data
         return await response.json()
     }

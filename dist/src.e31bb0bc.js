@@ -6074,7 +6074,7 @@ class HomeView {
     _Utils.default.pageIntroAnim();
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <co-app-header title=\"Home\" user=", "></co-app-header>\n      \n      <div class=\"row app-header-margin\">\n        <h1 class=\"col-6 anim-in\">Hey ", "</h1>\n        <h3 class=\"col-6\">Button example:</h3>\n        <sl-button class=\"col-auto anim-in\" @click=", ">View Profile</sl-button>\n        <p>&nbsp;</p>\n        <h3>Link example</h3>\n        <a href=\"/profile\" @click=", ">View Profile</a>\n      </div>\n     \n    "])), JSON.stringify(_Auth.default.currentUser), _Auth.default.currentUser.firstName, () => (0, _Router.gotoRoute)('/profile'), _Router.anchorRoute);
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <co-app-header title=\"Home\" user=", "></co-app-header>\n      \n      <div class=\"row app-header-margin\">\n        <h1 class=\"col-6 anim-in\">Hey ", "</h1>\n        <h3 class=\"col-6\">Button example:</h3>\n        <sl-button class=\"col-auto anim-in\" @click=", ">View Profile</sl-button>\n        <p>&nbsp;</p>\n        <h3>Link example</h3>\n        <a href=\"/profile\" @click=", ">View Profile</a>\n      </div>\n    "])), JSON.stringify(_Auth.default.currentUser), _Auth.default.currentUser.firstName, () => (0, _Router.gotoRoute)('/profile'), _Router.anchorRoute);
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
@@ -11894,7 +11894,7 @@ class ProfileView {
     _Utils.default.pageIntroAnim();
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <co-app-header title=\"Profile\" user=\"", "\"></co-app-header>\n        <div class=\"page-content calign\">\n            ", "\n            <h2>", " ", "</h2>\n            <p>", "</p>\n            \n            ", "\n            <p>Updated: ", "</p>\n\n            <sl-button @click=", ">Edit Profile</sl-button>\n        </div>\n    "])), JSON.stringify(_Auth.default.currentUser), _Auth.default.currentUser && _Auth.default.currentUser.avatar ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                <sl-avatar style=\"--size: 200px; margin-bottom: 1em;\"\n                           image=", "></sl-avatar>\n            "])), _Auth.default.currentUser && _Auth.default.currentUser.avatar ? "".concat(_App.default.apiBase, "/images/").concat(_Auth.default.currentUser.avatar) : '') : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                <sl-avatar style=\"--size: 200px; margin-bottom: 1em;\"></sl-avatar>\n            "]))), _Auth.default.currentUser.firstName, _Auth.default.currentUser.lastName, _Auth.default.currentUser.email, _Auth.default.currentUser.bio ? (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["<p>", "</p>"])), _Auth.default.currentUser.bio) : null, (0, _moment.default)(_Auth.default.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a'), () => (0, _Router.gotoRoute)('/editProfile'));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <co-app-header title=\"Profile\" user=\"", "\"></co-app-header>\n        <div class=\"row app-header-margin\">\n            ", "\n            <h2>", " ", "</h2>\n            <p>", "</p>\n            \n            ", "\n            <p>Updated: ", "</p>\n\n            <sl-button @click=", ">Edit Profile</sl-button>\n        </div>\n    "])), JSON.stringify(_Auth.default.currentUser), _Auth.default.currentUser && _Auth.default.currentUser.avatar ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                <sl-avatar style=\"--size: 200px; margin-bottom: 1em;\"\n                           image=", "></sl-avatar>\n            "])), _Auth.default.currentUser && _Auth.default.currentUser.avatar ? "".concat(_App.default.apiBase, "/images/").concat(_Auth.default.currentUser.avatar) : '') : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                <sl-avatar style=\"--size: 200px; margin-bottom: 1em;\"></sl-avatar>\n            "]))), _Auth.default.currentUser.firstName, _Auth.default.currentUser.lastName, _Auth.default.currentUser.email, _Auth.default.currentUser.bio ? (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["<p>", "</p>"])), _Auth.default.currentUser.bio) : null, (0, _moment.default)(_Auth.default.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a'), () => (0, _Router.gotoRoute)('/editProfile'));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
@@ -12191,7 +12191,6 @@ class Special {
       // throw error (exit this function)
       throw new Error('Problem getting haircuts');
     }
-
     // convert response payload into json - return data
     return await response.json();
   }
@@ -12215,26 +12214,23 @@ var _templateObject, _templateObject2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class SpecialsView {
-  init() {
+  async init() {
     document.title = 'Specials';
-    this.render();
     this.specials = null;
+    await this.getSpecials();
+    this.render();
     _Utils.default.pageIntroAnim();
-    this.getSpecials();
   }
   async getSpecials() {
     try {
       this.specials = await _Special.default.getSpecials();
       console.log(this.specials);
-      this.render();
     } catch (err) {
       _Toast.default.show(err, 'error');
     }
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header title=\"Profile\" user=\"", "\"></co-app-header>\n            <div class=\"page-content\">\n                <h1>Specials</h1>\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.specials.map(special => {
-      (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["<p>special ", "</p>"])), special.name);
-    }));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header title=\"Profile\" user=\"", "\"></co-app-header>\n            <div class=\"row g-3 app-header-margin\">\n                <h1 class=\"col-12\">Specials</h1>\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.specials.map(special => (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <sl-card class=\"card-overview col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\n                                <img\n                                        slot=\"image\"\n                                        src=\"", "\"\n                                        alt=\"An image of the special drink.\"\n                                />\n\n                                <strong>", "</strong><br/>\n                                ", "<br/>\n                                <small>", "</small>\n\n                                <div slot=\"footer\">\n                                    <sl-button variant=\"primary\" pill>More Info</sl-button>\n                                </div>\n                            </sl-card>\n                        "])), special.image, special.name, special.description, special.price)));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
@@ -13551,7 +13547,7 @@ class CoAppHeader extends _lit.LitElement {
     });
   }
   render() {
-    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <header class=\"app-header\">\n\n                <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\"></sl-icon-button>\n\n                <a class=\"app-header-logo\" title=\"Home\" href=\"/\" @click=\"", "\">\n                    <img src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                </a>\n\n                <nav class=\"app-header-top-nav\">\n                    <sl-dropdown>\n                        <sl-menu>\n                            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Logout</sl-menu-item>\n                        </sl-menu>\n                        <a title=\"Profile\" slot=\"trigger\" href=\"#\" @click=\"", "\">\n                            <sl-avatar image=", "></sl-avatar>\n                            ", "\n                        </a>\n                    </sl-dropdown>\n                </nav>\n\n            </header>\n\n            <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n                <nav class=\"app-drawer-menu-items\">\n                    <ul>\n                        <li><a title=\"Home\" href=\"/\" @click=\"", "\">Home</a></li>\n                        <li><a title=\"Profile\" href=\"/profile\" @click=\"", "\">Profile</a></li>\n                        <li><a title=\"Logout\" href=\"#\" @click=\"", "\">Logout</a></li>\n                    </ul>\n                </nav>\n                <img slot=\"footer\" class=\"align-self-start app-drawer-logo\" src=\"/images/logo-white-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n            </sl-drawer>\n        "])), this.hamburgerClick, _Router.anchorRoute, () => (0, _Router.gotoRoute)('/profile'), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.logout(), e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, this.user.firstName, this.menuClick, this.menuClick, () => _Auth.default.logout());
+    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <header class=\"app-header\">\n\n                <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\"></sl-icon-button>\n\n                <a class=\"app-header-logo\" title=\"Home\" href=\"/\" @click=\"", "\">\n                    <img src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                </a>\n\n                <nav class=\"app-header-top-nav\">\n                    <sl-dropdown>\n                        <sl-menu>\n                            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Logout</sl-menu-item>\n                        </sl-menu>\n                        <a title=\"Profile\" slot=\"trigger\" href=\"#\" @click=\"", "\">\n                            <sl-avatar image=", "></sl-avatar>\n                            ", "\n                        </a>\n                    </sl-dropdown>\n                </nav>\n\n            </header>\n\n            <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n                <nav class=\"app-drawer-menu-items\">\n                    <ul>\n                        <li><a title=\"Home\" href=\"/\" @click=\"", "\">Home</a></li>\n                        <li><a title=\"Specials\" href=\"/specials\" @click=\"", "\">Specials</a></li>\n                        <li><a title=\"Profile\" href=\"/profile\" @click=\"", "\">Profile</a></li>\n                        <li><a title=\"Logout\" href=\"#\" @click=\"", "\">Logout</a></li>\n                    </ul>\n                </nav>\n                <img slot=\"footer\" class=\"align-self-start app-drawer-logo\" src=\"/images/logo-white-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n            </sl-drawer>\n        "])), this.hamburgerClick, _Router.anchorRoute, () => (0, _Router.gotoRoute)('/profile'), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.logout(), e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, this.user.firstName, this.menuClick, this.menuClick, this.menuClick, () => _Auth.default.logout());
   }
 }
 exports.CoAppHeader = CoAppHeader;
@@ -13660,7 +13656,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57574" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61977" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

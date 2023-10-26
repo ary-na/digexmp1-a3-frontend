@@ -190,6 +190,7 @@ export class CoAppHeader extends LitElement {
                 <nav class="app-drawer-menu-items">
                     <ul>
                         <li><a title="Home" href="/" @click="${this.menuClick}">Home</a></li>
+                        <li><a title="Specials" href="/specials" @click="${this.menuClick}">Specials</a></li>
                         <li><a title="Profile" href="/profile" @click="${this.menuClick}">Profile</a></li>
                         <li><a title="Logout" href="#" @click="${() => Auth.logout()}">Logout</a></li>
                     </ul>

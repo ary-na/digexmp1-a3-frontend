@@ -24,7 +24,6 @@ class HomeView {
         <h3>Link example</h3>
         <a href="/profile" @click=${anchorRoute}>View Profile</a>
       </div>
-     
     `
     render(template, App.rootEl)
   }
