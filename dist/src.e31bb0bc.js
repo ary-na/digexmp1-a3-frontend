@@ -6007,7 +6007,7 @@ class Auth {
     // run success
     success();
   }
-  signOut() {
+  logout() {
     _Toast.default.show("You are signed out");
     // delete local token
     localStorage.removeItem('accessToken');
@@ -13511,7 +13511,7 @@ var _lit = require("lit");
 var _Router = require("../Router");
 var _Auth = _interopRequireDefault(require("./../api/Auth"));
 var _App = _interopRequireDefault(require("./../App"));
-var _templateObject, _templateObject2, _templateObject3;
+var _templateObject, _templateObject2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -13521,15 +13521,15 @@ class CoAppHeader extends _lit.LitElement {
   constructor() {
     super();
   }
-  firstUpdated() {
-    super.firstUpdated();
+  firstUpdated(_changedProperties) {
+    super.firstUpdated(_changedProperties);
     this.navActiveLinks();
   }
   navActiveLinks() {
     const currentPath = window.location.pathname;
-    const navLinks = this.shadowRoot.querySelectorAll('.app-top-nav a, .app-side-menu-items a');
+    const navLinks = this.shadowRoot.querySelectorAll('.app-drawer-menu-items a');
     navLinks.forEach(navLink => {
-      if (navLink.href.slice(-1) == '#') return;
+      if (navLink.href.slice(-1) === '#') return;
       if (navLink.pathname === currentPath) {
         navLink.classList.add('active');
       }
@@ -13551,11 +13551,11 @@ class CoAppHeader extends _lit.LitElement {
     });
   }
   render() {
-    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n       <header class=\"app-header\">\n      <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\" style=\"font-size: 1.5em;\"></sl-icon-button>       \n      \n      <div class=\"app-header-main\">\n        ", "\n        <slot></slot>\n      </div>\n\n      <nav class=\"app-top-nav\">\n        <a href=\"/\" @click=\"", "\">Home</a>        \n        <sl-dropdown>\n          <a slot=\"trigger\" href=\"#\" @click=\"", "\">\n            <sl-avatar style=\"--size: 24px;\" image=", "></sl-avatar> ", "\n          </a>\n          <sl-menu>            \n            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n            <sl-menu-item @click=\"", "\">Sign Out</sl-menu-item>\n          </sl-menu>\n        </sl-dropdown>\n      </nav>\n    </header>\n\n    <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n      <nav class=\"app-side-menu-items\">\n        <a href=\"/\" @click=\"", "\">Home</a>\n        <a href=\"/profile\" @click=\"", "\">Profile</a>\n        <a href=\"#\" @click=\"", "\">Sign Out</a>\n      </nav>\n      <img slot=\"footer\" class=\"app-drawer-logo mx-auto\" src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n    </sl-drawer>\n    "])), this.hamburgerClick, this.title ? (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n          <h1 class=\"page-title\">", "</h1>\n        "])), this.title) : "", _Router.anchorRoute, e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, () => (0, _Router.gotoRoute)('/profile'), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.signOut(), this.user.firstName, this.menuClick, this.menuClick, () => _Auth.default.signOut());
+    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <header class=\"app-header\">\n\n                <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\"></sl-icon-button>\n\n                <a class=\"app-header-logo\" title=\"Home\" href=\"/\" @click=\"", "\">\n                    <img src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                </a>\n\n                <nav class=\"app-header-top-nav\">\n                    <sl-dropdown>\n                        <sl-menu>\n                            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Logout</sl-menu-item>\n                        </sl-menu>\n                        <a title=\"Profile\" slot=\"trigger\" href=\"#\" @click=\"", "\">\n                            <sl-avatar image=", "></sl-avatar>\n                            ", "\n                        </a>\n                    </sl-dropdown>\n                </nav>\n\n            </header>\n\n            <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n                <nav class=\"app-drawer-menu-items\">\n                    <ul>\n                        <li><a title=\"Home\" href=\"/\" @click=\"", "\">Home</a></li>\n                        <li><a title=\"Profile\" href=\"/profile\" @click=\"", "\">Profile</a></li>\n                        <li><a title=\"Logout\" href=\"#\" @click=\"", "\">Logout</a></li>\n                    </ul>\n                </nav>\n                <img slot=\"footer\" class=\"align-self-start app-drawer-logo\" src=\"/images/logo-white-alternate.svg\"\n                     alt=\"This is an image of the coffee on caf\xE9 logo.\">\n            </sl-drawer>\n        "])), this.hamburgerClick, _Router.anchorRoute, () => (0, _Router.gotoRoute)('/profile'), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.logout(), e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, this.user.firstName, this.menuClick, this.menuClick, () => _Auth.default.signOut());
   }
 }
 exports.CoAppHeader = CoAppHeader;
-_defineProperty(CoAppHeader, "styles", (0, _lit.css)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    * {\n      box-sizing: border-box;\n    }\n    .app-header {\n      background: var(--brand-color);\n      position: fixed;\n      top: 0;\n      right: 0;\n      left: 0;\n      height: var(--app-header-height);\n      color: #fff;\n      display: flex;\n      z-index: 9;\n      box-shadow: 4px 0px 10px rgba(0,0,0,0.2);\n      align-items: center;\n    }\n\n\n    .app-header-main {\n      flex-grow: 1;\n      display: flex;\n      align-items: center;\n    }\n\n    .app-header-main::slotted(h1){\n      color: #fff;\n    }\n\n    .app-logo a {\n      color: #fff;\n      text-decoration: none;\n      font-weight: bold;\n      font-size: 1.2em;\n      padding: .6em;\n      display: inline-block;\n    }\n\n    .app-logo img {\n      width: 90px;\n    }\n\n    .hamburger-btn::part(base) {\n      color: #fff;\n    }\n\n    .app-top-nav {\n      display: flex;\n      height: 100%;\n      align-items: center;\n    }\n\n    .app-top-nav a {\n      display: inline-block;\n      padding: .8em;\n      text-decoration: none;\n      color: #fff;\n    }\n\n    .app-side-menu-items a {\n      display: block;\n      text-decoration: none;\n      font-size: 1.3em;\n      color: #333;\n    }\n\n    .app-side-menu-logo {\n      width: 120px;\n      margin-bottom: 1em;\n      position: absolute;\n      top: 1em;\n      left: 2em;\n    }\n\n    .app-drawer::part(panel) {\n      background-color: var(--heading-color);\n    }\n    \n    .app-drawer::part(close-button) {\n      color: var(--base-txt-color);\n    }\n\n    .app-drawer-logo {\n      width: 150px;\n      display: block;\n    }\n\n    .page-title {\n      color: var(--app-header-txt-color);\n      margin-right: 0.5em;\n      font-size: var(--app-header-title-font-size);\n    }\n\n    /* active nav links */\n    .app-top-nav a.active,\n    .app-side-menu-items a.active {\n      font-weight: bold;\n    }\n\n    /* RESPONSIVE - MOBILE ------------------- */\n    @media all and (max-width: 768px){\n\n      .app-top-nav {\n        display: none;\n      }\n    }\n  "]))));
+_defineProperty(CoAppHeader, "styles", (0, _lit.css)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      * {\n        box-sizing: border-box;\n        margin: 0;\n        padding: 0;\n      }\n\n      .app-header {\n        position: fixed;\n        top: 0;\n        right: 0;\n        left: 0;\n        margin: 1em;\n        display: flex;\n        align-items: center;\n        z-index: 3;\n      }\n\n      .app-header-logo {\n        display: flex;\n        flex-grow: 1;\n        align-items: center;\n      }\n\n      .app-header-logo img {\n        height: 2em;\n      }\n\n      .app-header-top-nav a {\n        text-decoration: none;\n        color: var(--brand-color);\n        font-weight: 300;\n      }\n\n      /* App drawer styles */\n\n      .app-drawer-menu-items ul {\n        list-style: none;\n      }\n\n      .app-drawer-menu-items a {\n        display: block;\n        text-decoration: none;\n        font-size: 1.3em;\n        color: var(--menu-link-color);\n        margin-bottom: .8em;\n        transition: 0.2s;\n      }\n\n      .app-drawer-menu-items a:hover {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer-menu-items a.active {\n        font-weight: bold;\n        color: var(--secondary-txt-color);\n        border-bottom: 0.5px solid var(--secondary-txt-color);\n        margin-right: 10px;\n        padding-bottom: 5px;\n      }\n\n      .app-drawer-logo {\n        width: 150px;\n      }\n\n      /* Shoelace components ------------------------------------------------------ */\n\n      .hamburger-btn::part(base) {\n        color: var(--brand-color);\n        font-size: 2em;\n        padding-left: 0;\n      }\n\n      sl-drawer {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer::part(panel) {\n        background-color: var(--heading-color);\n      }\n\n      .app-drawer::part(close-button) {\n        color: var(--menu-link-color);\n      }\n\n      .app-drawer::part(close-button__base) {\n        transition: 0.2s;\n      }\n\n      .app-drawer::part(close-button__base):hover {\n        color: var(--secondary-txt-color);\n      }\n\n      sl-avatar {\n        --size: 2em;\n      }\n\n      sl-dropdown {\n        margin-right: 5px;\n      }\n\n      /* Responsive - Mobile ------------------------------------------------------ */\n\n      @media all and (max-width: 768px) {\n        .app-header-top-nav {\n          display: none;\n        }\n      }\n    "]))));
 _defineProperty(CoAppHeader, "properties", {
   title: {
     type: String
@@ -13660,7 +13660,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55515" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57574" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

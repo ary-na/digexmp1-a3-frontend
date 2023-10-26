@@ -2,18 +2,22 @@
 
 :root {
   // base
-  --base-txt-color: #0E1116;
-  //--heading-color: #38A3A5;
+  --primary-txt-color: #0E1116;
+  --secondary-txt-color: #EEF8FC;
+
   --heading-color: #22577A;
+  --link-color: #38A3A5;
+  --menu-link-color: var(--sl-color-primary-200);
+
+  --body-bg: #EEF8FC;
+
   --primary-font-family: 'Inter', sans-serif;
   --secondary-font-family: 'Raleway', sans-serif;
-  --body-bg: #EEF8FC;
   
 
   // colors  
   $brand-color: #22577A;
   --brand-color: #{$brand-color};
-  --link-color: #38A3A5;
   
   // app header
   --app-header-height: 60px;
@@ -23,7 +27,7 @@
   // shoelace tokens
   // full list here:
   // https://github.com/shoelace-style/shoelace/blob/current/src/styles/base.scss
-  --sl-color-primary-50: #f4f4f4;
+  --sl-color-primary-50: #{lighten($brand-color, 50%)};
   --sl-color-primary-100: #{lighten($brand-color, 40%)};
   --sl-color-primary-200: #{lighten($brand-color, 30%)};
   --sl-color-primary-300: #{lighten($brand-color, 20%)};

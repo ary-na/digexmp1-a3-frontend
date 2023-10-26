@@ -1,16 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
 :root {
-  --base-txt-color: #0E1116;
+  --primary-txt-color: #0E1116;
+  --secondary-txt-color: #EEF8FC;
   --heading-color: #22577A;
+  --link-color: #38A3A5;
+  --menu-link-color: var(--sl-color-primary-200);
+  --body-bg: #EEF8FC;
   --primary-font-family: "Inter", sans-serif;
   --secondary-font-family: "Raleway", sans-serif;
-  --body-bg: #EEF8FC;
   --brand-color: #22577A;
-  --link-color: #38A3A5;
   --app-header-height: 60px;
   --app-header-txt-color: #fff;
   --app-header-title-font-size: 1.6em;
-  --sl-color-primary-50: #f4f4f4;
+  --sl-color-primary-50: #b2d3e9;
   --sl-color-primary-100: #8abdde;
   --sl-color-primary-200: #62a6d3;
   --sl-color-primary-300: #3a90c8;
@@ -30,7 +32,7 @@
 }
 
 body {
-  color: var(--base-txt-color);
+  color: var(--primary-txt-color);
   font-family: var(--primary-font-family);
   font-weight: 200;
   background: var(--body-bg);

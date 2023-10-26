@@ -114,7 +114,7 @@ class Auth {
     success()
   }
 
-  signOut(){
+  logout(){
     Toast.show("You are signed out")
     // delete local token
     localStorage.removeItem('accessToken')
