@@ -174,6 +174,9 @@ export class CoAppHeader extends LitElement {
                     <sl-dropdown>
                         <sl-menu>
                             <sl-menu-item @click="${() => gotoRoute('/profile')}">Profile</sl-menu-item>
+                            ${this.user.accessLevel === 2 ? 
+                                    html`<sl-menu-item @click="${() => gotoRoute('/createSpecial')}">Create Special</sl-menu-item>` : 
+                                    html``}
                             <sl-menu-item @click="${() => gotoRoute('/editProfile')}">Edit Profile</sl-menu-item>
                             <sl-menu-item @click="${() => Auth.logout()}">Logout</sl-menu-item>
                         </sl-menu>

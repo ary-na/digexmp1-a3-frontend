@@ -12189,9 +12189,34 @@ class Special {
       const err = await response.json();
       if (err) console.log(err);
       // throw error (exit this function)
-      throw new Error('Problem getting haircuts');
+      throw new Error('Problem getting specials!');
     }
     // convert response payload into json - return data
+    return await response.json();
+  }
+  async createSpecial(formData) {
+    // send fetch request
+    const response = await fetch("".concat(_App.default.apiBase, "/special"), {
+      method: 'POST',
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      },
+      body: formData
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      let message = 'Problem adding special!';
+      if (response.status === 400) {
+        const err = await response.json();
+        message = err.message;
+      }
+      // throw error (exit this function)
+      throw new Error(message);
+    }
+
+    // convert response payload into json - store as data
+    // return data
     return await response.json();
   }
 }
@@ -12234,6 +12259,53 @@ class SpecialsView {
   }
 }
 var _default = exports.default = new SpecialsView();
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Special":"api/Special.js","../../Toast":"Toast.js"}],"views/pages/createSpecial.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _App = _interopRequireDefault(require("./../../App"));
+var _litHtml = require("lit-html");
+var _Router = require("../../Router");
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
+var _Utils = _interopRequireDefault(require("./../../Utils"));
+var _Special = _interopRequireDefault(require("../../api/Special"));
+var _Toast = _interopRequireDefault(require("../../Toast"));
+var _templateObject;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+class createSpecial {
+  init() {
+    document.title = 'Create Special';
+    if (_Auth.default.currentUser.accessLevel === 2) this.render();else (0, _Router.gotoRoute)('/');
+    _Utils.default.pageIntroAnim();
+  }
+  async createSpecialHandler(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const submitBtn = document.querySelector('.submit-btn');
+    submitBtn.setAttribute('loading', '');
+    try {
+      await _Special.default.createSpecial(formData);
+      _Toast.default.show("Special added!");
+      // Reset form
+      const inputs = document.querySelectorAll("sl-input, sl-textarea, input[type=file]");
+      if (inputs) inputs.forEach(input => inputs.value = null);
+      const radioInputs = document.querySelectorAll("sl-radio");
+      if (radioInputs) radioInputs.forEach(radioInput => radioInput.removeAttribute("checked"));
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+    submitBtn.removeAttribute('loading');
+  }
+  render() {
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header title=\"Create Special\" user=\"", "\"></co-app-header>\n            <div class=\"row app-header-margin\">\n\n                <sl-form class=\"form-signup\" @sl-submit=", ">\n                    <input type=\"hidden\" name=\"user\" value=\"", "\"/>\n                    <div class=\"input-group\">\n                        <sl-input name=\"name\" type=\"text\" placeholder=\"Haircut Name\" required></sl-input>\n                    </div>\n                    <div class=\"input-group\">\n                        <sl-input name=\"price\" type=\"text\" placeholder=\"Price\" required>\n                            <span slot=\"prefix\">$</span>\n                        </sl-input>\n                    </div>\n                    <div class=\"input-group\">\n                        <sl-textarea name=\"description\" rows=\"3\" placeholder=\"Description\"></sl-textarea>\n                    </div>\n                    <div class=\"input-group\" style=\"margin-bottom: 2em;\">\n                        <label>Image</label><br>\n                        <input type=\"file\" name=\"image\"/>\n                    </div>\n                    <div class=\"input-group\" style=\"margin-bottom: 2em;\">\n                        <label>Gender</label><br>\n                        <sl-radio-group label=\"Select gender\" no-fieldset>\n                            <sl-radio name=\"gender\" value=\"m\">Male</sl-radio>\n                            <sl-radio name=\"gender\" value=\"f\">Female</sl-radio>\n                            <sl-radio name=\"gender\" value=\"u\">Unisex</sl-radio>\n                        </sl-radio-group>\n                    </div>\n                    <div class=\"input-group\" style=\"margin-bottom: 2em;\">\n                        <label>Length</label><br>\n                        <sl-radio-group label=\"Select length\" no-fieldset>\n                            <sl-radio name=\"length\" value=\"s\">Short</sl-radio>\n                            <sl-radio name=\"length\" value=\"m\">Medium</sl-radio>\n                            <sl-radio name=\"length\" value=\"l\">Long</sl-radio>\n                        </sl-radio-group>\n                    </div>\n                    <sl-button type=\"primary\" class=\"submit-btn\" submit>Add Haircut</sl-button>\n                </sl-form>\n\n\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.createSpecialHandler, _Auth.default.currentUser._id);
+    (0, _litHtml.render)(template, _App.default.rootEl);
+  }
+}
+var _default = exports.default = new createSpecial();
 },{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Special":"api/Special.js","../../Toast":"Toast.js"}],"Router.js":[function(require,module,exports) {
 "use strict";
 
@@ -12254,6 +12326,7 @@ var _baristas = _interopRequireDefault(require("./views/pages/baristas"));
 var _favouriteDrinks = _interopRequireDefault(require("./views/pages/favouriteDrinks"));
 var _menu = _interopRequireDefault(require("./views/pages/menu"));
 var _specials = _interopRequireDefault(require("./views/pages/specials"));
+var _createSpecial = _interopRequireDefault(require("./views/pages/createSpecial"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 // import views
 
@@ -12269,7 +12342,8 @@ const routes = {
   '/baristas': _baristas.default,
   '/specials': _specials.default,
   '/favouriteDrinks': _favouriteDrinks.default,
-  '/guide': _guide.default
+  '/guide': _guide.default,
+  '/createSpecial': _createSpecial.default
 };
 class Router {
   constructor() {
@@ -12315,7 +12389,7 @@ function anchorRoute(e) {
   const pathname = e.target.closest('a').pathname;
   AppRouter.gotoRoute(pathname);
 }
-},{"./views/pages/home":"views/pages/home.js","./views/pages/404":"views/pages/404.js","./views/pages/login":"views/pages/login.js","./views/pages/register":"views/pages/register.js","./views/pages/profile":"views/pages/profile.js","./views/pages/editProfile":"views/pages/editProfile.js","./views/pages/guide":"views/pages/guide.js","./views/pages/baristas":"views/pages/baristas.js","./views/pages/favouriteDrinks":"views/pages/favouriteDrinks.js","./views/pages/menu":"views/pages/menu.js","./views/pages/specials":"views/pages/specials.js"}],"App.js":[function(require,module,exports) {
+},{"./views/pages/home":"views/pages/home.js","./views/pages/404":"views/pages/404.js","./views/pages/login":"views/pages/login.js","./views/pages/register":"views/pages/register.js","./views/pages/profile":"views/pages/profile.js","./views/pages/editProfile":"views/pages/editProfile.js","./views/pages/guide":"views/pages/guide.js","./views/pages/baristas":"views/pages/baristas.js","./views/pages/favouriteDrinks":"views/pages/favouriteDrinks.js","./views/pages/menu":"views/pages/menu.js","./views/pages/specials":"views/pages/specials.js","./views/pages/createSpecial":"views/pages/createSpecial.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13506,7 +13580,7 @@ var _lit = require("lit");
 var _Router = require("../Router");
 var _Auth = _interopRequireDefault(require("./../api/Auth"));
 var _App = _interopRequireDefault(require("./../App"));
-var _templateObject, _templateObject2;
+var _templateObject, _templateObject2, _templateObject3, _templateObject4;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -13546,11 +13620,11 @@ class CoAppHeader extends _lit.LitElement {
     });
   }
   render() {
-    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <header class=\"app-header\">\n\n                <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\"></sl-icon-button>\n\n                <a class=\"app-header-logo\" title=\"Home\" href=\"/\" @click=\"", "\">\n                    <img src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                </a>\n\n                <nav class=\"app-header-top-nav\">\n                    <sl-dropdown>\n                        <sl-menu>\n                            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Logout</sl-menu-item>\n                        </sl-menu>\n                        <a title=\"Profile\" slot=\"trigger\" href=\"#\" @click=\"", "\">\n                            <sl-avatar image=", "></sl-avatar>\n                            ", "\n                        </a>\n                    </sl-dropdown>\n                </nav>\n\n            </header>\n\n            <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n                <nav class=\"app-drawer-menu-items\">\n                    <ul>\n                        <li><a title=\"Home\" href=\"/\" @click=\"", "\">Home</a></li>\n                        <li><a title=\"Specials\" href=\"/specials\" @click=\"", "\">Specials</a></li>\n                        <li><a title=\"Profile\" href=\"/profile\" @click=\"", "\">Profile</a></li>\n                        <li><a title=\"Logout\" href=\"#\" @click=\"", "\">Logout</a></li>\n                    </ul>\n                </nav>\n                <img slot=\"footer\" class=\"align-self-start app-drawer-logo\" src=\"/images/logo-white-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n            </sl-drawer>\n        "])), this.hamburgerClick, _Router.anchorRoute, () => (0, _Router.gotoRoute)('/profile'), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.logout(), e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, this.user.firstName, this.menuClick, this.menuClick, this.menuClick, () => _Auth.default.logout());
+    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <header class=\"app-header\">\n\n                <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\"></sl-icon-button>\n\n                <a class=\"app-header-logo\" title=\"Home\" href=\"/\" @click=\"", "\">\n                    <img src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                </a>\n\n                <nav class=\"app-header-top-nav\">\n                    <sl-dropdown>\n                        <sl-menu>\n                            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n                            ", "\n                            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Logout</sl-menu-item>\n                        </sl-menu>\n                        <a title=\"Profile\" slot=\"trigger\" href=\"#\" @click=\"", "\">\n                            <sl-avatar image=", "></sl-avatar>\n                            ", "\n                        </a>\n                    </sl-dropdown>\n                </nav>\n\n            </header>\n\n            <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n                <nav class=\"app-drawer-menu-items\">\n                    <ul>\n                        <li><a title=\"Home\" href=\"/\" @click=\"", "\">Home</a></li>\n                        <li><a title=\"Specials\" href=\"/specials\" @click=\"", "\">Specials</a></li>\n                        <li><a title=\"Profile\" href=\"/profile\" @click=\"", "\">Profile</a></li>\n                        <li><a title=\"Logout\" href=\"#\" @click=\"", "\">Logout</a></li>\n                    </ul>\n                </nav>\n                <img slot=\"footer\" class=\"align-self-start app-drawer-logo\" src=\"/images/logo-white-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n            </sl-drawer>\n        "])), this.hamburgerClick, _Router.anchorRoute, () => (0, _Router.gotoRoute)('/profile'), this.user.accessLevel === 2 ? (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["<sl-menu-item @click=\"", "\">Create Special</sl-menu-item>"])), () => (0, _Router.gotoRoute)('/createSpecial')) : (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral([""]))), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.logout(), e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, this.user.firstName, this.menuClick, this.menuClick, this.menuClick, () => _Auth.default.logout());
   }
 }
 exports.CoAppHeader = CoAppHeader;
-_defineProperty(CoAppHeader, "styles", (0, _lit.css)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      * {\n        box-sizing: border-box;\n        margin: 0;\n        padding: 0;\n      }\n\n      .app-header {\n        position: fixed;\n        background-color: var(--body-bg);\n        top: 0;\n        right: 0;\n        left: 0;\n        padding: 1em;\n        border-bottom: 0.5px solid var(--link-color);\n        display: flex;\n        align-items: center;\n        z-index: 3;\n      }\n\n      .app-header-logo {\n        display: flex;\n        flex-grow: 1;\n        align-items: center;\n      }\n\n      .app-header-logo img {\n        height: 2em;\n      }\n\n      .app-header-top-nav a {\n        text-decoration: none;\n        color: var(--brand-color);\n        font-weight: 300;\n      }\n\n      /* App drawer styles */\n\n      .app-drawer-menu-items ul {\n        list-style: none;\n      }\n\n      .app-drawer-menu-items a {\n        display: block;\n        text-decoration: none;\n        font-size: 1.3em;\n        color: var(--menu-link-color);\n        margin-bottom: .8em;\n        transition: 0.2s;\n      }\n\n      .app-drawer-menu-items a:hover {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer-menu-items a.active {\n        font-weight: bold;\n        color: var(--secondary-txt-color);\n        border-bottom: 0.5px solid var(--secondary-txt-color);\n        margin-right: 10px;\n        padding-bottom: 5px;\n      }\n\n      .app-drawer-logo {\n        width: 150px;\n      }\n\n      /* Shoelace components ------------------------------------------------------ */\n\n      .hamburger-btn::part(base) {\n        color: var(--brand-color);\n        font-size: 2em;\n        padding-left: 0;\n      }\n\n      sl-drawer {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer::part(panel) {\n        background-color: var(--heading-color);\n      }\n\n      .app-drawer::part(close-button) {\n        color: var(--menu-link-color);\n      }\n\n      .app-drawer::part(close-button__base) {\n        transition: 0.2s;\n      }\n\n      .app-drawer::part(close-button__base):hover {\n        color: var(--secondary-txt-color);\n      }\n\n      sl-avatar {\n        --size: 2em;\n      }\n\n      sl-dropdown {\n        margin-right: 5px;\n      }\n\n      /* Responsive - Mobile ------------------------------------------------------ */\n\n      @media all and (max-width: 768px) {\n        .app-header-top-nav {\n          display: none;\n        }\n      }\n    "]))));
+_defineProperty(CoAppHeader, "styles", (0, _lit.css)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      * {\n        box-sizing: border-box;\n        margin: 0;\n        padding: 0;\n      }\n\n      .app-header {\n        position: fixed;\n        background-color: var(--body-bg);\n        top: 0;\n        right: 0;\n        left: 0;\n        padding: 1em;\n        border-bottom: 0.5px solid var(--link-color);\n        display: flex;\n        align-items: center;\n        z-index: 3;\n      }\n\n      .app-header-logo {\n        display: flex;\n        flex-grow: 1;\n        align-items: center;\n      }\n\n      .app-header-logo img {\n        height: 2em;\n      }\n\n      .app-header-top-nav a {\n        text-decoration: none;\n        color: var(--brand-color);\n        font-weight: 300;\n      }\n\n      /* App drawer styles */\n\n      .app-drawer-menu-items ul {\n        list-style: none;\n      }\n\n      .app-drawer-menu-items a {\n        display: block;\n        text-decoration: none;\n        font-size: 1.3em;\n        color: var(--menu-link-color);\n        margin-bottom: .8em;\n        transition: 0.2s;\n      }\n\n      .app-drawer-menu-items a:hover {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer-menu-items a.active {\n        font-weight: bold;\n        color: var(--secondary-txt-color);\n        border-bottom: 0.5px solid var(--secondary-txt-color);\n        margin-right: 10px;\n        padding-bottom: 5px;\n      }\n\n      .app-drawer-logo {\n        width: 150px;\n      }\n\n      /* Shoelace components ------------------------------------------------------ */\n\n      .hamburger-btn::part(base) {\n        color: var(--brand-color);\n        font-size: 2em;\n        padding-left: 0;\n      }\n\n      sl-drawer {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer::part(panel) {\n        background-color: var(--heading-color);\n      }\n\n      .app-drawer::part(close-button) {\n        color: var(--menu-link-color);\n      }\n\n      .app-drawer::part(close-button__base) {\n        transition: 0.2s;\n      }\n\n      .app-drawer::part(close-button__base):hover {\n        color: var(--secondary-txt-color);\n      }\n\n      sl-avatar {\n        --size: 2em;\n      }\n\n      sl-dropdown {\n        margin-right: 5px;\n      }\n\n      /* Responsive - Mobile ------------------------------------------------------ */\n\n      @media all and (max-width: 768px) {\n        .app-header-top-nav {\n          display: none;\n        }\n      }\n    "]))));
 _defineProperty(CoAppHeader, "properties", {
   title: {
     type: String
