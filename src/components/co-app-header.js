@@ -194,8 +194,7 @@ export class CoAppHeader extends LitElement {
                         <li><a title="Logout" href="#" @click="${() => Auth.logout()}">Logout</a></li>
                     </ul>
                 </nav>
-                <img slot="footer" class="align-self-start app-drawer-logo" src="/images/logo-white-alternate.svg"
-                     alt="This is an image of the coffee on café logo.">
+                <img slot="footer" class="align-self-start app-drawer-logo" src="/images/logo-white-alternate.svg" alt="This is an image of the coffee on café logo.">
             </sl-drawer>
         `;
     }
