@@ -12224,13 +12224,12 @@ class SpecialsView {
   async getSpecials() {
     try {
       this.specials = await _Special.default.getSpecials();
-      console.log(this.specials);
     } catch (err) {
       _Toast.default.show(err, 'error');
     }
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header title=\"Profile\" user=\"", "\"></co-app-header>\n            <div class=\"row g-3 app-header-margin\">\n                <h1 class=\"col-12\">Specials</h1>\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.specials.map(special => (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <sl-card class=\"card-overview col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\">\n                                <img\n                                        slot=\"image\"\n                                        src=\"", "\"\n                                        alt=\"An image of the special drink.\"\n                                />\n\n                                <strong>", "</strong><br/>\n                                ", "<br/>\n                                <small>", "</small>\n\n                                <div slot=\"footer\">\n                                    <sl-button variant=\"primary\" pill>More Info</sl-button>\n                                </div>\n                            </sl-card>\n                        "])), special.image, special.name, special.description, special.price)));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header title=\"Profile\" user=\"", "\"></co-app-header>\n            <div class=\"row g-3 app-header-margin\">\n                <h1 class=\"col-12\">Specials</h1>\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.specials.map(special => (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <co-special-card class=\"col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\"\n                                             name=\"", "\"\n                                             description=\"", "\"\n                                             price=\"", "\"\n                                             user=\"", "\"\n                                             image=\"", "\"\n                                             drinkType=\"", "\"\n                                             brewMethod=\"", "\"></co-special-card>\n                        "])), special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod)));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
@@ -13561,6 +13560,76 @@ _defineProperty(CoAppHeader, "properties", {
   }
 });
 customElements.define('co-app-header', CoAppHeader);
+},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js"}],"components/co-special-card.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CoSpecialCard = void 0;
+var _lit = require("lit");
+var _Router = require("../Router");
+var _Auth = _interopRequireDefault(require("./../api/Auth"));
+var _App = _interopRequireDefault(require("./../App"));
+var _templateObject, _templateObject2, _templateObject3;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+class CoSpecialCard extends _lit.LitElement {
+  constructor() {
+    super();
+  }
+  firstUpdated(_changedProperties) {
+    super.firstUpdated(_changedProperties);
+  }
+  moreInfoHandler() {
+    const dialogEl = document.createElement('sl-dialog');
+    dialogEl.className = "special-dialog";
+    const dialogContent = (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <h2>Test</h2>\n        "])));
+    (0, _lit.render)(dialogContent, dialogEl);
+    document.body.append(dialogEl);
+    dialogEl.show();
+
+    // Delete dialog after hide.
+    dialogEl.addEventListener('sl-after-hide', () => {
+      dialogEl.remove();
+    });
+  }
+  addFavHandler() {
+    alert("add to fave");
+  }
+  render() {
+    return (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <sl-card class=\"card-overview\">\n                <img\n                        slot=\"image\"\n                        src=\"", "\"\n                        alt=\"An image of the special drink.\"\n                />\n\n                <strong>", "</strong><br/>\n                ", "<br/>\n                <small>", "</small>\n\n                <div slot=\"footer\">\n                    <sl-button variant=\"primary\" pill @click=\"", "\">More Info</sl-button>\n                    <sl-icon-button name=\"balloon-heart\" label=\"Favourites\" @click=\"", "\"></sl-icon-button>\n                </div>\n            </sl-card>\n        "])), this.image, this.name, this.description, this.price, this.moreInfoHandler.bind(this), this.addFavHandler.bind(this));
+  }
+}
+exports.CoSpecialCard = CoSpecialCard;
+_defineProperty(CoSpecialCard, "styles", (0, _lit.css)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n      sl-card {\n        width: 100%;\n      }\n    "]))));
+_defineProperty(CoSpecialCard, "properties", {
+  name: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  price: {
+    type: Number
+  },
+  user: {
+    type: Object
+  },
+  image: {
+    type: String
+  },
+  drinkType: {
+    type: String
+  },
+  brewMethod: {
+    type: String
+  }
+});
+customElements.define('co-special-card', CoSpecialCard);
 },{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
@@ -13621,6 +13690,7 @@ module.hot.accept(reloadCSS);
 
 var _App = _interopRequireDefault(require("./App.js"));
 require("./components/co-app-header");
+require("./components/co-special-card");
 require("./scss/master.scss");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 // components (custom web components)
@@ -13631,7 +13701,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener('DOMContentLoaded', () => {
   _App.default.init();
 });
-},{"./App.js":"App.js","./components/co-app-header":"components/co-app-header.js","./scss/master.scss":"scss/master.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./App.js":"App.js","./components/co-app-header":"components/co-app-header.js","./components/co-special-card":"components/co-special-card.js","./scss/master.scss":"scss/master.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

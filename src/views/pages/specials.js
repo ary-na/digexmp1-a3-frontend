@@ -5,7 +5,6 @@ import Auth from '../../api/Auth'
 import Utils from './../../Utils'
 import Special from "../../api/Special";
 import Toast from "../../Toast";
-import special from "../../api/Special";
 
 class SpecialsView {
     async init() {
@@ -19,7 +18,6 @@ class SpecialsView {
     async getSpecials() {
         try {
             this.specials = await Special.getSpecials()
-            console.log(this.specials);
         } catch (err) {
             Toast.show(err, 'error')
         }
@@ -32,21 +30,14 @@ class SpecialsView {
             <div class="row g-3 app-header-margin">
                 <h1 class="col-12">Specials</h1>
                 ${this.specials.map(special => html`
-                            <sl-card class="card-overview col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                <img
-                                        slot="image"
-                                        src="${special.image}"
-                                        alt="An image of the special drink."
-                                />
-
-                                <strong>${special.name}</strong><br/>
-                                ${special.description}<br/>
-                                <small>${special.price}</small>
-
-                                <div slot="footer">
-                                    <sl-button variant="primary" pill>More Info</sl-button>
-                                </div>
-                            </sl-card>
+                            <co-special-card class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3"
+                                             name="${special.name}"
+                                             description="${special.description}"
+                                             price="${special.price}"
+                                             user="${JSON.stringify(special.user)}"
+                                             image="${special.image}"
+                                             drinkType="${special.drinkType}"
+                                             brewMethod="${special.brewMethod}"></co-special-card>
                         `
                 )}
             </div>
