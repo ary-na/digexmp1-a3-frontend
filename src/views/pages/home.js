@@ -16,15 +16,13 @@ class HomeView {
     const template = html`
       <co-app-header title="Home" user=${JSON.stringify(Auth.currentUser)}></co-app-header>
       
-      <div class="page-content">
-        <h1 class="anim-in">Hey ${Auth.currentUser.firstName}</h1>
-
-        <h3>Button example:</h3>
-        <sl-button class="anim-in" @click=${() => gotoRoute('/profile')}>View Profile</sl-button>
+      <div class="row app-header-margin">
+        <h1 class="col-6 anim-in">Hey ${Auth.currentUser.firstName}</h1>
+        <h3 class="col-6">Button example:</h3>
+        <sl-button class="col-auto anim-in" @click=${() => gotoRoute('/profile')}>View Profile</sl-button>
         <p>&nbsp;</p>
         <h3>Link example</h3>
         <a href="/profile" @click=${anchorRoute}>View Profile</a>
-        
       </div>
      
     `

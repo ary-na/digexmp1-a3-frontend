@@ -78,7 +78,7 @@ class Auth {
     // check local token is there
     if(!localStorage.accessToken){
       // no local token!
-      Toast.show("Please login")
+      Toast.show("Please login!")
       // redirect to sign in page      
       gotoRoute('/login')
       return
@@ -99,7 +99,7 @@ class Auth {
       if(err) console.log(err)
       // delete local token
       localStorage.removeItem('accessToken')
-      Toast.show("session expired, please sign in")
+      Toast.show("session expired, please login!")
       // redirect to sign in      
       gotoRoute('/login')
       return
@@ -115,10 +115,10 @@ class Auth {
   }
 
   logout(){
-    Toast.show("You are signed out")
+    Toast.show("You are logged out!")
     // delete local token
     localStorage.removeItem('accessToken')
-    // redirect to sign in    
+    // redirect to log in
     gotoRoute('/login')
     // unset currentUser
     this.currentUser = null

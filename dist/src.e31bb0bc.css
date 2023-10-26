@@ -9,9 +9,6 @@
   --primary-font-family: "Inter", sans-serif;
   --secondary-font-family: "Raleway", sans-serif;
   --brand-color: #22577A;
-  --app-header-height: 60px;
-  --app-header-txt-color: #fff;
-  --app-header-title-font-size: 1.6em;
   --sl-color-primary-50: #b2d3e9;
   --sl-color-primary-100: #8abdde;
   --sl-color-primary-200: #62a6d3;
@@ -83,6 +80,10 @@ a {
 
 .logo-size {
   width: 50px;
+}
+
+.app-header-margin {
+  margin-top: 80px;
 }
 
 .generic-entry {

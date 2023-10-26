@@ -15,10 +15,12 @@ export class CoAppHeader extends LitElement {
 
       .app-header {
         position: fixed;
+        background-color: var(--body-bg);
         top: 0;
         right: 0;
         left: 0;
-        margin: 1em;
+        padding: 1em;
+        border-bottom: 0.5px solid var(--link-color);
         display: flex;
         align-items: center;
         z-index: 3;
@@ -189,7 +191,7 @@ export class CoAppHeader extends LitElement {
                     <ul>
                         <li><a title="Home" href="/" @click="${this.menuClick}">Home</a></li>
                         <li><a title="Profile" href="/profile" @click="${this.menuClick}">Profile</a></li>
-                        <li><a title="Logout" href="#" @click="${() => Auth.signOut()}">Logout</a></li>
+                        <li><a title="Logout" href="#" @click="${() => Auth.logout()}">Logout</a></li>
                     </ul>
                 </nav>
                 <img slot="footer" class="align-self-start app-drawer-logo" src="/images/logo-white-alternate.svg"
