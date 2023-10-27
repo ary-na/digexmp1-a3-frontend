@@ -27,7 +27,7 @@ class SpecialsView {
     render() {
         const template = html`
             <co-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></co-app-header>
-            <div class="row g-3 app-header-margin">
+            <div class="row g-3 app-header-padding">
                 <h1 class="col-12">Specials</h1>
                 ${this.specials.map(special => html`
                             <co-special-card class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3"

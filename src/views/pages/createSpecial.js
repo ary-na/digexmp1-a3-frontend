@@ -45,43 +45,47 @@ class createSpecial {
     render() {
         const template = html`
             <co-app-header title="Create Special" user="${JSON.stringify(Auth.currentUser)}"></co-app-header>
-            <div class="row app-header-margin">
+            <div class="row pt-5 app-header-padding justify-content-center">
 
-                <sl-form class="form-signup" @sl-submit=${this.createSpecialHandler}>
-                    <input type="hidden" name="user" value="${Auth.currentUser._id}"/>
-                    <div class="input-group">
-                        <sl-input name="name" type="text" placeholder="Haircut Name" required></sl-input>
+                <form class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 bg-white shadow-sm rounded-1 my-auto p-5 row g-3" @submit=${this.createSpecialHandler}>
+                    <input name="user" type="hidden" value="${Auth.currentUser._id}"/>
+                    <sl-input class="col-12" name="name" type="text" label="Drink name"
+                              placeholder="Enter drink name..." required></sl-input>
+
+                    <sl-textarea name="description" label="Description"
+                                 placeholder="Enter a detailed description of the drink..." required></sl-textarea>
+
+
+                    <sl-select class="col-md-7" name="brewMethod" label="Brew method" placeholder="Select a brew method..." required>
+                        <sl-option value="Aeropress_(pressure)">Aeropress (pressure)</sl-option>
+                        <sl-option value="Auto_drip_(drip)">Auto drip (drip)</sl-option>
+                        <sl-option value="Chemex_(drip)">Chemex (drip)</sl-option>
+                        <sl-option value="Clever_dripper_(drip)">Clever dripper (drip)</sl-option>
+                        <sl-option value="Cold_brew_(steep)">Cold brew (steep)</sl-option>
+                        <sl-option value="Espresso_machine_(pressure)">Espresso machine (pressure)</sl-option>
+                        <sl-option value="French_press_(steep)">French press (steep)</sl-option>
+                        <sl-option value="Moka_pot_(pressure)">Moka pot (pressure)</sl-option>
+                        <sl-option value="Siphon_(pressure)">Siphon (pressure)</sl-option>
+                    </sl-select>
+
+                    <sl-input class="col-md-5" name="price" type="text" label="Price" placeholder="Enter price..." required>
+                        <sl-icon class="ps-2" name="currency-dollar" slot="prefix"></sl-icon>
+                    </sl-input>
+
+                    <sl-radio-group label="Drink type" name="drinkType" required>
+                        <sl-radio class="d-inline me-2" value="Hot">Hot</sl-radio>
+                        <sl-radio class="d-inline" value="Ice">Ice</sl-radio>
+                    </sl-radio-group>
+
+                    <div>
+                        <label for="formFile" class="form-label">Upload an image</label>
+                        <input class="form-control" name="image" type="file" id="formFile" required>
                     </div>
-                    <div class="input-group">
-                        <sl-input name="price" type="text" placeholder="Price" required>
-                            <span slot="prefix">$</span>
-                        </sl-input>
-                    </div>
-                    <div class="input-group">
-                        <sl-textarea name="description" rows="3" placeholder="Description"></sl-textarea>
-                    </div>
-                    <div class="input-group" style="margin-bottom: 2em;">
-                        <label>Image</label><br>
-                        <input type="file" name="image"/>
-                    </div>
-                    <div class="input-group" style="margin-bottom: 2em;">
-                        <label>Gender</label><br>
-                        <sl-radio-group label="Select gender" no-fieldset>
-                            <sl-radio name="gender" value="m">Male</sl-radio>
-                            <sl-radio name="gender" value="f">Female</sl-radio>
-                            <sl-radio name="gender" value="u">Unisex</sl-radio>
-                        </sl-radio-group>
-                    </div>
-                    <div class="input-group" style="margin-bottom: 2em;">
-                        <label>Length</label><br>
-                        <sl-radio-group label="Select length" no-fieldset>
-                            <sl-radio name="length" value="s">Short</sl-radio>
-                            <sl-radio name="length" value="m">Medium</sl-radio>
-                            <sl-radio name="length" value="l">Long</sl-radio>
-                        </sl-radio-group>
-                    </div>
-                    <sl-button type="primary" class="submit-btn" submit>Add Haircut</sl-button>
-                </sl-form>
+
+                    <sl-checkbox name="decaf" value="${true}">Decaf</sl-checkbox>
+
+                    <sl-button class="submit-btn" type="submit" variant="primary">Create special</sl-button>
+                </form>
 
 
             </div>
