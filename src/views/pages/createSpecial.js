@@ -45,7 +45,7 @@ class createSpecial {
     render() {
         const template = html`
             <co-app-header title="Create Special" user="${JSON.stringify(Auth.currentUser)}"></co-app-header>
-            <div class="row pt-5 app-header-padding justify-content-center">
+            <div class="row app-header-padding justify-content-center">
 
                 <form class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 bg-white shadow-sm rounded-1 my-auto p-5 row g-3" @submit=${this.createSpecialHandler}>
                     <input name="user" type="hidden" value="${Auth.currentUser._id}"/>

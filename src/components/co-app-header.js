@@ -14,16 +14,12 @@ export class CoAppHeader extends LitElement {
       }
 
       .app-header {
-        position: fixed;
+        padding: var(--sl-spacing-x-small);
         background-color: var(--body-bg);
-        top: 0;
-        right: 0;
-        left: 0;
-        padding: 1em;
-        border-bottom: 0.5px solid var(--link-color);
+        border-bottom: var(--link-color) 1px solid;
         display: flex;
         align-items: center;
-        z-index: 3;
+        z-index: var(--sl-z-index-dropdown);
       }
 
       .app-header-logo {
@@ -51,9 +47,9 @@ export class CoAppHeader extends LitElement {
       .app-drawer-menu-items a {
         display: block;
         text-decoration: none;
-        font-size: 1.3em;
+        font-size: var(--sl-font-size-large);
         color: var(--menu-link-color);
-        margin-bottom: .8em;
+        margin-bottom: var(--sl-spacing-small);
         transition: 0.2s;
       }
 
@@ -64,9 +60,9 @@ export class CoAppHeader extends LitElement {
       .app-drawer-menu-items a.active {
         font-weight: bold;
         color: var(--secondary-txt-color);
-        border-bottom: 0.5px solid var(--secondary-txt-color);
-        margin-right: 10px;
-        padding-bottom: 5px;
+        border-bottom: 1px solid var(--secondary-txt-color);
+        margin-right: var(--sl-spacing-x-small);
+        padding-bottom: var(--sl-spacing-2x-small);
       }
 
       .app-drawer-logo {
@@ -106,7 +102,7 @@ export class CoAppHeader extends LitElement {
       }
 
       sl-dropdown {
-        margin-right: 5px;
+        margin-right: var(--sl-spacing-2x-small);
       }
 
       /* Responsive - Mobile ------------------------------------------------------ */
