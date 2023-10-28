@@ -6088,22 +6088,23 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
+var _Router = require("../../Router");
 var _templateObject;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class FourOFourView {
   init() {
     console.log('FourOFourView.init');
-    document.title = '404 File not found';
+    document.title = "".concat(_App.default.name, " - Page not found");
     this.render();
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["    \n      <div class=\"calign\">\n        <h1>Opps!</h1>\n        <p>Sorry, we couldn't find that.</p>\n      </div>\n    "])));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <div class=\"row h-100 justify-content-center\">\n            <div class=\"col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 bg-white shadow-sm rounded-1 my-auto p-5\">\n              <img class=\"logo-size d-block mx-auto mb-5\" src=\"/images/logo-primary.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                <h1>Ops</h1>\n                <p class=\"small text-muted mb-5\">Page not found!</p>\n              <sl-button @click=", " class=\"col-12\" variant=\"primary\">Go home</sl-button>\n            </div>\n        </div>\n    "])), () => (0, _Router.gotoRoute)('/'));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new FourOFourView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js"}],"views/pages/login.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js"}],"views/pages/login.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11907,8 +11908,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _App = _interopRequireDefault(require("../App"));
-var _Auth = _interopRequireDefault(require("./Auth"));
-var _Toast = _interopRequireDefault(require("../Toast"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 class User {
   async updateUser(userId, userData) {
@@ -11985,9 +11984,38 @@ class User {
     // return data
     return data;
   }
+  async addFavSpecial(specialId) {
+    // validate
+    if (!specialId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/user/addFavSpecial"), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken),
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+        specialId: specialId
+      })
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem adding special to favourites');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
 }
 var _default = exports.default = new User();
-},{"../App":"App.js","./Auth":"api/Auth.js","../Toast":"Toast.js"}],"views/pages/editProfile.js":[function(require,module,exports) {
+},{"../App":"App.js"}],"views/pages/editProfile.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12106,7 +12134,7 @@ class BaristasView {
     _Utils.default.pageIntroAnim();
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <co-app-header title=\"Profile\" user=\"", "\"></co-app-header>\n      <div class=\"page-content\">        \n        <h1>Baristas</h1>\n        <p>Page content ...</p>\n        \n      </div>      \n    "])), JSON.stringify(_Auth.default.currentUser));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <co-app-header user=\"", "\"></co-app-header>\n      <div class=\"page-content\">        \n        <h1>Baristas</h1>\n        <p>Page content ...</p>\n        \n      </div>      \n    "])), JSON.stringify(_Auth.default.currentUser));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
@@ -12120,25 +12148,38 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
-var _Router = require("./../../Router");
+var _Router = require("../../Router");
 var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
-var _templateObject;
+var _Toast = _interopRequireDefault(require("../../Toast"));
+var _User = _interopRequireDefault(require("../../api/User"));
+var _templateObject, _templateObject2, _templateObject3, _templateObject4;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class FavouriteDrinksView {
   init() {
     document.title = "".concat(_App.default.name, " - Favourite drinks");
+    this.favSpecials = null;
     this.render();
     _Utils.default.pageIntroAnim();
   }
+  async getFavSpecials() {
+    try {
+      const currentUser = await _User.default.getUser(_Auth.default.currentUser._id);
+      this.favSpecials = currentUser.favouriteSpecials;
+      console.log(this.favSpecials);
+      this.render();
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <co-app-header title=\"Profile\" user=\"", "\"></co-app-header>\n      <div class=\"page-content\">        \n        <h1>Favourite Drinks</h1>\n        <p>Page content ...</p>\n        \n      </div>      \n    "])), JSON.stringify(_Auth.default.currentUser));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <co-app-header title=\"Profile\" user=\"", "\"></co-app-header>\n      <div class=\"row\">        \n        <h1>Favourite Drinks</h1>\n        <p>Page content ...</p>\n\n        <div class=\"haircuts-grid\">\n          ", "\n        </div>\n        \n      </div>      \n    "])), JSON.stringify(_Auth.default.currentUser), this.favSpecials == null ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n          <sl-spinner></sl-spinner>\n        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n          ", "\n        "])), this.favSpecials.map(haircut => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n            <va-haircut class=\"haircut-card\"\n              id=\"", "\"\n              name=\"", "\"\n              description=\"", "\"\n              price=\"", "\"\n              user=\"", "\"\n              image=\"", "\"\n              gender=\"", "\"\n              length=\"", "\"\n            >        \n            </va-haircut>\n\n          "])), haircut._id, haircut.name, haircut.description, haircut.price, JSON.stringify(haircut.user), haircut.image, haircut.gender, haircut.length))));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new FavouriteDrinksView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js"}],"views/pages/menu.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/User":"api/User.js"}],"views/pages/menu.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12221,7 +12262,7 @@ class Special {
   }
 }
 var _default = exports.default = new Special();
-},{"../App":"App.js"}],"views/pages/specials.js":[function(require,module,exports) {
+},{"../App":"App.js"}],"views/pages/mySpecials.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12235,12 +12276,13 @@ var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
 var _Special = _interopRequireDefault(require("../../api/Special"));
 var _Toast = _interopRequireDefault(require("../../Toast"));
-var _templateObject, _templateObject2;
+var _templateObject, _templateObject2, _templateObject3, _templateObject4;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-class SpecialsView {
+class MySpecialsView {
   async init() {
-    document.title = "".concat(_App.default.name, " - Specials");
+    if (_Auth.default.currentUser.accessLevel === 1) (0, _Router.gotoRoute)('/404');
+    document.title = "".concat(_App.default.name, " - My specials");
     this.specials = null;
     await this.getSpecials();
     this.render();
@@ -12254,11 +12296,11 @@ class SpecialsView {
     }
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header title=\"Profile\" user=\"", "\"></co-app-header>\n            <div class=\"row g-3 app-header-padding\">\n                <h1 class=\"col-12\">Specials</h1>\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.specials.map(special => (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <co-special-card class=\"col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3\"\n                                             name=\"", "\"\n                                             description=\"", "\"\n                                             price=\"", "\"\n                                             user=\"", "\"\n                                             image=\"", "\"\n                                             drinkType=\"", "\"\n                                             brewMethod=\"", "\"></co-special-card>\n                        "])), special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod)));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <div class=\"col-11\">\n                    <h1>My specials</h1>\n                    <p class=\"small mb-0 brand-color\">View, modify or delete your specials. Keep your\n                        specials up to date to make the most money by earning commissions.</p>\n                    </div>\n                    <div class=\"col-1 mt-auto d-flex justify-content-end\">\n                        <a href=\"/createSpecial\" @click=", ">Create</a>\n                    </div>\n                </div>\n\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), _Router.anchorRoute, Object.keys(this.specials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                <h2>You do not have any specials.</h2>\n                                <p class=\"small text-muted mb-0\">Create a special coffee drink for customers to showcase your\n                                    expertise.</p>\n                            </div>\n                        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                ", "\n                                <div>\n                        "])), this.specials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                            <co-special-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                             id=\"", "\"\n                                                             name=\"", "\"\n                                                             description=\"", "\"\n                                                             price=\"", "\"\n                                                             user=\"", "\"\n                                                             image=\"", "\"\n                                                             drinkType=\"", "\"\n                                                             brewMethod=\"", "\"></co-special-card>\n                                        "])), special._id, special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod))));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
-var _default = exports.default = new SpecialsView();
+var _default = exports.default = new MySpecialsView();
 },{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Special":"api/Special.js","../../Toast":"Toast.js"}],"views/pages/createSpecial.js":[function(require,module,exports) {
 "use strict";
 
@@ -12278,8 +12320,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class createSpecial {
   init() {
+    if (_Auth.default.currentUser.accessLevel === 1) (0, _Router.gotoRoute)('/404');
     document.title = "".concat(_App.default.name, " - Create special");
-    if (_Auth.default.currentUser.accessLevel === 2) this.render();else (0, _Router.gotoRoute)('/');
+    this.render();
     _Utils.default.pageIntroAnim();
   }
   async createSpecialHandler(e) {
@@ -12290,18 +12333,19 @@ class createSpecial {
     try {
       await _Special.default.createSpecial(formData);
       _Toast.default.show("Special added!");
+
       // Reset form
-      const inputs = document.querySelectorAll("sl-input, sl-textarea, input[type=file]");
-      if (inputs) inputs.forEach(input => inputs.value = null);
-      const radioInputs = document.querySelectorAll("sl-radio");
-      if (radioInputs) radioInputs.forEach(radioInput => radioInput.removeAttribute("checked"));
+      const inputs = document.querySelectorAll("sl-input, sl-textarea, input[type=file], sl-select, sl-radio-group");
+      if (inputs) inputs.forEach(input => input.value = null);
+      const checkbox = document.querySelector("sl-checkbox");
+      if (checkbox) checkbox.removeAttribute("checked");
     } catch (err) {
       _Toast.default.show(err, 'error');
     }
     submitBtn.removeAttribute('loading');
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header title=\"Create Special\" user=\"", "\"></co-app-header>\n            <div class=\"row app-header-padding justify-content-center\">\n\n                <form class=\"col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 bg-white shadow-sm rounded-1 my-auto p-5 row g-3\" @submit=", ">\n                    <input name=\"user\" type=\"hidden\" value=\"", "\"/>\n                    <sl-input class=\"col-12\" name=\"name\" type=\"text\" label=\"Drink name\"\n                              placeholder=\"Enter drink name...\" required></sl-input>\n\n                    <sl-textarea name=\"description\" label=\"Description\"\n                                 placeholder=\"Enter a detailed description of the drink...\" required></sl-textarea>\n\n\n                    <sl-select class=\"col-md-7\" name=\"brewMethod\" label=\"Brew method\" placeholder=\"Select a brew method...\" required>\n                        <sl-option value=\"Aeropress_(pressure)\">Aeropress (pressure)</sl-option>\n                        <sl-option value=\"Auto_drip_(drip)\">Auto drip (drip)</sl-option>\n                        <sl-option value=\"Chemex_(drip)\">Chemex (drip)</sl-option>\n                        <sl-option value=\"Clever_dripper_(drip)\">Clever dripper (drip)</sl-option>\n                        <sl-option value=\"Cold_brew_(steep)\">Cold brew (steep)</sl-option>\n                        <sl-option value=\"Espresso_machine_(pressure)\">Espresso machine (pressure)</sl-option>\n                        <sl-option value=\"French_press_(steep)\">French press (steep)</sl-option>\n                        <sl-option value=\"Moka_pot_(pressure)\">Moka pot (pressure)</sl-option>\n                        <sl-option value=\"Siphon_(pressure)\">Siphon (pressure)</sl-option>\n                    </sl-select>\n\n                    <sl-input class=\"col-md-5\" name=\"price\" type=\"text\" label=\"Price\" placeholder=\"Enter price...\" required>\n                        <sl-icon class=\"ps-2\" name=\"currency-dollar\" slot=\"prefix\"></sl-icon>\n                    </sl-input>\n\n                    <sl-radio-group label=\"Drink type\" name=\"drinkType\" required>\n                        <sl-radio class=\"d-inline me-2\" value=\"Hot\">Hot</sl-radio>\n                        <sl-radio class=\"d-inline\" value=\"Ice\">Ice</sl-radio>\n                    </sl-radio-group>\n\n                    <div>\n                        <label for=\"formFile\" class=\"form-label\">Upload an image</label>\n                        <input class=\"form-control\" name=\"image\" type=\"file\" id=\"formFile\" required>\n                    </div>\n\n                    <sl-checkbox name=\"decaf\" value=\"", "\">Decaf</sl-checkbox>\n\n                    <sl-button class=\"submit-btn\" type=\"submit\" variant=\"primary\">Create special</sl-button>\n                </form>\n\n\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.createSpecialHandler, _Auth.default.currentUser._id, true);
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n\n                <div class=\"col-xs-12 col-sm-10\">\n                    <h1>Create special</h1>\n                    <p class=\"small text-muted mb-4\">Create a special coffee drink for customers to showcase your expertise and earn a 50% commission on top of your wage for selling your drinks.</p>\n\n                    <form class=\"row gy-3 mt-0\" @submit=", ">\n                        <input name=\"user\" type=\"hidden\" value=\"", "\"/>\n                        <sl-input class=\"col-12\" name=\"name\" type=\"text\" label=\"Drink name\"\n                                  placeholder=\"Enter drink name...\" required></sl-input>\n\n                        <sl-textarea name=\"description\" label=\"Description\" placeholder=\"Enter a detailed description of the drink...\" required></sl-textarea>\n\n                        <sl-select class=\"col-md-8\" name=\"brewMethod\" label=\"Brew method\" placeholder=\"Select a brew method...\" required>\n                            <sl-option value=\"Aeropress_(pressure)\">Aeropress (pressure)</sl-option>\n                            <sl-option value=\"Auto_drip_(drip)\">Auto drip (drip)</sl-option>\n                            <sl-option value=\"Chemex_(drip)\">Chemex (drip)</sl-option>\n                            <sl-option value=\"Clever_dripper_(drip)\">Clever dripper (drip)</sl-option>\n                            <sl-option value=\"Cold_brew_(steep)\">Cold brew (steep)</sl-option>\n                            <sl-option value=\"Espresso_machine_(pressure)\">Espresso machine (pressure)</sl-option>\n                            <sl-option value=\"French_press_(steep)\">French press (steep)</sl-option>\n                            <sl-option value=\"Moka_pot_(pressure)\">Moka pot (pressure)</sl-option>\n                            <sl-option value=\"Siphon_(pressure)\">Siphon (pressure)</sl-option>\n                        </sl-select>\n\n                        <sl-input class=\"col-md-4\" name=\"price\" type=\"text\" label=\"Price\" placeholder=\"Enter price...\" required>\n                            <sl-icon class=\"ps-2\" name=\"currency-dollar\" slot=\"prefix\"></sl-icon>\n                        </sl-input>\n\n                        <sl-radio-group label=\"Drink type\" name=\"drinkType\" required>\n                            <sl-radio class=\"d-inline me-2\" value=\"Hot\">Hot</sl-radio>\n                            <sl-radio class=\"d-inline\" value=\"Ice\">Ice</sl-radio>\n                        </sl-radio-group>\n\n                        <div>\n                            <label for=\"formFile\" class=\"form-label\">Upload an image</label>\n                            <input class=\"form-control\" name=\"image\" type=\"file\" id=\"formFile\" required>\n                        </div>\n\n                        <sl-checkbox name=\"decaf\" value=\"", "\">Decaf</sl-checkbox>\n\n                        <sl-button class=\"ms-auto col-md-2\" @click=\"", "\">Back</sl-button>\n                        <sl-button class=\"col-md-2 submit-btn\" type=\"submit\" variant=\"primary\">Create</sl-button>\n                    </form>\n                </div>\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.createSpecialHandler, _Auth.default.currentUser._id, true, () => (0, _Router.gotoRoute)('/mySpecials'));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
@@ -12325,7 +12369,7 @@ var _guide = _interopRequireDefault(require("./views/pages/guide"));
 var _baristas = _interopRequireDefault(require("./views/pages/baristas"));
 var _favouriteDrinks = _interopRequireDefault(require("./views/pages/favouriteDrinks"));
 var _menu = _interopRequireDefault(require("./views/pages/menu"));
-var _specials = _interopRequireDefault(require("./views/pages/specials"));
+var _mySpecials = _interopRequireDefault(require("./views/pages/mySpecials"));
 var _createSpecial = _interopRequireDefault(require("./views/pages/createSpecial"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 // import views
@@ -12340,7 +12384,7 @@ const routes = {
   '/editProfile': _editProfile.default,
   '/menu': _menu.default,
   '/baristas': _baristas.default,
-  '/specials': _specials.default,
+  '/mySpecials': _mySpecials.default,
   '/favouriteDrinks': _favouriteDrinks.default,
   '/guide': _guide.default,
   '/createSpecial': _createSpecial.default
@@ -12389,7 +12433,7 @@ function anchorRoute(e) {
   const pathname = e.target.closest('a').pathname;
   AppRouter.gotoRoute(pathname);
 }
-},{"./views/pages/home":"views/pages/home.js","./views/pages/404":"views/pages/404.js","./views/pages/login":"views/pages/login.js","./views/pages/register":"views/pages/register.js","./views/pages/profile":"views/pages/profile.js","./views/pages/editProfile":"views/pages/editProfile.js","./views/pages/guide":"views/pages/guide.js","./views/pages/baristas":"views/pages/baristas.js","./views/pages/favouriteDrinks":"views/pages/favouriteDrinks.js","./views/pages/menu":"views/pages/menu.js","./views/pages/specials":"views/pages/specials.js","./views/pages/createSpecial":"views/pages/createSpecial.js"}],"App.js":[function(require,module,exports) {
+},{"./views/pages/home":"views/pages/home.js","./views/pages/404":"views/pages/404.js","./views/pages/login":"views/pages/login.js","./views/pages/register":"views/pages/register.js","./views/pages/profile":"views/pages/profile.js","./views/pages/editProfile":"views/pages/editProfile.js","./views/pages/guide":"views/pages/guide.js","./views/pages/baristas":"views/pages/baristas.js","./views/pages/favouriteDrinks":"views/pages/favouriteDrinks.js","./views/pages/menu":"views/pages/menu.js","./views/pages/mySpecials":"views/pages/mySpecials.js","./views/pages/createSpecial":"views/pages/createSpecial.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12402,7 +12446,7 @@ var _Toast = _interopRequireDefault(require("./Toast"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 class App {
   constructor() {
-    this.name = "Coffee on";
+    this.name = "coffee on";
     this.version = "1.0.0";
     this.apiBase = 'http://localhost:3000';
     this.rootEl = document.getElementById("root");
@@ -13620,15 +13664,12 @@ class CoAppHeader extends _lit.LitElement {
     });
   }
   render() {
-    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <header class=\"app-header\">\n\n                <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\"></sl-icon-button>\n\n                <a class=\"app-header-logo\" title=\"Home\" href=\"/\" @click=\"", "\">\n                    <img src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                </a>\n\n                <nav class=\"app-header-top-nav\">\n                    <sl-dropdown>\n                        <sl-menu>\n                            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n                            ", "\n                            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Logout</sl-menu-item>\n                        </sl-menu>\n                        <a title=\"Profile\" slot=\"trigger\" href=\"#\" @click=\"", "\">\n                            <sl-avatar image=", "></sl-avatar>\n                            ", "\n                        </a>\n                    </sl-dropdown>\n                </nav>\n\n            </header>\n\n            <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n                <nav class=\"app-drawer-menu-items\">\n                    <ul>\n                        <li><a title=\"Home\" href=\"/\" @click=\"", "\">Home</a></li>\n                        <li><a title=\"Specials\" href=\"/specials\" @click=\"", "\">Specials</a></li>\n                        <li><a title=\"Profile\" href=\"/profile\" @click=\"", "\">Profile</a></li>\n                        <li><a title=\"Logout\" href=\"#\" @click=\"", "\">Logout</a></li>\n                    </ul>\n                </nav>\n                <img slot=\"footer\" class=\"align-self-start app-drawer-logo\" src=\"/images/logo-white-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n            </sl-drawer>\n        "])), this.hamburgerClick, _Router.anchorRoute, () => (0, _Router.gotoRoute)('/profile'), this.user.accessLevel === 2 ? (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["<sl-menu-item @click=\"", "\">Create Special</sl-menu-item>"])), () => (0, _Router.gotoRoute)('/createSpecial')) : (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral([""]))), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.logout(), e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, this.user.firstName, this.menuClick, this.menuClick, this.menuClick, () => _Auth.default.logout());
+    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <header class=\"app-header\">\n\n                <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\"></sl-icon-button>\n\n                <a class=\"app-header-logo\" title=\"Home\" href=\"/\" @click=\"", "\">\n                    <img src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                </a>\n\n                <nav class=\"app-header-top-nav\">\n                    <sl-dropdown>\n                        <sl-menu>\n                            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Logout</sl-menu-item>\n                        </sl-menu>\n                        <a title=\"Profile\" slot=\"trigger\" href=\"#\" @click=\"", "\">\n                            <sl-avatar class=\"avatar\"\n                                       image=", "></sl-avatar>\n                            ", "\n                        </a>\n                    </sl-dropdown>\n                </nav>\n\n            </header>\n\n            <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n                <nav class=\"app-drawer-menu-items\">\n                    <ul>\n                        <li><a title=\"Home\" href=\"/\" @click=\"", "\">Home</a></li>\n                        ", "\n                        <li><a title=\"Profile\" href=\"/profile\" @click=\"", "\">Profile</a></li>\n                        <li><a title=\"Logout\" href=\"#\" @click=\"", "\">Logout</a></li>\n                    </ul>\n                </nav>\n                <img slot=\"footer\" class=\"align-self-start app-drawer-logo\" src=\"/images/logo-white-alternate.svg\"\n                     alt=\"This is an image of the coffee on caf\xE9 logo.\">\n            </sl-drawer>\n        "])), this.hamburgerClick, _Router.anchorRoute, () => (0, _Router.gotoRoute)('/profile'), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.logout(), e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, this.user.firstName, this.menuClick, this.user.accessLevel === 2 ? (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <li><a title=\"My specials\" href=\"/mySpecials\" @click=\"", "\">My specials</a>\n                            </li>"])), this.menuClick) : (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <li><a title=\"Specials\" href=\"/specials\" @click=\"", "\">Specials</a>"])), this.menuClick), this.menuClick, () => _Auth.default.logout());
   }
 }
 exports.CoAppHeader = CoAppHeader;
-_defineProperty(CoAppHeader, "styles", (0, _lit.css)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      * {\n        box-sizing: border-box;\n        margin: 0;\n        padding: 0;\n      }\n\n      .app-header {\n        padding: var(--sl-spacing-x-small);\n        background-color: var(--body-bg);\n        border-bottom: var(--link-color) 1px solid;\n        display: flex;\n        align-items: center;\n        z-index: var(--sl-z-index-dropdown);\n      }\n\n      .app-header-logo {\n        display: flex;\n        flex-grow: 1;\n        align-items: center;\n      }\n\n      .app-header-logo img {\n        height: 2em;\n      }\n\n      .app-header-top-nav a {\n        text-decoration: none;\n        color: var(--brand-color);\n        font-weight: 300;\n      }\n\n      /* App drawer styles */\n\n      .app-drawer-menu-items ul {\n        list-style: none;\n      }\n\n      .app-drawer-menu-items a {\n        display: block;\n        text-decoration: none;\n        font-size: var(--sl-font-size-large);\n        color: var(--menu-link-color);\n        margin-bottom: var(--sl-spacing-small);\n        transition: 0.2s;\n      }\n\n      .app-drawer-menu-items a:hover {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer-menu-items a.active {\n        font-weight: bold;\n        color: var(--secondary-txt-color);\n        border-bottom: 1px solid var(--secondary-txt-color);\n        margin-right: var(--sl-spacing-x-small);\n        padding-bottom: var(--sl-spacing-2x-small);\n      }\n\n      .app-drawer-logo {\n        width: 150px;\n      }\n\n      /* Shoelace components ------------------------------------------------------ */\n\n      .hamburger-btn::part(base) {\n        color: var(--brand-color);\n        font-size: 2em;\n        padding-left: 0;\n      }\n\n      sl-drawer {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer::part(panel) {\n        background-color: var(--heading-color);\n      }\n\n      .app-drawer::part(close-button) {\n        color: var(--menu-link-color);\n      }\n\n      .app-drawer::part(close-button__base) {\n        transition: 0.2s;\n      }\n\n      .app-drawer::part(close-button__base):hover {\n        color: var(--secondary-txt-color);\n      }\n\n      sl-avatar {\n        --size: 2em;\n      }\n\n      sl-dropdown {\n        margin-right: var(--sl-spacing-2x-small);\n      }\n\n      /* Responsive - Mobile ------------------------------------------------------ */\n\n      @media all and (max-width: 768px) {\n        .app-header-top-nav {\n          display: none;\n        }\n      }\n    "]))));
+_defineProperty(CoAppHeader, "styles", (0, _lit.css)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      * {\n        box-sizing: border-box;\n        margin: 0;\n        padding: 0;\n      }\n\n      .app-header {\n        padding: var(--sl-spacing-x-small) 0;\n        background-color: var(--body-bg);\n        border-bottom: var(--link-color) 1px solid;\n        display: flex;\n        align-items: center;\n        z-index: var(--sl-z-index-dropdown);\n      }\n\n      .app-header-logo {\n        display: flex;\n        flex-grow: 1;\n        align-items: center;\n      }\n\n      .app-header-logo img {\n        height: 2em;\n      }\n\n      .app-header-top-nav a {\n        text-decoration: none;\n        color: var(--brand-color);\n        font-weight: 300;\n      }\n\n      /* App drawer styles */\n\n      .app-drawer-menu-items ul {\n        list-style: none;\n      }\n\n      .app-drawer-menu-items a {\n        display: block;\n        text-decoration: none;\n        font-size: var(--sl-font-size-large);\n        color: var(--menu-link-color);\n        margin-bottom: var(--sl-spacing-small);\n        transition: 0.2s;\n      }\n\n      .app-drawer-menu-items a:hover {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer-menu-items a.active {\n        font-weight: bold;\n        color: var(--secondary-txt-color);\n        border-bottom: 1px solid var(--secondary-txt-color);\n        margin-right: var(--sl-spacing-x-small);\n        padding-bottom: var(--sl-spacing-2x-small);\n      }\n\n      .app-drawer-logo {\n        width: 150px;\n      }\n\n      /* Shoelace components ------------------------------------------------------ */\n\n      .hamburger-btn::part(base) {\n        color: var(--brand-color);\n        font-size: 2em;\n        padding-left: 0;\n      }\n\n      sl-drawer {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer::part(panel) {\n        background-color: var(--heading-color);\n      }\n\n      .app-drawer::part(close-button) {\n        color: var(--menu-link-color);\n      }\n\n      .app-drawer::part(close-button__base) {\n        transition: 0.2s;\n      }\n\n      .app-drawer::part(close-button__base):hover {\n        color: var(--secondary-txt-color);\n      }\n\n      sl-avatar {\n        --size: 2em;\n      }\n\n      .avatar::part(image) {\n        border: 1px var(--brand-color) solid;\n      }\n\n      sl-dropdown {\n        margin-right: 6px;\n      }\n\n      /* Responsive - Mobile ------------------------------------------------------ */\n\n      @media all and (max-width: 768px) {\n        .app-header-top-nav {\n          display: none;\n        }\n      }\n    "]))));
 _defineProperty(CoAppHeader, "properties", {
-  title: {
-    type: String
-  },
   user: {
     type: Object
   }
@@ -13645,6 +13686,8 @@ var _lit = require("lit");
 var _Router = require("../Router");
 var _Auth = _interopRequireDefault(require("./../api/Auth"));
 var _App = _interopRequireDefault(require("./../App"));
+var _User = _interopRequireDefault(require("../api/User"));
+var _Toast = _interopRequireDefault(require("../Toast"));
 var _templateObject, _templateObject2, _templateObject3;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -13661,7 +13704,7 @@ class CoSpecialCard extends _lit.LitElement {
   moreInfoHandler() {
     const dialogEl = document.createElement('sl-dialog');
     dialogEl.className = "special-dialog";
-    const dialogContent = (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <h2>Test</h2>\n        "])));
+    const dialogContent = (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <h2>Test</h2>\n        "])));
     (0, _lit.render)(dialogContent, dialogEl);
     document.body.append(dialogEl);
     dialogEl.show();
@@ -13671,16 +13714,24 @@ class CoSpecialCard extends _lit.LitElement {
       dialogEl.remove();
     });
   }
-  addFavHandler() {
-    alert("add to fave");
+  async addFavHandler() {
+    try {
+      await _User.default.addFavSpecial(this.id);
+      _Toast.default.show('Haircut added to favourites');
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
   }
   render() {
-    return (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <sl-card class=\"card-overview\">\n                <img\n                        slot=\"image\"\n                        src=\"", "\"\n                        alt=\"An image of the special drink.\"\n                />\n\n                <strong>", "</strong><br/>\n                ", "<br/>\n                <small>", "</small>\n\n                <div slot=\"footer\">\n                    <sl-button variant=\"primary\" pill @click=\"", "\">More Info</sl-button>\n                    <sl-icon-button name=\"balloon-heart\" label=\"Favourites\" @click=\"", "\"></sl-icon-button>\n                </div>\n            </sl-card>\n        "])), this.image, this.name, this.description, this.price, this.moreInfoHandler.bind(this), this.addFavHandler.bind(this));
+    return (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <sl-card class=\"card-overview\">\n                <img\n                        slot=\"image\"\n                        src=\"", "/images/", "\"\n                        alt=\"An image of the special drink.\"\n                />\n\n                <strong>", "</strong><br/>\n                ", "<br/>\n                <small>", "</small>\n\n                <div slot=\"footer\">\n                    <sl-button variant=\"primary\" pill @click=\"", "\">More Info</sl-button>\n                    <sl-icon-button name=\"balloon-heart\" label=\"Favourites\" @click=\"", "\"></sl-icon-button>\n                </div>\n            </sl-card>\n        "])), _App.default.apiBase, this.image, this.name, this.description, this.price, this.moreInfoHandler.bind(this), this.addFavHandler.bind(this));
   }
 }
 exports.CoSpecialCard = CoSpecialCard;
 _defineProperty(CoSpecialCard, "styles", (0, _lit.css)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n      sl-card {\n        width: 100%;\n      }\n    "]))));
 _defineProperty(CoSpecialCard, "properties", {
+  id: {
+    type: String
+  },
   name: {
     type: String
   },
@@ -13704,7 +13755,7 @@ _defineProperty(CoSpecialCard, "properties", {
   }
 });
 customElements.define('co-special-card', CoSpecialCard);
-},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js","../Toast":"Toast.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {

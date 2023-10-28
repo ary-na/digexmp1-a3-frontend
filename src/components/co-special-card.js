@@ -2,6 +2,8 @@ import {LitElement, render, html, css} from 'lit'
 import {anchorRoute, gotoRoute} from '../Router'
 import Auth from './../api/Auth'
 import App from './../App'
+import User from "../api/User"
+import Toast from "../Toast"
 
 export class CoSpecialCard extends LitElement {
     static styles = css`
@@ -9,9 +11,10 @@ export class CoSpecialCard extends LitElement {
       sl-card {
         width: 100%;
       }
-    `;
+    `
 
     static properties = {
+        id: {type: String},
         name: {type: String},
         description: {type: String},
         price: {type: Number},
@@ -19,10 +22,10 @@ export class CoSpecialCard extends LitElement {
         image: {type: String},
         drinkType: {type: String},
         brewMethod: {type: String},
-    };
+    }
 
     constructor() {
-        super();
+        super()
     }
 
     firstUpdated(_changedProperties) {
@@ -33,7 +36,7 @@ export class CoSpecialCard extends LitElement {
         const dialogEl = document.createElement('sl-dialog');
         dialogEl.className = "special-dialog"
         const dialogContent = html`
-        <h2>Test</h2>
+            <h2>Test</h2>
         `;
         render(dialogContent, dialogEl)
 
@@ -46,8 +49,13 @@ export class CoSpecialCard extends LitElement {
         })
     }
 
-    addFavHandler() {
-        alert("add to fave")
+    async addFavHandler() {
+        try {
+            await User.addFavSpecial(this.id)
+            Toast.show('Haircut added to favourites')
+        } catch (err) {
+            Toast.show(err, 'error')
+        }
     }
 
     render() {
@@ -55,7 +63,7 @@ export class CoSpecialCard extends LitElement {
             <sl-card class="card-overview">
                 <img
                         slot="image"
-                        src="${this.image}"
+                        src="${App.apiBase}/images/${this.image}"
                         alt="An image of the special drink."
                 />
 
@@ -68,9 +76,9 @@ export class CoSpecialCard extends LitElement {
                     <sl-icon-button name="balloon-heart" label="Favourites" @click="${this.addFavHandler.bind(this)}"></sl-icon-button>
                 </div>
             </sl-card>
-        `;
+        `
     }
 }
 
-customElements.define('co-special-card', CoSpecialCard);
+customElements.define('co-special-card', CoSpecialCard)
 

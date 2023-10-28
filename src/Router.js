@@ -9,7 +9,7 @@ import guideView from './views/pages/guide'
 import baristasView from './views/pages/baristas'
 import favouriteDrinksView from './views/pages/favouriteDrinks'
 import menuView from './views/pages/menu'
-import specialsView from './views/pages/specials'
+import mySpecialsView from './views/pages/mySpecials'
 import createSpecialView from './views/pages/createSpecial'
 
 // define routes
@@ -22,7 +22,7 @@ const routes = {
 	'/editProfile': editProfileView,
 	'/menu': menuView,
 	'/baristas': baristasView,
-	'/specials': specialsView,
+	'/mySpecials': mySpecialsView,
 	'/favouriteDrinks': favouriteDrinksView,
 	'/guide': guideView,
 	'/createSpecial': createSpecialView

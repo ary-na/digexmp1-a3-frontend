@@ -1,6 +1,4 @@
 import App from '../App'
-import Auth from './Auth'
-import Toast from '../Toast'
 
 class User {
 
@@ -71,6 +69,32 @@ class User {
 
     // return data
     return data
+  }
+
+  async addFavSpecial(specialId){
+    // validate
+    if(!specialId) return
+
+    // fetch the json data
+    const response = await fetch(`${App.apiBase}/user/addFavSpecial`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${localStorage.accessToken}`, "Content-Type": 'application/json'},
+      body: JSON.stringify({specialId: specialId})
+    })
+
+    // if response not ok
+    if(!response.ok){
+      // console log error
+      const err = await response.json()
+      if(err) console.log(err)
+      // throw error (exit this function)
+      throw new Error('Problem adding special to favourites')
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json()
+
   }
 }
 

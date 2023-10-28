@@ -13,7 +13,7 @@ class BaristasView {
 
   render(){
     const template = html`
-      <co-app-header title="Profile" user="${JSON.stringify(Auth.currentUser)}"></co-app-header>
+      <co-app-header user="${JSON.stringify(Auth.currentUser)}"></co-app-header>
       <div class="page-content">        
         <h1>Baristas</h1>
         <p>Page content ...</p>

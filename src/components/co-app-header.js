@@ -14,7 +14,7 @@ export class CoAppHeader extends LitElement {
       }
 
       .app-header {
-        padding: var(--sl-spacing-x-small);
+        padding: var(--sl-spacing-x-small) 0;
         background-color: var(--body-bg);
         border-bottom: var(--link-color) 1px solid;
         display: flex;
@@ -101,8 +101,12 @@ export class CoAppHeader extends LitElement {
         --size: 2em;
       }
 
+      .avatar::part(image) {
+        border: 1px var(--brand-color) solid;
+      }
+
       sl-dropdown {
-        margin-right: var(--sl-spacing-2x-small);
+        margin-right: 6px;
       }
 
       /* Responsive - Mobile ------------------------------------------------------ */
@@ -115,12 +119,11 @@ export class CoAppHeader extends LitElement {
     `;
 
     static properties = {
-        title: {type: String},
         user: {type: Object},
-    };
+    }
 
     constructor() {
-        super();
+        super()
     }
 
     firstUpdated(_changedProperties) {
@@ -170,14 +173,12 @@ export class CoAppHeader extends LitElement {
                     <sl-dropdown>
                         <sl-menu>
                             <sl-menu-item @click="${() => gotoRoute('/profile')}">Profile</sl-menu-item>
-                            ${this.user.accessLevel === 2 ? 
-                                    html`<sl-menu-item @click="${() => gotoRoute('/createSpecial')}">Create Special</sl-menu-item>` : 
-                                    html``}
                             <sl-menu-item @click="${() => gotoRoute('/editProfile')}">Edit Profile</sl-menu-item>
                             <sl-menu-item @click="${() => Auth.logout()}">Logout</sl-menu-item>
                         </sl-menu>
                         <a title="Profile" slot="trigger" href="#" @click="${(e) => e.preventDefault()}">
-                            <sl-avatar image=${(this.user && this.user.avatar) ? `${App.apiBase}/images/${this.user.avatar}` : ''}></sl-avatar>
+                            <sl-avatar class="avatar"
+                                       image=${(this.user && this.user.avatar) ? `${App.apiBase}/images/${this.user.avatar}` : ''}></sl-avatar>
                             ${this.user && this.user.firstName}
                         </a>
                     </sl-dropdown>
@@ -189,14 +190,18 @@ export class CoAppHeader extends LitElement {
                 <nav class="app-drawer-menu-items">
                     <ul>
                         <li><a title="Home" href="/" @click="${this.menuClick}">Home</a></li>
-                        <li><a title="Specials" href="/specials" @click="${this.menuClick}">Specials</a></li>
+                        ${this.user.accessLevel === 2 ? html`
+                            <li><a title="My specials" href="/mySpecials" @click="${this.menuClick}">My specials</a>
+                            </li>` : html`
+                            <li><a title="Specials" href="/specials" @click="${this.menuClick}">Specials</a>`}
                         <li><a title="Profile" href="/profile" @click="${this.menuClick}">Profile</a></li>
                         <li><a title="Logout" href="#" @click="${() => Auth.logout()}">Logout</a></li>
                     </ul>
                 </nav>
-                <img slot="footer" class="align-self-start app-drawer-logo" src="/images/logo-white-alternate.svg" alt="This is an image of the coffee on café logo.">
+                <img slot="footer" class="align-self-start app-drawer-logo" src="/images/logo-white-alternate.svg"
+                     alt="This is an image of the coffee on café logo.">
             </sl-drawer>
-        `;
+        `
     }
 }
 
