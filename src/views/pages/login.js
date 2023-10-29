@@ -31,7 +31,7 @@ class LoginView {
                     <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 bg-white shadow-sm rounded-1 my-auto p-5">
                         <img class="logo-size d-block mx-auto mb-5" src="/images/logo-primary.svg" alt="This is an image of the coffee on café logo.">
                         <h1>Welcome back!</h1>
-                        <p class="small text-muted mb-5">Log in to your account to continue.</p>
+                        <p class="small brand-color mb-5">Log in to your account to continue.</p>
                         <form class="d-flex flex-column gap-3 mb-3" @submit=${this.loginSubmitHandler}>
                             <sl-input name="email" type="email" label="Email" placeholder="Enter your email..." required></sl-input>
                             <sl-input name="password" type="password" label="Password" placeholder="Enter your password..." required password-toggle></sl-input>

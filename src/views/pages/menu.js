@@ -1,6 +1,6 @@
 import App from './../../App'
 import {html, render } from 'lit-html'
-import {gotoRoute, anchorRoute} from './../../Router'
+import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
 

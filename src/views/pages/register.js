@@ -32,7 +32,7 @@ class RegisterView {
                     <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 bg-white shadow-sm rounded-1 my-auto p-5">
                         <img class="logo-size d-block mx-auto mb-5" src="/images/logo-primary.svg" alt="This is an image of the coffee on café logo.">
                         <h1>Welcome!</h1>
-                        <p class="small text-muted mb-5">To get started, create an account.</p>
+                        <p class="small brand-color mb-5">To get started, create an account.</p>
                         <form class="d-flex flex-column gap-3 mb-3" @submit=${this.registerSubmitHandler}>
                             <sl-select name="accessLevel" label="Account type" placeholder="Select an account type..." value="1" required>
                                 <sl-option value="1">Customer</sl-option>

@@ -6,6 +6,16 @@ sl-dialog::part(title){
   font-size: 1.6em;
 }
 
+// sl-avatar
+
+sl-avatar {
+  --size: 5em;
+}
+
+.avatar::part(image) {
+  border: 2px var(--brand-color) solid;
+}
+
 
 // RESPONSIVE - MOBILE -------------------
 @media all and (max-width: 768px){ 

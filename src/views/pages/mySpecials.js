@@ -8,14 +8,15 @@ import Toast from "../../Toast";
 
 class MySpecialsView {
     async init() {
-        if (Auth.currentUser.accessLevel === 2)
+        if (Auth.currentUser.accessLevel === 1)
             gotoRoute('/404')
-
-        document.title = `${App.name} - My specials`
-        this.specials = null
-        await this.getSpecials()
-        this.render()
-        Utils.pageIntroAnim()
+        else {
+            document.title = `${App.name} - My specials`
+            this.specials = null
+            await this.getSpecials()
+            this.render()
+            Utils.pageIntroAnim()
+        }
     }
 
     async getSpecials() {
@@ -33,9 +34,9 @@ class MySpecialsView {
             <div class="row my-4 justify-content-center">
                 <div class="row col-xs-12 col-sm-10">
                     <div class="col-11">
-                    <h1>My specials</h1>
-                    <p class="small mb-0 brand-color">View, modify or delete your specials. Keep your
-                        specials up to date to make the most money by earning commissions.</p>
+                        <h1>My specials</h1>
+                        <p class="small mb-0 brand-color">View, modify or delete your specials. Keep your
+                            specials up to date to make the most money by earning commissions.</p>
                     </div>
                     <div class="col-1 mt-auto d-flex justify-content-end">
                         <a href="/createSpecial" @click=${anchorRoute}>Create</a>

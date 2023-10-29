@@ -124,6 +124,14 @@ sl-dialog::part(title) {
   font-size: 1.6em;
 }
 
+sl-avatar {
+  --size: 5em;
+}
+
+.avatar::part(image) {
+  border: 2px var(--brand-color) solid;
+}
+
 @media all and (max-width: 768px) {
   sl-dialog::part(panel) {
     width: 100%;

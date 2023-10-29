@@ -46,26 +46,32 @@ class EditProfileView {
 
   render(){
     const template = html`
-      <co-app-header title="Edit Profile" user=${JSON.stringify(Auth.currentUser)}></co-app-header>
-      <div class="page-content">        
+      <co-app-header user=${JSON.stringify(Auth.currentUser)}></co-app-header>
+      <div class="row my-4 justify-content-center">
         ${(this.user == null) ? html`
           <sl-spinner></sl-spinner>
         `:html`
-          <p>Updated: ${moment(Auth.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a')}</p>
-          <form class="page-form" @submit=${this.updateProfileSubmitHandler.bind(this)}>
-              <sl-input type="text" name="firstName" value="${this.user.firstName}" placeholder="First Name"></sl-input>
-              <sl-input type="text" name="lastName" value="${this.user.lastName}" placeholder="Last Name"></sl-input>
-              <sl-input type="text" name="email" value="${this.user.email}" placeholder="Email Address"></sl-input>
-              <label>Avatar</label><br>          
-              ${(this.user.avatar) ? html`
-                <sl-avatar image="${App.apiBase}/images/${this.user.avatar}"></sl-avatar>
-                <input type="file" name="avatar" />
-              `: html`
-                <input type="file" name="avatar" />
-              `}
-            <sl-textarea name="bio" label="bio" value="${this.user.bio}"></sl-textarea>
-            <sl-button type="submit" variant="primary" class="submit-btn">Update Profile</sl-button>
-          </form>
+            <div class="col-xs-12 col-sm-10">
+                <h1>Edit profile</h1>
+                <p class="small mb-4 brand-color">If your details need to be corrected, edit your profile to keep your details up to date.</p>
+
+                <form class="row gy-3 mt-0" @submit=${this.updateProfileSubmitHandler.bind(this)}>
+                    <sl-input class="col-md-6" type="text" label="First name" name="firstName" value="${this.user.firstName}" placeholder="Enter your first name..." required></sl-input>
+                    <sl-input class="col-md-6" type="text" label="Last name" name="lastName" value="${this.user.lastName}" placeholder="Enter your last name..." required></sl-input>
+                    <sl-input class="col-md-6" type="text" label="Email" name="email" value="${this.user.email}" placeholder="Enter your email..." required></sl-input>
+
+                    <div class="col-md-6">
+                        <label for="formFile" class="form-label mb-1">Upload an avatar</label>
+                        <input class="form-control" name="avatar" type="file" id="formFile">
+                    </div>
+
+                    <sl-textarea name="bio" label="Bio" placeholder="Enter a short bio about yourself..." value="${this.user.bio}"></sl-textarea>
+
+                    <sl-button class="ms-auto col-md-2" @click="${() => gotoRoute('/profile')}">Back</sl-button>
+                    <sl-button type="submit" variant="primary" class="col-md-2 submit-btn">Update</sl-button>
+                </form>
+
+                <p class="mt-4 text-muted small">Updated: ${moment(Auth.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a')}</p>
         `}
       </div>
     `
