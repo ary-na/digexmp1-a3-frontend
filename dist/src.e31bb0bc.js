@@ -11908,6 +11908,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _App = _interopRequireDefault(require("../App"));
+var _Auth = _interopRequireDefault(require("./Auth"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 class User {
   async updateUser(userId, userData) {
@@ -11952,10 +11953,8 @@ class User {
     }
 
     // convert response payload into json - store as data
-    const data = await response.json();
-
     // return data
-    return data;
+    return await response.json();
   }
   async getUser(userId) {
     // validate
@@ -11975,21 +11974,38 @@ class User {
       const err = await response.json();
       if (err) console.log(err);
       // throw error (exit this function)
-      throw new Error('Problem getting user');
+      throw new Error('Problem getting user!');
     }
 
     // convert response payload into json - store as data
-    const data = await response.json();
-
     // return data
-    return data;
+    return await response.json();
   }
-  async addFavSpecial(specialId) {
+  async getUsersByAccess() {
+    let accessLevel = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 2;
+    // Fetch baristas from the db
+    const response = await fetch("".concat(_App.default.apiBase, "/user/access/").concat(accessLevel), {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+    if (!response.ok) {
+      const err = await response.json();
+      if (err) console.log(err);
+      throw new Error('Problem getting users!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async addFavouriteSpecial(specialId) {
     // validate
     if (!specialId) return;
 
     // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/user/addFavSpecial"), {
+    const response = await fetch("".concat(_App.default.apiBase, "/user/add/favouriteSpecial"), {
       method: "PUT",
       headers: {
         "Authorization": "Bearer ".concat(localStorage.accessToken),
@@ -12013,9 +12029,67 @@ class User {
     // return data
     return await response.json();
   }
+  async addFavouriteBarista(userId) {
+    // validate
+    if (!userId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/user/add/favouriteBarista"), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken),
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+        userId: userId
+      })
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem adding barista to favourites!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async removeFavouriteBarista(userId) {
+    // validate
+    if (!userId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/user/remove/favouriteBarista"), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken),
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+        userId: userId
+      })
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem removing barista from favourites!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
 }
 var _default = exports.default = new User();
-},{"../App":"App.js"}],"views/pages/editProfile.js":[function(require,module,exports) {
+},{"../App":"App.js","./Auth":"api/Auth.js"}],"views/pages/editProfile.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12121,25 +12195,40 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _App = _interopRequireDefault(require("./../../App"));
 var _litHtml = require("lit-html");
-var _Router = require("./../../Router");
+var _Router = require("../../Router");
 var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
-var _templateObject;
+var _User = _interopRequireDefault(require("../../api/User"));
+var _Toast = _interopRequireDefault(require("../../Toast"));
+var _templateObject, _templateObject2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class BaristasView {
-  init() {
+  async init() {
+    if (_Auth.default.currentUser.accessLevel === 2) (0, _Router.gotoRoute)('/404');
     document.title = "".concat(_App.default.name, " - Baristas");
+    this.baristas = null;
+    await this.getBaristas();
     this.render();
     _Utils.default.pageIntroAnim();
   }
+  async getBaristas() {
+    try {
+      this.baristas = await _User.default.getUsersByAccess();
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  isFavouriteBarista(id) {
+    if (_Auth.default.currentUser.favouriteBaristas.includes(id)) return 1;else return 0;
+  }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <co-app-header user=\"", "\"></co-app-header>\n      <div class=\"page-content\">        \n        <h1>Baristas</h1>\n        <p>Page content ...</p>\n        \n      </div>      \n    "])), JSON.stringify(_Auth.default.currentUser));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Baristas</h1>\n                    <p class=\"small mb-0 brand-color\">View our baristas and add them to your list of favourite\n                        baristas.</p>\n                </div>\n\n                <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                    ", "\n                    <div>\n\n\n                    </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.baristas.map(barista => (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                                <co-barista-card class=\"col-md-12 col-lg-6\"\n                                                 id=\"", "\"\n                                                 firstName=\"", "\"\n                                                 lastName=\"", "\"\n                                                 avatar=\"", "\"\n                                                 bio=\"", "\"\n                                                 favourite=\"", "\"></co-barista-card>\n                            "])), barista._id, barista.firstName, barista.lastName, barista.avatar, barista.bio, this.isFavouriteBarista(barista._id))));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new BaristasView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","./../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js"}],"views/pages/favouriteDrinks.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/User":"api/User.js","../../Toast":"Toast.js"}],"views/pages/favouriteDrinks.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12281,7 +12370,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class MySpecialsView {
   async init() {
-    if (_Auth.default.currentUser.accessLevel === 1) (0, _Router.gotoRoute)('/404');
+    if (_Auth.default.currentUser.accessLevel === 2) (0, _Router.gotoRoute)('/404');
     document.title = "".concat(_App.default.name, " - My specials");
     this.specials = null;
     await this.getSpecials();
@@ -13664,7 +13753,7 @@ class CoAppHeader extends _lit.LitElement {
     });
   }
   render() {
-    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <header class=\"app-header\">\n\n                <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\"></sl-icon-button>\n\n                <a class=\"app-header-logo\" title=\"Home\" href=\"/\" @click=\"", "\">\n                    <img src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                </a>\n\n                <nav class=\"app-header-top-nav\">\n                    <sl-dropdown>\n                        <sl-menu>\n                            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Logout</sl-menu-item>\n                        </sl-menu>\n                        <a title=\"Profile\" slot=\"trigger\" href=\"#\" @click=\"", "\">\n                            <sl-avatar class=\"avatar\"\n                                       image=", "></sl-avatar>\n                            ", "\n                        </a>\n                    </sl-dropdown>\n                </nav>\n\n            </header>\n\n            <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n                <nav class=\"app-drawer-menu-items\">\n                    <ul>\n                        <li><a title=\"Home\" href=\"/\" @click=\"", "\">Home</a></li>\n                        ", "\n                        <li><a title=\"Profile\" href=\"/profile\" @click=\"", "\">Profile</a></li>\n                        <li><a title=\"Logout\" href=\"#\" @click=\"", "\">Logout</a></li>\n                    </ul>\n                </nav>\n                <img slot=\"footer\" class=\"align-self-start app-drawer-logo\" src=\"/images/logo-white-alternate.svg\"\n                     alt=\"This is an image of the coffee on caf\xE9 logo.\">\n            </sl-drawer>\n        "])), this.hamburgerClick, _Router.anchorRoute, () => (0, _Router.gotoRoute)('/profile'), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.logout(), e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, this.user.firstName, this.menuClick, this.user.accessLevel === 2 ? (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <li><a title=\"My specials\" href=\"/mySpecials\" @click=\"", "\">My specials</a>\n                            </li>"])), this.menuClick) : (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <li><a title=\"Specials\" href=\"/specials\" @click=\"", "\">Specials</a>"])), this.menuClick), this.menuClick, () => _Auth.default.logout());
+    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <header class=\"app-header\">\n\n                <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\"></sl-icon-button>\n\n                <a class=\"app-header-logo\" title=\"Home\" href=\"/\" @click=\"", "\">\n                    <img src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                </a>\n\n                <nav class=\"app-header-top-nav\">\n                    <sl-dropdown>\n                        <sl-menu>\n                            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Logout</sl-menu-item>\n                        </sl-menu>\n                        <a title=\"Profile\" slot=\"trigger\" href=\"#\" @click=\"", "\">\n                            <sl-avatar class=\"avatar\"\n                                       image=", "></sl-avatar>\n                            ", "\n                        </a>\n                    </sl-dropdown>\n                </nav>\n\n            </header>\n\n            <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n                <nav class=\"app-drawer-menu-items\">\n                    <ul>\n                        <li><a title=\"Home\" href=\"/\" @click=\"", "\">Home</a></li>\n                        ", "\n                        <li><a title=\"Profile\" href=\"/profile\" @click=\"", "\">Profile</a></li>\n                        <li><a title=\"Logout\" href=\"#\" @click=\"", "\">Logout</a></li>\n                    </ul>\n                </nav>\n                <img slot=\"footer\" class=\"align-self-start app-drawer-logo\" src=\"/images/logo-white-alternate.svg\"\n                     alt=\"This is an image of the coffee on caf\xE9 logo.\">\n            </sl-drawer>\n        "])), this.hamburgerClick, _Router.anchorRoute, () => (0, _Router.gotoRoute)('/profile'), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.logout(), e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, this.user.firstName, this.menuClick, this.user.accessLevel === 2 ? (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <li><a title=\"My specials\" href=\"/mySpecials\" @click=\"", "\">My specials</a>\n                            </li>"])), this.menuClick) : (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <li><a title=\"Baristas\" href=\"/baristas\" @click=\"", "\">Baristas</a>\n                            <li><a title=\"Specials\" href=\"/specials\" @click=\"", "\">Specials</a>\n                        "])), this.menuClick, this.menuClick), this.menuClick, () => _Auth.default.logout());
   }
 }
 exports.CoAppHeader = CoAppHeader;
@@ -13716,8 +13805,8 @@ class CoSpecialCard extends _lit.LitElement {
   }
   async addFavHandler() {
     try {
-      await _User.default.addFavSpecial(this.id);
-      _Toast.default.show('Haircut added to favourites');
+      await _User.default.addFavouriteSpecial(this.id);
+      _Toast.default.show('Special added to favourites!');
     } catch (err) {
       _Toast.default.show(err, 'error');
     }
@@ -13755,6 +13844,77 @@ _defineProperty(CoSpecialCard, "properties", {
   }
 });
 customElements.define('co-special-card', CoSpecialCard);
+},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js","../Toast":"Toast.js"}],"components/co-barista-card.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CoBaristaCard = void 0;
+var _lit = require("lit");
+var _Router = require("../Router");
+var _Auth = _interopRequireDefault(require("./../api/Auth"));
+var _App = _interopRequireDefault(require("./../App"));
+var _User = _interopRequireDefault(require("../api/User"));
+var _Toast = _interopRequireDefault(require("../Toast"));
+var _templateObject, _templateObject2, _templateObject3, _templateObject4;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+class CoBaristaCard extends _lit.LitElement {
+  constructor() {
+    super();
+  }
+  firstUpdated(_changedProperties) {
+    super.firstUpdated(_changedProperties);
+  }
+  async addFavouriteHandler() {
+    try {
+      await _User.default.addFavouriteBarista(this.id);
+      _Toast.default.show('Barista added to your favourites!');
+      this.favourite = 1;
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  async removeFavouriteHandler() {
+    try {
+      await _User.default.removeFavouriteBarista(this.id);
+      _Toast.default.show('Barista removed from your favourites!');
+      this.favourite = 0;
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  render() {
+    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <sl-card class=\"card-basic\">\n                <div class=\"card-body\">\n                    <img src=\"", "/images/", "\" alt=\"An image of the barista.\"/>\n                    <div>\n                        <div class=\"card-header\">\n                            <h2>", " ", "</h2>\n                            ", "\n                        </div>\n                        <p>", "</p>\n                    </div>\n                </div>\n            </sl-card>\n        "])), _App.default.apiBase, this.avatar, this.firstName, this.lastName, this.favourite === 1 ? (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                                        <sl-icon-button name=\"heart-fill\" title=\"Remove from favourites\"\n                                                        label=\"Remove from favourite baristas\"\n                                                        @click=\"", "\"></sl-icon-button>"])), this.removeFavouriteHandler.bind(this)) : (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                                        <sl-icon-button name=\"heart\" title=\"Add to favourites\"\n                                                        label=\"Add to favourite baristas\"\n                                                        @click=\"", "\"></sl-icon-button>"])), this.addFavouriteHandler.bind(this)), this.bio);
+  }
+}
+exports.CoBaristaCard = CoBaristaCard;
+_defineProperty(CoBaristaCard, "styles", (0, _lit.css)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n      sl-card {\n        width: 100%;\n      }\n\n      .card-body {\n        display: flex;\n        align-items: center;\n        gap: var(--sl-spacing-large);\n      }\n\n      .card-body img {\n        min-width: 100px;\n        height: 100px;\n        object-fit: cover;\n        border: 1px var(--brand-color) solid;\n        border-radius: var(--sl-border-radius-circle);\n      }\n\n      .card-body div {\n        margin-top: 0;\n        flex-grow: 1;\n      }\n\n      .card-header {\n        display: flex;\n        align-items: center;\n        justify-content: space-between;\n      }\n    "]))));
+_defineProperty(CoBaristaCard, "properties", {
+  id: {
+    type: String
+  },
+  firstName: {
+    type: String
+  },
+  lastName: {
+    type: String
+  },
+  avatar: {
+    type: String
+  },
+  bio: {
+    type: String
+  },
+  favourite: {
+    type: Number
+  }
+});
+customElements.define('co-barista-card', CoBaristaCard);
 },{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js","../Toast":"Toast.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
@@ -13816,6 +13976,7 @@ module.hot.accept(reloadCSS);
 var _App = _interopRequireDefault(require("./App.js"));
 require("./components/co-app-header");
 require("./components/co-special-card");
+require("./components/co-barista-card");
 require("./scss/master.scss");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 // components (custom web components)
@@ -13826,7 +13987,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener('DOMContentLoaded', () => {
   _App.default.init();
 });
-},{"./App.js":"App.js","./components/co-app-header":"components/co-app-header.js","./components/co-special-card":"components/co-special-card.js","./scss/master.scss":"scss/master.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./App.js":"App.js","./components/co-app-header":"components/co-app-header.js","./components/co-special-card":"components/co-special-card.js","./components/co-barista-card":"components/co-barista-card.js","./scss/master.scss":"scss/master.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

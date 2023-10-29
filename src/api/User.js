@@ -1,4 +1,6 @@
 import App from '../App'
+import auth from "./Auth";
+import Auth from "./Auth";
 
 class User {
 
@@ -39,10 +41,8 @@ class User {
     }
 
     // convert response payload into json - store as data
-    const data = await response.json()
-
     // return data
-    return data
+    return await response.json()
   }
 
   async getUser(userId){
@@ -61,22 +61,40 @@ class User {
       const err = await response.json()
       if(err) console.log(err)
       // throw error (exit this function)
-      throw new Error('Problem getting user')
+      throw new Error('Problem getting user!')
     }
 
     // convert response payload into json - store as data
-    const data = await response.json()
-
     // return data
-    return data
+    return await response.json()
   }
 
-  async addFavSpecial(specialId){
+  async getUsersByAccess(accessLevel = 2) {
+
+    // Fetch baristas from the db
+    const response = await fetch(`${App.apiBase}/user/access/${accessLevel}`, {
+      method: "GET",
+      headers: { "Authorization": `Bearer ${localStorage.accessToken}`}
+    })
+
+    if(!response.ok){
+      const err = await response.json()
+      if (err) console.log(err)
+      throw new Error('Problem getting users!')
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json()
+  }
+
+
+  async addFavouriteSpecial(specialId){
     // validate
     if(!specialId) return
 
     // fetch the json data
-    const response = await fetch(`${App.apiBase}/user/addFavSpecial`, {
+    const response = await fetch(`${App.apiBase}/user/add/favouriteSpecial`, {
       method: "PUT",
       headers: { "Authorization": `Bearer ${localStorage.accessToken}`, "Content-Type": 'application/json'},
       body: JSON.stringify({specialId: specialId})
@@ -89,6 +107,58 @@ class User {
       if(err) console.log(err)
       // throw error (exit this function)
       throw new Error('Problem adding special to favourites')
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json()
+
+  }
+
+  async addFavouriteBarista(userId){
+    // validate
+    if(!userId) return
+
+    // fetch the json data
+    const response = await fetch(`${App.apiBase}/user/add/favouriteBarista`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${localStorage.accessToken}`, "Content-Type": 'application/json'},
+      body: JSON.stringify({userId: userId})
+    })
+
+    // if response not ok
+    if(!response.ok){
+      // console log error
+      const err = await response.json()
+      if(err) console.log(err)
+      // throw error (exit this function)
+      throw new Error('Problem adding barista to favourites!')
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json()
+
+  }
+
+  async removeFavouriteBarista(userId){
+    // validate
+    if(!userId) return
+
+    // fetch the json data
+    const response = await fetch(`${App.apiBase}/user/remove/favouriteBarista`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${localStorage.accessToken}`, "Content-Type": 'application/json'},
+      body: JSON.stringify({userId: userId})
+    })
+
+    // if response not ok
+    if(!response.ok){
+      // console log error
+      const err = await response.json()
+      if(err) console.log(err)
+      // throw error (exit this function)
+      throw new Error('Problem removing barista from favourites!')
     }
 
     // convert response payload into json - store as data

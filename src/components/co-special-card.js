@@ -51,8 +51,8 @@ export class CoSpecialCard extends LitElement {
 
     async addFavHandler() {
         try {
-            await User.addFavSpecial(this.id)
-            Toast.show('Haircut added to favourites')
+            await User.addFavouriteSpecial(this.id)
+            Toast.show('Special added to favourites!')
         } catch (err) {
             Toast.show(err, 'error')
         }

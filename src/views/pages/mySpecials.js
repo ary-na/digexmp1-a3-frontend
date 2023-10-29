@@ -8,7 +8,7 @@ import Toast from "../../Toast";
 
 class MySpecialsView {
     async init() {
-        if (Auth.currentUser.accessLevel === 1)
+        if (Auth.currentUser.accessLevel === 2)
             gotoRoute('/404')
 
         document.title = `${App.name} - My specials`
@@ -42,16 +42,14 @@ class MySpecialsView {
                     </div>
                 </div>
 
-                ${Object.keys(this.specials).length === 0 ?
-                        html`
+                ${Object.keys(this.specials).length === 0 ? html`
                             <div class="col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1">
                                 <h2>You do not have any specials.</h2>
                                 <p class="small text-muted mb-0">Create a special coffee drink for customers to showcase your
                                     expertise.</p>
                             </div>
                         `
-                        :
-                        html`
+                        : html`
                             <div class="col-xs-12 col-sm-10 row g-4 mt-0">
                                 ${this.specials.map(special => html`
                                             <co-special-card class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"
