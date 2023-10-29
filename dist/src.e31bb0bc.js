@@ -12022,7 +12022,36 @@ class User {
       const err = await response.json();
       if (err) console.log(err);
       // throw error (exit this function)
-      throw new Error('Problem adding special to favourites');
+      throw new Error('Problem adding special to favourites!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async removeFavouriteSpecial(specialId) {
+    // validate
+    if (!specialId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/user/remove/favouriteSpecial"), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken),
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+        specialId: specialId
+      })
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem removing special from favourites!');
     }
 
     // convert response payload into json - store as data
@@ -12324,6 +12353,25 @@ class Special {
     // convert response payload into json - return data
     return await response.json();
   }
+  async getMySpecials(userId) {
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/special/").concat(userId), {
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting my specials!');
+    }
+    // convert response payload into json - return data
+    return await response.json();
+  }
   async createSpecial(formData) {
     // send fetch request
     const response = await fetch("".concat(_App.default.apiBase, "/special"), {
@@ -12349,6 +12397,26 @@ class Special {
     // return data
     return await response.json();
   }
+  async removeSpecial(specialId) {
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/special/").concat(specialId), {
+      method: 'DELETE',
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting my specials!');
+    }
+    // convert response payload into json - return data
+    return await response.json();
+  }
 }
 var _default = exports.default = new Special();
 },{"../App":"App.js"}],"views/pages/mySpecials.js":[function(require,module,exports) {
@@ -12372,6 +12440,46 @@ class MySpecialsView {
   async init() {
     if (_Auth.default.currentUser.accessLevel === 1) (0, _Router.gotoRoute)('/404');else {
       document.title = "".concat(_App.default.name, " - My specials");
+      this.mySpecials = null;
+      await this.getMySpecials(_Auth.default.currentUser._id);
+      this.render();
+      _Utils.default.pageIntroAnim();
+    }
+  }
+  async getMySpecials(userId) {
+    try {
+      this.mySpecials = await _Special.default.getMySpecials(userId);
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  render() {
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <div class=\"col-11\">\n                        <h1>My specials</h1>\n                        <p class=\"small mb-0 brand-color\">View, modify or delete your specials. Keep your\n                            specials up to date to make the most money by earning commissions.</p>\n                    </div>\n                    <div class=\"col-1 mt-auto d-flex justify-content-end\">\n                        <a href=\"/createSpecial\" @click=", ">Create</a>\n                    </div>\n                </div>\n\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), _Router.anchorRoute, Object.keys(this.mySpecials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                <h2>You do not have any specials.</h2>\n                                <p class=\"small text-muted mb-0\">Create a special coffee drink for customers to showcase your\n                                    expertise.</p>\n                            </div>\n                        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                ", "\n                                <div>\n                        "])), this.mySpecials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                            <co-special-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                             id=\"", "\"\n                                                             name=\"", "\"\n                                                             description=\"", "\"\n                                                             price=\"", "\"\n                                                             user=\"", "\"\n                                                             image=\"", "\"\n                                                             drinkType=\"", "\"\n                                                             brewMethod=\"", "\"></co-special-card>\n                                        "])), special._id, special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod))));
+    (0, _litHtml.render)(template, _App.default.rootEl);
+  }
+}
+var _default = exports.default = new MySpecialsView();
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Special":"api/Special.js","../../Toast":"Toast.js"}],"views/pages/specials.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _App = _interopRequireDefault(require("./../../App"));
+var _litHtml = require("lit-html");
+var _Router = require("../../Router");
+var _Auth = _interopRequireDefault(require("../../api/Auth"));
+var _Utils = _interopRequireDefault(require("./../../Utils"));
+var _Special = _interopRequireDefault(require("../../api/Special"));
+var _Toast = _interopRequireDefault(require("../../Toast"));
+var _templateObject, _templateObject2, _templateObject3, _templateObject4;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+class SpecialsView {
+  async init() {
+    if (_Auth.default.currentUser.accessLevel === 2) (0, _Router.gotoRoute)('/404');else {
+      document.title = "".concat(_App.default.name, " - Specials");
       this.specials = null;
       await this.getSpecials();
       this.render();
@@ -12385,12 +12493,15 @@ class MySpecialsView {
       _Toast.default.show(err, 'error');
     }
   }
+  isFavouriteSpecial(id) {
+    if (_Auth.default.currentUser.favouriteSpecials.includes(id)) return 1;else return 0;
+  }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <div class=\"col-11\">\n                        <h1>My specials</h1>\n                        <p class=\"small mb-0 brand-color\">View, modify or delete your specials. Keep your\n                            specials up to date to make the most money by earning commissions.</p>\n                    </div>\n                    <div class=\"col-1 mt-auto d-flex justify-content-end\">\n                        <a href=\"/createSpecial\" @click=", ">Create</a>\n                    </div>\n                </div>\n\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), _Router.anchorRoute, Object.keys(this.specials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                <h2>You do not have any specials.</h2>\n                                <p class=\"small text-muted mb-0\">Create a special coffee drink for customers to showcase your\n                                    expertise.</p>\n                            </div>\n                        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                ", "\n                                <div>\n                        "])), this.specials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                            <co-special-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                             id=\"", "\"\n                                                             name=\"", "\"\n                                                             description=\"", "\"\n                                                             price=\"", "\"\n                                                             user=\"", "\"\n                                                             image=\"", "\"\n                                                             drinkType=\"", "\"\n                                                             brewMethod=\"", "\"></co-special-card>\n                                        "])), special._id, special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod))));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Specials</h1>\n                    <p class=\"small mb-0 brand-color\">View and order special drinks created by our talented baristas. You can also add them to your favourites.</p>\n                </div>\n\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), Object.keys(this.specials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                <h2>We do not have any special drinks at the moment.</h2>\n                                <p class=\"small text-muted mb-0\">Check back later, as we may have a pleasant surprise for you.</p>\n                            </div>\n                        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                ", "\n                                <div>\n                        "])), this.specials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                            <co-special-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                             id=\"", "\"\n                                                             name=\"", "\"\n                                                             description=\"", "\"\n                                                             price=\"", "\"\n                                                             user=\"", "\"\n                                                             image=\"", "\"\n                                                             drinkType=\"", "\"\n                                                             brewMethod=\"", "\"\n                                                             favourite=\"", "\">\n                                            </co-special-card>\n                                        "])), special._id, special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod, this.isFavouriteSpecial(special._id)))));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
-var _default = exports.default = new MySpecialsView();
+var _default = exports.default = new SpecialsView();
 },{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Special":"api/Special.js","../../Toast":"Toast.js"}],"views/pages/createSpecial.js":[function(require,module,exports) {
 "use strict";
 
@@ -12461,6 +12572,7 @@ var _baristas = _interopRequireDefault(require("./views/pages/baristas"));
 var _favouriteDrinks = _interopRequireDefault(require("./views/pages/favouriteDrinks"));
 var _menu = _interopRequireDefault(require("./views/pages/menu"));
 var _mySpecials = _interopRequireDefault(require("./views/pages/mySpecials"));
+var _specials = _interopRequireDefault(require("./views/pages/specials"));
 var _createSpecial = _interopRequireDefault(require("./views/pages/createSpecial"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 // import views
@@ -12476,6 +12588,7 @@ const routes = {
   '/menu': _menu.default,
   '/baristas': _baristas.default,
   '/mySpecials': _mySpecials.default,
+  '/specials': _specials.default,
   '/favouriteDrinks': _favouriteDrinks.default,
   '/guide': _guide.default,
   '/createSpecial': _createSpecial.default
@@ -12524,7 +12637,7 @@ function anchorRoute(e) {
   const pathname = e.target.closest('a').pathname;
   AppRouter.gotoRoute(pathname);
 }
-},{"./views/pages/home":"views/pages/home.js","./views/pages/404":"views/pages/404.js","./views/pages/login":"views/pages/login.js","./views/pages/register":"views/pages/register.js","./views/pages/profile":"views/pages/profile.js","./views/pages/editProfile":"views/pages/editProfile.js","./views/pages/guide":"views/pages/guide.js","./views/pages/baristas":"views/pages/baristas.js","./views/pages/favouriteDrinks":"views/pages/favouriteDrinks.js","./views/pages/menu":"views/pages/menu.js","./views/pages/mySpecials":"views/pages/mySpecials.js","./views/pages/createSpecial":"views/pages/createSpecial.js"}],"App.js":[function(require,module,exports) {
+},{"./views/pages/home":"views/pages/home.js","./views/pages/404":"views/pages/404.js","./views/pages/login":"views/pages/login.js","./views/pages/register":"views/pages/register.js","./views/pages/profile":"views/pages/profile.js","./views/pages/editProfile":"views/pages/editProfile.js","./views/pages/guide":"views/pages/guide.js","./views/pages/baristas":"views/pages/baristas.js","./views/pages/favouriteDrinks":"views/pages/favouriteDrinks.js","./views/pages/menu":"views/pages/menu.js","./views/pages/mySpecials":"views/pages/mySpecials.js","./views/pages/specials":"views/pages/specials.js","./views/pages/createSpecial":"views/pages/createSpecial.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13779,7 +13892,8 @@ var _Auth = _interopRequireDefault(require("./../api/Auth"));
 var _App = _interopRequireDefault(require("./../App"));
 var _User = _interopRequireDefault(require("../api/User"));
 var _Toast = _interopRequireDefault(require("../Toast"));
-var _templateObject, _templateObject2, _templateObject3;
+var _Special = _interopRequireDefault(require("../api/Special"));
+var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -13792,7 +13906,7 @@ class CoSpecialCard extends _lit.LitElement {
   firstUpdated(_changedProperties) {
     super.firstUpdated(_changedProperties);
   }
-  moreInfoHandler() {
+  addToCartHandler() {
     const dialogEl = document.createElement('sl-dialog');
     dialogEl.className = "special-dialog";
     const dialogContent = (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <h2>Test</h2>\n        "])));
@@ -13805,20 +13919,56 @@ class CoSpecialCard extends _lit.LitElement {
       dialogEl.remove();
     });
   }
-  async addFavHandler() {
+  async addFavouriteHandler() {
     try {
       await _User.default.addFavouriteSpecial(this.id);
-      _Toast.default.show('Special added to favourites!');
+      _Toast.default.show('Special added to your favourites!');
+      this.favourite = 1;
     } catch (err) {
       _Toast.default.show(err, 'error');
     }
   }
+  async removeFavouriteHandler() {
+    try {
+      await _User.default.removeFavouriteSpecial(this.id);
+      _Toast.default.show('Special removed from your favourites!');
+      this.favourite = 0;
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  async editSpecialHandler() {}
+  async removeSpecialHandler() {
+    const dialogEl = document.createElement('sl-dialog');
+    dialogEl.setAttribute('label', "Remove ".concat(this.name));
+    const dialogContent = (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <p>Are you sure you want to remove ", " special?</p>\n            <sl-button slot=\"footer\" class=\"closeBtn\" style=\"margin-right: 0.5em;\">Close</sl-button>\n            <sl-button slot=\"footer\" class=\"removeBtn\" variant=\"primary\">Remove</sl-button>\n        "])), this.name);
+    (0, _lit.render)(dialogContent, dialogEl);
+    await document.body.append(dialogEl);
+    dialogEl.show();
+    const closeBtn = dialogEl.querySelector('.closeBtn');
+    closeBtn.addEventListener('click', () => dialogEl.hide());
+    const removeBtn = dialogEl.querySelector('.removeBtn');
+    removeBtn.addEventListener('click', async () => {
+      dialogEl.hide();
+      try {
+        await _Special.default.removeSpecial(this.id);
+      } catch (err) {
+        _Toast.default.show(err, 'error');
+      }
+    });
+
+    // Delete dialog after hide.
+    dialogEl.addEventListener('sl-after-hide', () => {
+      dialogEl.remove();
+      (0, _Router.gotoRoute)('/mySpecials');
+    });
+  }
   render() {
-    return (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <sl-card class=\"card-overview\">\n                <img\n                        slot=\"image\"\n                        src=\"", "/images/", "\"\n                        alt=\"An image of the special drink.\"\n                />\n\n                <strong>", "</strong><br/>\n                ", "<br/>\n                <small>", "</small>\n\n                <div slot=\"footer\">\n                    <sl-button variant=\"primary\" pill @click=\"", "\">More Info</sl-button>\n                    <sl-icon-button name=\"balloon-heart\" label=\"Favourites\" @click=\"", "\"></sl-icon-button>\n                </div>\n            </sl-card>\n        "])), _App.default.apiBase, this.image, this.name, this.description, this.price, this.moreInfoHandler.bind(this), this.addFavHandler.bind(this));
+    return (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n            <sl-card class=\"card-overview\">\n                <img\n                        slot=\"image\"\n                        src=\"", "/images/", "\"\n                        alt=\"An image of the special drink.\"\n                />\n\n                <h2>", "</h2>\n                <p>", "</p>\n                <small>$", "</small>\n\n                <div slot=\"footer\" class=\"card-footer\">\n                    ", "\n                </div>\n            </sl-card>\n        "])), _App.default.apiBase, this.image, this.name, this.description, this.price, _Auth.default.currentUser.accessLevel === 1 ? (0, _lit.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                <sl-button variant=\"primary\" pill @click=\"", "\">\n                                    <sl-icon slot=\"prefix\" name=\"cart2\"></sl-icon>\n                                    Add\n                                </sl-button>\n\n                                ", "\n\n                            "])), this.addToCartHandler.bind(this), this.favourite === 1 ? (0, _lit.html)(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n                                            <sl-icon-button name=\"heart-fill\" title=\"Remove from favourites\"\n                                                            label=\"Remove from favourite specials\"\n                                                            @click=\"", "\"></sl-icon-button>"])), this.removeFavouriteHandler.bind(this)) : (0, _lit.html)(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n                                            <sl-icon-button name=\"heart\" title=\"Add to favourites\"\n                                                            label=\"Add to favourite specials\"\n                                                            @click=\"", "\"></sl-icon-button>"])), this.addFavouriteHandler.bind(this))) : (0, _lit.html)(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n                                <sl-button variant=\"primary\" pill @click=\"", "\">\n                                    <sl-icon slot=\"prefix\" name=\"pencil-square\"></sl-icon>\n                                    Edit\n                                </sl-button>\n                                <sl-icon-button name=\"trash3\" title=\"Remove special\"\n                                                label=\"Remove special drink\"\n                                                @click=\"", "\"></sl-icon-button>\n                            "])), this.editSpecialHandler.bind(this), this.removeSpecialHandler.bind(this)));
   }
 }
 exports.CoSpecialCard = CoSpecialCard;
-_defineProperty(CoSpecialCard, "styles", (0, _lit.css)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n      sl-card {\n        width: 100%;\n      }\n    "]))));
+_defineProperty(CoSpecialCard, "styles", (0, _lit.css)(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      sl-card {\n        width: 100%;\n      }\n\n      sl-card img {\n        height: 200px;\n        object-fit: cover;\n      }\n\n      sl-card h2, p {\n        margin: 0 0 var(--sl-spacing-x-small) 0;\n      }\n\n      small {\n        color: var(--brand-color);\n        font-weight: bold;\n      }\n\n      .card-footer {\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n      }\n    "]))));
 _defineProperty(CoSpecialCard, "properties", {
   id: {
     type: String
@@ -13843,10 +13993,13 @@ _defineProperty(CoSpecialCard, "properties", {
   },
   brewMethod: {
     type: String
+  },
+  favourite: {
+    type: Number
   }
 });
 customElements.define('co-special-card', CoSpecialCard);
-},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js","../Toast":"Toast.js"}],"components/co-barista-card.js":[function(require,module,exports) {
+},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js","../Toast":"Toast.js","../api/Special":"api/Special.js"}],"components/co-barista-card.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13895,7 +14048,7 @@ class CoBaristaCard extends _lit.LitElement {
   }
 }
 exports.CoBaristaCard = CoBaristaCard;
-_defineProperty(CoBaristaCard, "styles", (0, _lit.css)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n      sl-card {\n        width: 100%;\n      }\n\n      .card-body {\n        display: flex;\n        align-items: center;\n        gap: var(--sl-spacing-large);\n      }\n\n      .card-body img {\n        min-width: 100px;\n        height: 100px;\n        object-fit: cover;\n        border: 1px var(--brand-color) solid;\n        border-radius: var(--sl-border-radius-circle);\n      }\n\n      .card-body div {\n        margin-top: 0;\n        flex-grow: 1;\n      }\n\n      .card-header {\n        display: flex;\n        align-items: center;\n        justify-content: space-between;\n      }\n    "]))));
+_defineProperty(CoBaristaCard, "styles", (0, _lit.css)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n      sl-card {\n        width: 100%;\n      }\n\n      .card-body {\n        display: flex;\n        align-items: center;\n        gap: var(--sl-spacing-large);\n      }\n\n      .card-body img {\n        min-width: 100px;\n        height: 100px;\n        object-fit: cover;\n        border: 2px var(--brand-color) solid;\n        border-radius: var(--sl-border-radius-circle);\n      }\n\n      .card-body div {\n        margin-top: 0;\n        flex-grow: 1;\n      }\n\n      .card-header {\n        display: flex;\n        align-items: center;\n        justify-content: space-between;\n      }\n    "]))));
 _defineProperty(CoBaristaCard, "properties", {
   id: {
     type: String

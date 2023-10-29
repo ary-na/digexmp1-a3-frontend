@@ -10,6 +10,7 @@ import baristasView from './views/pages/baristas'
 import favouriteDrinksView from './views/pages/favouriteDrinks'
 import menuView from './views/pages/menu'
 import mySpecialsView from './views/pages/mySpecials'
+import specialsView from './views/pages/specials'
 import createSpecialView from './views/pages/createSpecial'
 
 // define routes
@@ -23,6 +24,7 @@ const routes = {
 	'/menu': menuView,
 	'/baristas': baristasView,
 	'/mySpecials': mySpecialsView,
+	'/specials': specialsView,
 	'/favouriteDrinks': favouriteDrinksView,
 	'/guide': guideView,
 	'/createSpecial': createSpecialView

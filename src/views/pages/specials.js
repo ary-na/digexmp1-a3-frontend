@@ -6,53 +6,52 @@ import Utils from './../../Utils'
 import Special from "../../api/Special";
 import Toast from "../../Toast";
 
-class MySpecialsView {
+class SpecialsView {
     async init() {
-        if (Auth.currentUser.accessLevel === 1)
+        if (Auth.currentUser.accessLevel === 2)
             gotoRoute('/404')
         else {
-            document.title = `${App.name} - My specials`
-            this.mySpecials = null
-            await this.getMySpecials(Auth.currentUser._id)
+            document.title = `${App.name} - Specials`
+            this.specials = null
+            await this.getSpecials()
             this.render()
             Utils.pageIntroAnim()
         }
     }
 
-    async getMySpecials(userId) {
+    async getSpecials() {
         try {
-            this.mySpecials = await Special.getMySpecials(userId)
+            this.specials = await Special.getSpecials()
         } catch (err) {
             Toast.show(err, 'error')
         }
     }
 
+    isFavouriteSpecial(id) {
+        if (Auth.currentUser.favouriteSpecials.includes(id))
+            return 1
+        else
+            return 0
+    }
 
     render() {
         const template = html`
             <co-app-header user="${JSON.stringify(Auth.currentUser)}"></co-app-header>
             <div class="row my-4 justify-content-center">
                 <div class="row col-xs-12 col-sm-10">
-                    <div class="col-11">
-                        <h1>My specials</h1>
-                        <p class="small mb-0 brand-color">View, modify or delete your specials. Keep your
-                            specials up to date to make the most money by earning commissions.</p>
-                    </div>
-                    <div class="col-1 mt-auto d-flex justify-content-end">
-                        <a href="/createSpecial" @click=${anchorRoute}>Create</a>
-                    </div>
+                    <h1>Specials</h1>
+                    <p class="small mb-0 brand-color">View and order special drinks created by our talented baristas. You can also add them to your favourites.</p>
                 </div>
 
-                ${Object.keys(this.mySpecials).length === 0 ? html`
+                ${Object.keys(this.specials).length === 0 ? html`
                             <div class="col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1">
-                                <h2>You do not have any specials.</h2>
-                                <p class="small text-muted mb-0">Create a special coffee drink for customers to showcase your
-                                    expertise.</p>
+                                <h2>We do not have any special drinks at the moment.</h2>
+                                <p class="small text-muted mb-0">Check back later, as we may have a pleasant surprise for you.</p>
                             </div>
                         `
                         : html`
                             <div class="col-xs-12 col-sm-10 row g-4 mt-0">
-                                ${this.mySpecials.map(special => html`
+                                ${this.specials.map(special => html`
                                             <co-special-card class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"
                                                              id="${special._id}"
                                                              name="${special.name}"
@@ -61,7 +60,9 @@ class MySpecialsView {
                                                              user="${JSON.stringify(special.user)}"
                                                              image="${special.image}"
                                                              drinkType="${special.drinkType}"
-                                                             brewMethod="${special.brewMethod}"></co-special-card>
+                                                             brewMethod="${special.brewMethod}"
+                                                             favourite="${this.isFavouriteSpecial(special._id)}">
+                                            </co-special-card>
                                         `
                                 )}
                                 <div>
@@ -74,4 +75,4 @@ class MySpecialsView {
 }
 
 
-export default new MySpecialsView()
+export default new SpecialsView()

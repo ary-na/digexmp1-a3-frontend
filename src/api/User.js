@@ -106,7 +106,33 @@ class User {
       const err = await response.json()
       if(err) console.log(err)
       // throw error (exit this function)
-      throw new Error('Problem adding special to favourites')
+      throw new Error('Problem adding special to favourites!')
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json()
+
+  }
+
+  async removeFavouriteSpecial(specialId){
+    // validate
+    if(!specialId) return
+
+    // fetch the json data
+    const response = await fetch(`${App.apiBase}/user/remove/favouriteSpecial`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${localStorage.accessToken}`, "Content-Type": 'application/json'},
+      body: JSON.stringify({specialId: specialId})
+    })
+
+    // if response not ok
+    if(!response.ok){
+      // console log error
+      const err = await response.json()
+      if(err) console.log(err)
+      // throw error (exit this function)
+      throw new Error('Problem removing special from favourites!')
     }
 
     // convert response payload into json - store as data

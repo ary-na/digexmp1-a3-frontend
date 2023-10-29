@@ -20,6 +20,24 @@ class Special {
         return await response.json()
     }
 
+    async getMySpecials(userId){
+        // fetch the json data
+        const response = await fetch(`${App.apiBase}/special/${userId}`, {
+            headers: { "Authorization": `Bearer ${localStorage.accessToken}`}
+        })
+
+        // if response not ok
+        if(!response.ok){
+            // console log error
+            const err = await response.json()
+            if(err) console.log(err)
+            // throw error (exit this function)
+            throw new Error('Problem getting my specials!')
+        }
+        // convert response payload into json - return data
+        return await response.json()
+    }
+
     async createSpecial(formData){
         // send fetch request
         const response = await fetch(`${App.apiBase}/special`, {
@@ -44,6 +62,24 @@ class Special {
         return await response.json()
     }
 
+    async removeSpecial(specialId){
+        // fetch the json data
+        const response = await fetch(`${App.apiBase}/special/${specialId}`, {
+            method: 'DELETE',
+            headers: { "Authorization": `Bearer ${localStorage.accessToken}`}
+        })
+
+        // if response not ok
+        if(!response.ok){
+            // console log error
+            const err = await response.json()
+            if(err) console.log(err)
+            // throw error (exit this function)
+            throw new Error('Problem getting my specials!')
+        }
+        // convert response payload into json - return data
+        return await response.json()
+    }
 }
 
 export default new Special()

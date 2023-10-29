@@ -21,7 +21,7 @@ export class CoBaristaCard extends LitElement {
         min-width: 100px;
         height: 100px;
         object-fit: cover;
-        border: 1px var(--brand-color) solid;
+        border: 2px var(--brand-color) solid;
         border-radius: var(--sl-border-radius-circle);
       }
 
