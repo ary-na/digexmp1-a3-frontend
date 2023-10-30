@@ -4,7 +4,7 @@ import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
 import Toast from "../../Toast";
-import Special from "../../api/Special";
+import Drink from "../../api/Drink";
 class EditSpecialView {
     async init() {
         document.title = `${App.name} - Edit my special`
@@ -18,7 +18,7 @@ class EditSpecialView {
 
     async getMySpecial(id) {
         try {
-            this.special = await Special.getSpecial(id)
+            this.special = await Drink.getDrink(id)
         } catch (err) {
             Toast.show(err, 'error')
         }
@@ -36,7 +36,7 @@ class EditSpecialView {
         const submitBtn = document.querySelector('.submit-btn')
         submitBtn.setAttribute('loading', '')
         try {
-            await Special.updateSpecial(this.specialId, formData)
+            await Drink.updateSpecial(this.specialId, formData)
             Toast.show('Special updated!')
         }catch(err){
             Toast.show(err, 'error')

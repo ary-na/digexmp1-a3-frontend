@@ -17,7 +17,7 @@ class FavouriteDrinksView {
   async getFavSpecials(){
     try {
       const currentUser = await User.getUser(Auth.currentUser._id)
-      this.favSpecials = currentUser.favouriteSpecials
+      this.favSpecials = currentUser.favouriteDrinks
       console.log(this.favSpecials)
       this.render()
     }catch(err){

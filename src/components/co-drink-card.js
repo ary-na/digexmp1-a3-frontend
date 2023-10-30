@@ -4,9 +4,9 @@ import Auth from './../api/Auth'
 import App from './../App'
 import User from "../api/User"
 import Toast from "../Toast"
-import Special from "../api/Special";
+import Drink from "../api/Drink";
 
-export class CoSpecialCard extends LitElement {
+export class CoDrinkCard extends LitElement {
     static styles = css`
       /* General styles ----------------------------------------------------------- */
 
@@ -74,7 +74,7 @@ export class CoSpecialCard extends LitElement {
 
     async addFavouriteHandler() {
         try {
-            await User.addFavouriteSpecial(this.id)
+            await User.addFavouriteDrink(this.id)
             Toast.show('Special added to your favourites!')
             this.favourite = 1
         } catch (err) {
@@ -84,7 +84,7 @@ export class CoSpecialCard extends LitElement {
 
     async removeFavouriteHandler() {
         try {
-            await User.removeFavouriteSpecial(this.id)
+            await User.removeFavouriteDrink(this.id)
             Toast.show('Special removed from your favourites!')
             this.favourite = 0
         } catch (err) {
@@ -117,7 +117,7 @@ export class CoSpecialCard extends LitElement {
         removeBtn.addEventListener('click', async () => {
             dialogEl.hide()
             try {
-                await Special.removeSpecial(this.id)
+                await Drink.removeSpecial(this.id)
             } catch (err) {
                 Toast.show(err, 'error')
             }
@@ -176,5 +176,5 @@ export class CoSpecialCard extends LitElement {
     }
 }
 
-customElements.define('co-special-card', CoSpecialCard)
+customElements.define('co-drink-card', CoDrinkCard)
 

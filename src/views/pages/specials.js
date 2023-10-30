@@ -3,7 +3,7 @@ import {html, render} from 'lit-html'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
-import Special from "../../api/Special";
+import Drink from "../../api/Drink";
 import Toast from "../../Toast";
 
 class SpecialsView {
@@ -21,14 +21,14 @@ class SpecialsView {
 
     async getSpecials() {
         try {
-            this.specials = await Special.getSpecials()
+            this.specials = await Drink.getSpecials()
         } catch (err) {
             Toast.show(err, 'error')
         }
     }
 
-    isFavouriteSpecial(id) {
-        if (Auth.currentUser.favouriteSpecials.includes(id))
+    isFavouriteDrink(id) {
+        if (Auth.currentUser.favouriteDrinks.includes(id))
             return 1
         else
             return 0
@@ -52,7 +52,7 @@ class SpecialsView {
                         : html`
                             <div class="col-xs-12 col-sm-10 row g-4 mt-0">
                                 ${this.specials.map(special => html`
-                                            <co-special-card class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"
+                                            <co-drink-card class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"
                                                              id="${special._id}"
                                                              name="${special.name}"
                                                              description="${special.description}"
@@ -61,8 +61,8 @@ class SpecialsView {
                                                              image="${special.image}"
                                                              drinkType="${special.drinkType}"
                                                              brewMethod="${special.brewMethod}"
-                                                             favourite="${this.isFavouriteSpecial(special._id)}">
-                                            </co-special-card>
+                                                             favourite="${this.isFavouriteDrink(special._id)}">
+                                            </co-drink-card>
                                         `
                                 ).reverse()}
                                 <div>

@@ -3,8 +3,8 @@ import {html, render} from 'lit-html'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
-import Special from "../../api/Special";
 import Toast from "../../Toast";
+import Drink from "../../api/Drink";
 
 class createSpecial {
     init() {
@@ -24,7 +24,7 @@ class createSpecial {
         submitBtn.setAttribute('loading', '')
 
         try {
-            await Special.createSpecial(formData)
+            await Drink.createSpecial(formData)
             Toast.show("Special added!")
 
             // Reset form

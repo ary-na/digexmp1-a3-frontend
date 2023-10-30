@@ -11900,7 +11900,172 @@ class ProfileView {
   }
 }
 var _default = exports.default = new ProfileView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","moment":"../node_modules/moment/moment.js"}],"api/User.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","moment":"../node_modules/moment/moment.js"}],"api/Drink.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _App = _interopRequireDefault(require("../App"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+class Drink {
+  async getDrink(drinkId) {
+    // validate
+    if (!drinkId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/drink/").concat(drinkId), {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting drink!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async getDrinks() {
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/drink"), {
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting drinks!');
+    }
+    // convert response payload into json - return data
+    return await response.json();
+  }
+  async getSpecials() {
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/drink/special"), {
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting specials!');
+    }
+    // convert response payload into json - return data
+    return await response.json();
+  }
+  async getMySpecials(userId) {
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/drink/by/").concat(userId), {
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting my specials!');
+    }
+    // convert response payload into json - return data
+    return await response.json();
+  }
+  async createSpecial(formData) {
+    // send fetch request
+    const response = await fetch("".concat(_App.default.apiBase, "/drink"), {
+      method: 'POST',
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      },
+      body: formData
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      let message = 'Problem creating special!';
+      if (response.status === 400) {
+        const err = await response.json();
+        message = err.message;
+      }
+      // throw error (exit this function)
+      throw new Error(message);
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async updateSpecial(drinkId, formData) {
+    // validate
+    if (!drinkId || !formData) return;
+
+    // make fetch request to backend
+    const response = await fetch("".concat(_App.default.apiBase, "/drink/").concat(drinkId), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      },
+      body: formData
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem updating special!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async removeSpecial(drinkId) {
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/special/").concat(drinkId), {
+      method: 'DELETE',
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem deleting special!');
+    }
+    // convert response payload into json - return data
+    return await response.json();
+  }
+}
+var _default = exports.default = new Drink();
+},{"../App":"App.js"}],"api/User.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11909,6 +12074,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _App = _interopRequireDefault(require("../App"));
 var _Auth = _interopRequireDefault(require("./Auth"));
+var _Drink = _interopRequireDefault(require("./Drink"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 class User {
   async updateUser(userId, userData) {
@@ -12000,19 +12166,19 @@ class User {
     // return data
     return await response.json();
   }
-  async addFavouriteSpecial(specialId) {
+  async addFavouriteDrink(drinkId) {
     // validate
-    if (!specialId) return;
+    if (!drinkId) return;
 
     // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/user/add/favouriteSpecial"), {
+    const response = await fetch("".concat(_App.default.apiBase, "/user/add/favouriteDrink"), {
       method: "PUT",
       headers: {
         "Authorization": "Bearer ".concat(localStorage.accessToken),
         "Content-Type": 'application/json'
       },
       body: JSON.stringify({
-        specialId: specialId
+        drinkId: drinkId
       })
     });
 
@@ -12022,26 +12188,26 @@ class User {
       const err = await response.json();
       if (err) console.log(err);
       // throw error (exit this function)
-      throw new Error('Problem adding special to favourites!');
+      throw new Error('Problem adding drink to favourites!');
     }
 
     // convert response payload into json - store as data
     // return data
     return await response.json();
   }
-  async removeFavouriteSpecial(specialId) {
+  async removeFavouriteDrink(drinkId) {
     // validate
-    if (!specialId) return;
+    if (!drinkId) return;
 
     // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/user/remove/favouriteSpecial"), {
+    const response = await fetch("".concat(_App.default.apiBase, "/user/remove/favouriteDrink"), {
       method: "PUT",
       headers: {
         "Authorization": "Bearer ".concat(localStorage.accessToken),
         "Content-Type": 'application/json'
       },
       body: JSON.stringify({
-        specialId: specialId
+        drinkId: drinkId
       })
     });
 
@@ -12051,7 +12217,7 @@ class User {
       const err = await response.json();
       if (err) console.log(err);
       // throw error (exit this function)
-      throw new Error('Problem removing special from favourites!');
+      throw new Error('Problem removing drink from favourites!');
     }
 
     // convert response payload into json - store as data
@@ -12118,7 +12284,7 @@ class User {
   }
 }
 var _default = exports.default = new User();
-},{"../App":"App.js","./Auth":"api/Auth.js"}],"views/pages/editProfile.js":[function(require,module,exports) {
+},{"../App":"App.js","./Auth":"api/Auth.js","./Drink":"api/Drink.js"}],"views/pages/editProfile.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12284,7 +12450,7 @@ class FavouriteDrinksView {
   async getFavSpecials() {
     try {
       const currentUser = await _User.default.getUser(_Auth.default.currentUser._id);
-      this.favSpecials = currentUser.favouriteSpecials;
+      this.favSpecials = currentUser.favouriteDrinks;
       console.log(this.favSpecials);
       this.render();
     } catch (err) {
@@ -12324,153 +12490,7 @@ class MenuView {
   }
 }
 var _default = exports.default = new MenuView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js"}],"api/Special.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _App = _interopRequireDefault(require("../App"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-class Special {
-  async getSpecial(specialId) {
-    // validate
-    if (!specialId) return;
-
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/special/").concat(specialId), {
-      method: "GET",
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      }
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem getting special!');
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async getSpecials() {
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/special"), {
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      }
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem getting specials!');
-    }
-    // convert response payload into json - return data
-    return await response.json();
-  }
-  async getMySpecials(userId) {
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/special/by/").concat(userId), {
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      }
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem getting my specials!');
-    }
-    // convert response payload into json - return data
-    return await response.json();
-  }
-  async createSpecial(formData) {
-    // send fetch request
-    const response = await fetch("".concat(_App.default.apiBase, "/special"), {
-      method: 'POST',
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      },
-      body: formData
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      let message = 'Problem adding special!';
-      if (response.status === 400) {
-        const err = await response.json();
-        message = err.message;
-      }
-      // throw error (exit this function)
-      throw new Error(message);
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async updateSpecial(specialId, formData) {
-    // validate
-    if (!specialId || !formData) return;
-
-    // make fetch request to backend
-    const response = await fetch("".concat(_App.default.apiBase, "/special/").concat(specialId), {
-      method: "PUT",
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      },
-      body: formData
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem updating special!');
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async removeSpecial(specialId) {
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/special/").concat(specialId), {
-      method: 'DELETE',
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      }
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem getting my specials!');
-    }
-    // convert response payload into json - return data
-    return await response.json();
-  }
-}
-var _default = exports.default = new Special();
-},{"../App":"App.js"}],"views/pages/mySpecials.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js"}],"views/pages/mySpecials.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12482,7 +12502,7 @@ var _litHtml = require("lit-html");
 var _Router = require("../../Router");
 var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
-var _Special = _interopRequireDefault(require("../../api/Special"));
+var _Drink = _interopRequireDefault(require("../../api/Drink"));
 var _Toast = _interopRequireDefault(require("../../Toast"));
 var _templateObject, _templateObject2, _templateObject3, _templateObject4;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -12500,18 +12520,18 @@ class MySpecialsView {
   }
   async getMySpecials(userId) {
     try {
-      this.mySpecials = await _Special.default.getMySpecials(userId);
+      this.mySpecials = await _Drink.default.getMySpecials(userId);
     } catch (err) {
       _Toast.default.show(err, 'error');
     }
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <div class=\"col-11\">\n                        <h1>My specials</h1>\n                        <p class=\"small mb-0 brand-color\">View, modify or delete your specials. Keep your\n                            specials up to date to make the most money by earning commissions.</p>\n                    </div>\n                    <div class=\"col-1 mt-auto d-flex justify-content-end\">\n                        <a href=\"/createSpecial\" @click=", ">Create</a>\n                    </div>\n                </div>\n\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), _Router.anchorRoute, Object.keys(this.mySpecials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                <h2>You do not have any specials.</h2>\n                                <p class=\"small text-muted mb-0\">Create a special coffee drink for customers to showcase your\n                                    expertise.</p>\n                            </div>\n                        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                ", "\n                                <div>\n                        "])), this.mySpecials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                            <co-special-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                             id=\"", "\"\n                                                             name=\"", "\"\n                                                             description=\"", "\"\n                                                             price=\"", "\"\n                                                             user=\"", "\"\n                                                             image=\"", "\"\n                                                             drinkType=\"", "\"\n                                                             brewMethod=\"", "\"></co-special-card>\n                                        "])), special._id, special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod)).reverse()));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <div class=\"col-11\">\n                        <h1>My specials</h1>\n                        <p class=\"small mb-0 brand-color\">View, modify or delete your specials. Keep your\n                            specials up to date to make the most money by earning commissions.</p>\n                    </div>\n                    <div class=\"col-1 mt-auto d-flex justify-content-end\">\n                        <a href=\"/createSpecial\" @click=", ">Create</a>\n                    </div>\n                </div>\n\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), _Router.anchorRoute, Object.keys(this.mySpecials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                <h2>You do not have any specials.</h2>\n                                <p class=\"small text-muted mb-0\">Create a special coffee drink for customers to showcase your\n                                    expertise.</p>\n                            </div>\n                        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                ", "\n                                <div>\n                        "])), this.mySpecials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                            <co-drink-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                             id=\"", "\"\n                                                             name=\"", "\"\n                                                             description=\"", "\"\n                                                             price=\"", "\"\n                                                             user=\"", "\"\n                                                             image=\"", "\"\n                                                             drinkType=\"", "\"\n                                                             brewMethod=\"", "\"></co-drink-card>\n                                        "])), special._id, special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod)).reverse()));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new MySpecialsView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Special":"api/Special.js","../../Toast":"Toast.js"}],"views/pages/specials.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Drink":"api/Drink.js","../../Toast":"Toast.js"}],"views/pages/specials.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12523,7 +12543,7 @@ var _litHtml = require("lit-html");
 var _Router = require("../../Router");
 var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
-var _Special = _interopRequireDefault(require("../../api/Special"));
+var _Drink = _interopRequireDefault(require("../../api/Drink"));
 var _Toast = _interopRequireDefault(require("../../Toast"));
 var _templateObject, _templateObject2, _templateObject3, _templateObject4;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -12540,21 +12560,21 @@ class SpecialsView {
   }
   async getSpecials() {
     try {
-      this.specials = await _Special.default.getSpecials();
+      this.specials = await _Drink.default.getSpecials();
     } catch (err) {
       _Toast.default.show(err, 'error');
     }
   }
-  isFavouriteSpecial(id) {
-    if (_Auth.default.currentUser.favouriteSpecials.includes(id)) return 1;else return 0;
+  isFavouriteDrink(id) {
+    if (_Auth.default.currentUser.favouriteDrinks.includes(id)) return 1;else return 0;
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Specials</h1>\n                    <p class=\"small mb-0 brand-color\">View and order special drinks created by our talented baristas. You can also add them to your favourites.</p>\n                </div>\n\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), Object.keys(this.specials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                <h2>We do not have any special drinks at the moment.</h2>\n                                <p class=\"small text-muted mb-0\">Check back later, as we may have a pleasant surprise for you.</p>\n                            </div>\n                        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                ", "\n                                <div>\n                        "])), this.specials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                            <co-special-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                             id=\"", "\"\n                                                             name=\"", "\"\n                                                             description=\"", "\"\n                                                             price=\"", "\"\n                                                             user=\"", "\"\n                                                             image=\"", "\"\n                                                             drinkType=\"", "\"\n                                                             brewMethod=\"", "\"\n                                                             favourite=\"", "\">\n                                            </co-special-card>\n                                        "])), special._id, special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod, this.isFavouriteSpecial(special._id))).reverse()));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Specials</h1>\n                    <p class=\"small mb-0 brand-color\">View and order special drinks created by our talented baristas. You can also add them to your favourites.</p>\n                </div>\n\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), Object.keys(this.specials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                <h2>We do not have any special drinks at the moment.</h2>\n                                <p class=\"small text-muted mb-0\">Check back later, as we may have a pleasant surprise for you.</p>\n                            </div>\n                        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                ", "\n                                <div>\n                        "])), this.specials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                            <co-drink-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                             id=\"", "\"\n                                                             name=\"", "\"\n                                                             description=\"", "\"\n                                                             price=\"", "\"\n                                                             user=\"", "\"\n                                                             image=\"", "\"\n                                                             drinkType=\"", "\"\n                                                             brewMethod=\"", "\"\n                                                             favourite=\"", "\">\n                                            </co-drink-card>\n                                        "])), special._id, special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod, this.isFavouriteDrink(special._id))).reverse()));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new SpecialsView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Special":"api/Special.js","../../Toast":"Toast.js"}],"views/pages/createSpecial.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Drink":"api/Drink.js","../../Toast":"Toast.js"}],"views/pages/createSpecial.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12566,8 +12586,8 @@ var _litHtml = require("lit-html");
 var _Router = require("../../Router");
 var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
-var _Special = _interopRequireDefault(require("../../api/Special"));
 var _Toast = _interopRequireDefault(require("../../Toast"));
+var _Drink = _interopRequireDefault(require("../../api/Drink"));
 var _templateObject;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -12585,7 +12605,7 @@ class createSpecial {
     const submitBtn = document.querySelector('.submit-btn');
     submitBtn.setAttribute('loading', '');
     try {
-      await _Special.default.createSpecial(formData);
+      await _Drink.default.createSpecial(formData);
       _Toast.default.show("Special added!");
 
       // Reset form
@@ -12604,7 +12624,7 @@ class createSpecial {
   }
 }
 var _default = exports.default = new createSpecial();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Special":"api/Special.js","../../Toast":"Toast.js"}],"views/pages/editSpecial.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/Drink":"api/Drink.js"}],"views/pages/editSpecial.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12617,7 +12637,7 @@ var _Router = require("../../Router");
 var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
 var _Toast = _interopRequireDefault(require("../../Toast"));
-var _Special = _interopRequireDefault(require("../../api/Special"));
+var _Drink = _interopRequireDefault(require("../../api/Drink"));
 var _templateObject;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -12633,7 +12653,7 @@ class EditSpecialView {
   }
   async getMySpecial(id) {
     try {
-      this.special = await _Special.default.getSpecial(id);
+      this.special = await _Drink.default.getDrink(id);
     } catch (err) {
       _Toast.default.show(err, 'error');
     }
@@ -12648,7 +12668,7 @@ class EditSpecialView {
     const submitBtn = document.querySelector('.submit-btn');
     submitBtn.setAttribute('loading', '');
     try {
-      await _Special.default.updateSpecial(this.specialId, formData);
+      await _Drink.default.updateSpecial(this.specialId, formData);
       _Toast.default.show('Special updated!');
     } catch (err) {
       _Toast.default.show(err, 'error');
@@ -12663,7 +12683,7 @@ class EditSpecialView {
   }
 }
 var _default = exports.default = new EditSpecialView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/Special":"api/Special.js"}],"Router.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/Drink":"api/Drink.js"}],"Router.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13992,27 +14012,27 @@ _defineProperty(CoAppHeader, "properties", {
   }
 });
 customElements.define('co-app-header', CoAppHeader);
-},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js"}],"components/co-special-card.js":[function(require,module,exports) {
+},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js"}],"components/co-drink-card.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CoSpecialCard = void 0;
+exports.CoDrinkCard = void 0;
 var _lit = require("lit");
 var _Router = require("../Router");
 var _Auth = _interopRequireDefault(require("./../api/Auth"));
 var _App = _interopRequireDefault(require("./../App"));
 var _User = _interopRequireDefault(require("../api/User"));
 var _Toast = _interopRequireDefault(require("../Toast"));
-var _Special = _interopRequireDefault(require("../api/Special"));
+var _Drink = _interopRequireDefault(require("../api/Drink"));
 var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-class CoSpecialCard extends _lit.LitElement {
+class CoDrinkCard extends _lit.LitElement {
   constructor() {
     super();
   }
@@ -14034,7 +14054,7 @@ class CoSpecialCard extends _lit.LitElement {
   }
   async addFavouriteHandler() {
     try {
-      await _User.default.addFavouriteSpecial(this.id);
+      await _User.default.addFavouriteDrink(this.id);
       _Toast.default.show('Special added to your favourites!');
       this.favourite = 1;
     } catch (err) {
@@ -14043,7 +14063,7 @@ class CoSpecialCard extends _lit.LitElement {
   }
   async removeFavouriteHandler() {
     try {
-      await _User.default.removeFavouriteSpecial(this.id);
+      await _User.default.removeFavouriteDrink(this.id);
       _Toast.default.show('Special removed from your favourites!');
       this.favourite = 0;
     } catch (err) {
@@ -14067,7 +14087,7 @@ class CoSpecialCard extends _lit.LitElement {
     removeBtn.addEventListener('click', async () => {
       dialogEl.hide();
       try {
-        await _Special.default.removeSpecial(this.id);
+        await _Drink.default.removeSpecial(this.id);
       } catch (err) {
         _Toast.default.show(err, 'error');
       }
@@ -14083,9 +14103,9 @@ class CoSpecialCard extends _lit.LitElement {
     return (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n            <sl-card class=\"card-overview\">\n                <img\n                        slot=\"image\"\n                        src=\"", "/images/", "\"\n                        alt=\"An image of the special drink.\"\n                />\n\n                <h2>", "</h2>\n                <p>", "</p>\n                <small>$", "</small>\n\n                <div slot=\"footer\" class=\"card-footer\">\n                    ", "\n                </div>\n            </sl-card>\n        "])), _App.default.apiBase, this.image, this.name, this.description, this.price, _Auth.default.currentUser.accessLevel === 1 ? (0, _lit.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                <sl-button variant=\"primary\" pill @click=\"", "\">\n                                    <sl-icon slot=\"prefix\" name=\"cart2\"></sl-icon>\n                                    Add\n                                </sl-button>\n\n                                ", "\n\n                            "])), this.addToCartHandler.bind(this), this.favourite === 1 ? (0, _lit.html)(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n                                            <sl-icon-button name=\"heart-fill\" title=\"Remove from favourites\"\n                                                            label=\"Remove from favourite specials\"\n                                                            @click=\"", "\"></sl-icon-button>"])), this.removeFavouriteHandler.bind(this)) : (0, _lit.html)(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n                                            <sl-icon-button name=\"heart\" title=\"Add to favourites\"\n                                                            label=\"Add to favourite specials\"\n                                                            @click=\"", "\"></sl-icon-button>"])), this.addFavouriteHandler.bind(this))) : (0, _lit.html)(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n                                <sl-button variant=\"primary\" pill @click=\"", "\">\n                                    <sl-icon slot=\"prefix\" name=\"pencil-square\"></sl-icon>\n                                    Edit\n                                </sl-button>\n                                <sl-icon-button name=\"trash3\" title=\"Remove special\"\n                                                label=\"Remove special drink\"\n                                                @click=\"", "\"></sl-icon-button>\n                            "])), this.editMySpecialHandler.bind(this), this.removeMySpecialHandler.bind(this)));
   }
 }
-exports.CoSpecialCard = CoSpecialCard;
-_defineProperty(CoSpecialCard, "styles", (0, _lit.css)(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      sl-card {\n        width: 100%;\n      }\n\n      sl-card img {\n        height: 200px;\n        object-fit: cover;\n      }\n\n      sl-card h2, p {\n        margin: 0 0 var(--sl-spacing-x-small) 0;\n      }\n\n      small {\n        color: var(--brand-color);\n        font-weight: bold;\n      }\n\n      .card-footer {\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n      }\n    "]))));
-_defineProperty(CoSpecialCard, "properties", {
+exports.CoDrinkCard = CoDrinkCard;
+_defineProperty(CoDrinkCard, "styles", (0, _lit.css)(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      sl-card {\n        width: 100%;\n      }\n\n      sl-card img {\n        height: 200px;\n        object-fit: cover;\n      }\n\n      sl-card h2, p {\n        margin: 0 0 var(--sl-spacing-x-small) 0;\n      }\n\n      small {\n        color: var(--brand-color);\n        font-weight: bold;\n      }\n\n      .card-footer {\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n      }\n    "]))));
+_defineProperty(CoDrinkCard, "properties", {
   id: {
     type: String
   },
@@ -14114,8 +14134,8 @@ _defineProperty(CoSpecialCard, "properties", {
     type: Number
   }
 });
-customElements.define('co-special-card', CoSpecialCard);
-},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js","../Toast":"Toast.js","../api/Special":"api/Special.js"}],"components/co-barista-card.js":[function(require,module,exports) {
+customElements.define('co-drink-card', CoDrinkCard);
+},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js","../Toast":"Toast.js","../api/Drink":"api/Drink.js"}],"components/co-barista-card.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14260,7 +14280,7 @@ module.hot.accept(reloadCSS);
 
 var _App = _interopRequireDefault(require("./App.js"));
 require("./components/co-app-header");
-require("./components/co-special-card");
+require("./components/co-drink-card");
 require("./components/co-barista-card");
 require("./scss/master.scss");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -14272,7 +14292,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener('DOMContentLoaded', () => {
   _App.default.init();
 });
-},{"./App.js":"App.js","./components/co-app-header":"components/co-app-header.js","./components/co-special-card":"components/co-special-card.js","./components/co-barista-card":"components/co-barista-card.js","./scss/master.scss":"scss/master.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./App.js":"App.js","./components/co-app-header":"components/co-app-header.js","./components/co-drink-card":"components/co-drink-card.js","./components/co-barista-card":"components/co-barista-card.js","./scss/master.scss":"scss/master.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

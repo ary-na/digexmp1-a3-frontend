@@ -1,6 +1,7 @@
 import App from '../App'
 import auth from "./Auth";
 import Auth from "./Auth";
+import drink from "./Drink";
 
 class User {
 
@@ -89,15 +90,15 @@ class User {
   }
 
 
-  async addFavouriteSpecial(specialId){
+  async addFavouriteDrink(drinkId){
     // validate
-    if(!specialId) return
+    if(!drinkId) return
 
     // fetch the json data
-    const response = await fetch(`${App.apiBase}/user/add/favouriteSpecial`, {
+    const response = await fetch(`${App.apiBase}/user/add/favouriteDrink`, {
       method: "PUT",
       headers: { "Authorization": `Bearer ${localStorage.accessToken}`, "Content-Type": 'application/json'},
-      body: JSON.stringify({specialId: specialId})
+      body: JSON.stringify({drinkId: drinkId})
     })
 
     // if response not ok
@@ -106,7 +107,7 @@ class User {
       const err = await response.json()
       if(err) console.log(err)
       // throw error (exit this function)
-      throw new Error('Problem adding special to favourites!')
+      throw new Error('Problem adding drink to favourites!')
     }
 
     // convert response payload into json - store as data
@@ -115,15 +116,15 @@ class User {
 
   }
 
-  async removeFavouriteSpecial(specialId){
+  async removeFavouriteDrink(drinkId){
     // validate
-    if(!specialId) return
+    if(!drinkId) return
 
     // fetch the json data
-    const response = await fetch(`${App.apiBase}/user/remove/favouriteSpecial`, {
+    const response = await fetch(`${App.apiBase}/user/remove/favouriteDrink`, {
       method: "PUT",
       headers: { "Authorization": `Bearer ${localStorage.accessToken}`, "Content-Type": 'application/json'},
-      body: JSON.stringify({specialId: specialId})
+      body: JSON.stringify({drinkId: drinkId})
     })
 
     // if response not ok
@@ -132,7 +133,7 @@ class User {
       const err = await response.json()
       if(err) console.log(err)
       // throw error (exit this function)
-      throw new Error('Problem removing special from favourites!')
+      throw new Error('Problem removing drink from favourites!')
     }
 
     // convert response payload into json - store as data

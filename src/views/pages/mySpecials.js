@@ -3,7 +3,7 @@ import {html, render} from 'lit-html'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
-import Special from "../../api/Special";
+import Drink from "../../api/Drink";
 import Toast from "../../Toast";
 
 class MySpecialsView {
@@ -22,7 +22,7 @@ class MySpecialsView {
 
     async getMySpecials(userId) {
         try {
-            this.mySpecials = await Special.getMySpecials(userId)
+            this.mySpecials = await Drink.getMySpecials(userId)
         } catch (err) {
             Toast.show(err, 'error')
         }
@@ -54,7 +54,7 @@ class MySpecialsView {
                         : html`
                             <div class="col-xs-12 col-sm-10 row g-4 mt-0">
                                 ${this.mySpecials.map(special => html`
-                                            <co-special-card class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"
+                                            <co-drink-card class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"
                                                              id="${special._id}"
                                                              name="${special.name}"
                                                              description="${special.description}"
@@ -62,7 +62,7 @@ class MySpecialsView {
                                                              user="${JSON.stringify(special.user)}"
                                                              image="${special.image}"
                                                              drinkType="${special.drinkType}"
-                                                             brewMethod="${special.brewMethod}"></co-special-card>
+                                                             brewMethod="${special.brewMethod}"></co-drink-card>
                                         `
                                 ).reverse()}
                                 <div>
