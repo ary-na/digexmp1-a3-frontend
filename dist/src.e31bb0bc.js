@@ -6018,7 +6018,449 @@ class Auth {
   }
 }
 var _default = exports.default = new Auth();
-},{"../App":"App.js","../Router":"Router.js","../views/partials/splash":"views/partials/splash.js","lit-html":"../node_modules/lit-html/lit-html.js","../Toast":"Toast.js"}],"Utils.js":[function(require,module,exports) {
+},{"../App":"App.js","../Router":"Router.js","../views/partials/splash":"views/partials/splash.js","lit-html":"../node_modules/lit-html/lit-html.js","../Toast":"Toast.js"}],"api/Drink.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _App = _interopRequireDefault(require("../App"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+class Drink {
+  async getDrink(drinkId) {
+    // validate
+    if (!drinkId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/drink/").concat(drinkId), {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting drink!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async getDrinks() {
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/drink"), {
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting drinks!');
+    }
+    // convert response payload into json - return data
+    return await response.json();
+  }
+  async getSpecials() {
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/drink/special"), {
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting specials!');
+    }
+    // convert response payload into json - return data
+    return await response.json();
+  }
+  async getMySpecials(userId) {
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/drink/by/").concat(userId), {
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting my specials!');
+    }
+    // convert response payload into json - return data
+    return await response.json();
+  }
+  async createSpecial(formData) {
+    // send fetch request
+    const response = await fetch("".concat(_App.default.apiBase, "/drink"), {
+      method: 'POST',
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      },
+      body: formData
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      let message = 'Problem creating special!';
+      if (response.status === 400) {
+        const err = await response.json();
+        message = err.message;
+      }
+      // throw error (exit this function)
+      throw new Error(message);
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async updateSpecial(drinkId, formData) {
+    // validate
+    if (!drinkId || !formData) return;
+
+    // make fetch request to backend
+    const response = await fetch("".concat(_App.default.apiBase, "/drink/").concat(drinkId), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      },
+      body: formData
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem updating special!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async removeSpecial(drinkId) {
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/special/").concat(drinkId), {
+      method: 'DELETE',
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem deleting special!');
+    }
+    // convert response payload into json - return data
+    return await response.json();
+  }
+}
+var _default = exports.default = new Drink();
+},{"../App":"App.js"}],"api/User.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _App = _interopRequireDefault(require("../App"));
+var _Auth = _interopRequireDefault(require("./Auth"));
+var _Drink = _interopRequireDefault(require("./Drink"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+class User {
+  async updateUser(userId, userData) {
+    let dataType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'form';
+    // validate
+    if (!userId || !userData) return;
+    let responseHeader;
+
+    // form data
+    if (dataType === 'form') {
+      // fetch response header normal (form data)
+      responseHeader = {
+        method: "PUT",
+        headers: {
+          "Authorization": "Bearer ".concat(localStorage.accessToken)
+        },
+        body: userData
+      };
+
+      // json data
+    } else if (dataType === 'json') {
+      responseHeader = {
+        method: "PUT",
+        headers: {
+          "Authorization": "Bearer ".concat(localStorage.accessToken),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      };
+    }
+
+    // make fetch request to backend
+    const response = await fetch("".concat(_App.default.apiBase, "/user/").concat(userId), responseHeader);
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem updating user');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async getUser(userId) {
+    // validate
+    if (!userId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/user/").concat(userId), {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem getting user!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async getUsersByAccess() {
+    let accessLevel = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 2;
+    // Fetch baristas from the db
+    const response = await fetch("".concat(_App.default.apiBase, "/user/access/").concat(accessLevel), {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      }
+    });
+    if (!response.ok) {
+      const err = await response.json();
+      if (err) console.log(err);
+      throw new Error('Problem getting users!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async addFavouriteDrink(drinkId) {
+    // validate
+    if (!drinkId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/user/add/favouriteDrink"), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken),
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+        drinkId: drinkId
+      })
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem adding drink to favourites!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async removeFavouriteDrink(drinkId) {
+    // validate
+    if (!drinkId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/user/remove/favouriteDrink"), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken),
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+        drinkId: drinkId
+      })
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem removing drink from favourites!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async addFavouriteBarista(userId) {
+    // validate
+    if (!userId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/user/add/favouriteBarista"), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken),
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+        userId: userId
+      })
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem adding barista to favourites!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async removeFavouriteBarista(userId) {
+    // validate
+    if (!userId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/user/remove/favouriteBarista"), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken),
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+        userId: userId
+      })
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem removing barista from favourites!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async addToCart(drinkId) {
+    // validate
+    if (!drinkId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/user/add/cart"), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken),
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+        drinkId: drinkId
+      })
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem adding drink to shopping cart!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+  async removeFromCart(drinkId) {
+    // validate
+    if (!drinkId) return;
+
+    // fetch the json data
+    const response = await fetch("".concat(_App.default.apiBase, "/user/remove/cart"), {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken),
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({
+        drinkId: drinkId
+      })
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      // console log error
+      const err = await response.json();
+      if (err) console.log(err);
+      // throw error (exit this function)
+      throw new Error('Problem removing drink from shopping cart!');
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+}
+var _default = exports.default = new User();
+},{"../App":"App.js","./Auth":"api/Auth.js","./Drink":"api/Drink.js"}],"Utils.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6026,6 +6468,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _gsap = _interopRequireDefault(require("gsap"));
+var _User = _interopRequireDefault(require("./api/User"));
+var _Auth = _interopRequireDefault(require("./api/Auth"));
+var _Toast = _interopRequireDefault(require("./Toast"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 class Utils {
   isMobile() {
@@ -6049,9 +6494,17 @@ class Utils {
       duration: 0.3
     });
   }
+  async getCartItemCount() {
+    try {
+      const user = await _User.default.getUser(_Auth.default.currentUser._id);
+      if (!user.cart) return 0;else return user.cart.length;
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
 }
 var _default = exports.default = new Utils();
-},{"gsap":"../node_modules/gsap/index.js"}],"views/pages/home.js":[function(require,module,exports) {
+},{"gsap":"../node_modules/gsap/index.js","./api/User":"api/User.js","./api/Auth":"api/Auth.js","./Toast":"Toast.js"}],"views/pages/home.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6067,14 +6520,15 @@ var _templateObject;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class HomeView {
-  init() {
+  async init() {
     console.log('HomeView.init');
     document.title = "".concat(_App.default.name, " - Home");
+    this.cartItemCount = await _Utils.default.getCartItemCount();
     this.render();
     _Utils.default.pageIntroAnim();
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <co-app-header title=\"Home\" user=", "></co-app-header>\n      \n      <div class=\"row app-header-padding\">\n        <h1 class=\"col-6 anim-in\">Hey ", "</h1>\n        <h3 class=\"col-6\">Button example:</h3>\n        <sl-button class=\"col-auto anim-in\" @click=", ">View Profile</sl-button>\n        <p>&nbsp;</p>\n        <h3>Link example</h3>\n        <a href=\"/profile\" @click=", ">View Profile</a>\n      </div>\n    "])), JSON.stringify(_Auth.default.currentUser), _Auth.default.currentUser.firstName, () => (0, _Router.gotoRoute)('/profile'), _Router.anchorRoute);
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <co-app-header title=\"Home\" user=\"", "\" cartItemCount=\"", "\"></co-app-header>\n      \n      <div class=\"row app-header-padding\">\n        <h1 class=\"col-6 anim-in\">Hey ", "</h1>\n        <h3 class=\"col-6\">Button example:</h3>\n        <sl-button class=\"col-auto anim-in\" @click=", ">View Profile</sl-button>\n        <p>&nbsp;</p>\n        <h3>Link example</h3>\n        <a href=\"/profile\" @click=", ">View Profile</a>\n      </div>\n    "])), JSON.stringify(_Auth.default.currentUser), this.cartItemCount, _Auth.default.currentUser.firstName, () => (0, _Router.gotoRoute)('/profile'), _Router.anchorRoute);
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
@@ -11888,403 +12342,20 @@ var _templateObject, _templateObject2, _templateObject3, _templateObject4;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class ProfileView {
-  init() {
+  async init() {
     console.log('ProfileView.init');
     document.title = "".concat(_App.default.name, " - Profile");
+    this.cartItemCount = await _Utils.default.getCartItemCount();
     this.render();
     _Utils.default.pageIntroAnim();
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <co-app-header user=\"", "\"></co-app-header>\n        <div class=\"row my-4 justify-content-center\">\n            <div class=\"row col-xs-12 col-sm-10\">\n                <div class=\"col-11\">\n                    <h1>My profile</h1>\n                    <p class=\"small mb-0 brand-color\">If your details need to be corrected, edit your profile.</p>\n                </div>\n                <div class=\"col-1 mt-auto d-flex justify-content-end\">\n                    <a href=\"/editProfile\" @click=", ">Edit</a>\n                </div>\n            </div>\n\n            <div class=\"row gy-4 mt-0 col-xs-12 col-sm-10\">\n                <div class=\"col-md-6 d-flex justify-content-center\">\n                    ", "\n                </div>\n                <div class=\"col-md-6 d-flex flex-column justify-content-center\">\n                    <h2>", " ", "</h2>\n                    <p><span class=\"small text-muted\">Email:</span> ", "</p>\n                    ", "\n                </div>\n\n                <p class=\"mt-4 text-muted small\">Updated:\n                    ", "</p>\n            </div>\n        </div>\n    "])), JSON.stringify(_Auth.default.currentUser), _Router.anchorRoute, _Auth.default.currentUser && _Auth.default.currentUser.avatar ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                        <sl-avatar class=\"avatar\"\n                                   image=", "></sl-avatar>\n                    "])), _Auth.default.currentUser && _Auth.default.currentUser.avatar ? "".concat(_App.default.apiBase, "/images/").concat(_Auth.default.currentUser.avatar) : '') : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                        <sl-avatar class=\"avatar\"></sl-avatar>\n                    "]))), _Auth.default.currentUser.firstName, _Auth.default.currentUser.lastName, _Auth.default.currentUser.email, _Auth.default.currentUser.bio ? (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["<p><span class=\"small text-muted\">Bio:</span> ", "</p>"])), _Auth.default.currentUser.bio) : null, (0, _moment.default)(_Auth.default.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a'));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\" cartItemCount=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <div class=\"col-11\">\n                        <h1>My profile</h1>\n                        <p class=\"small mb-0 brand-color\">If your details need to be corrected, edit your profile.</p>\n                    </div>\n                    <div class=\"col-1 mt-auto d-flex justify-content-end\">\n                        <a href=\"/editProfile\" @click=", ">Edit</a>\n                    </div>\n                </div>\n\n                <div class=\"row gy-4 mt-0 col-xs-12 col-sm-10\">\n                    <div class=\"col-md-6 d-flex justify-content-center\">\n                        ", "\n                    </div>\n                    <div class=\"col-md-6 d-flex flex-column justify-content-center\">\n                        <h2>", " ", "</h2>\n                        <p><span class=\"small text-muted\">Email:</span> ", "</p>\n                        ", "\n                    </div>\n\n                    <p class=\"mt-4 text-muted small\">Updated:\n                        ", "</p>\n                </div>\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.cartItemCount, _Router.anchorRoute, _Auth.default.currentUser && _Auth.default.currentUser.avatar ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <sl-avatar class=\"avatar\"\n                                       image=", "></sl-avatar>\n                        "])), _Auth.default.currentUser && _Auth.default.currentUser.avatar ? "".concat(_App.default.apiBase, "/images/").concat(_Auth.default.currentUser.avatar) : '') : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <sl-avatar class=\"avatar\"></sl-avatar>\n                        "]))), _Auth.default.currentUser.firstName, _Auth.default.currentUser.lastName, _Auth.default.currentUser.email, _Auth.default.currentUser.bio ? (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["<p><span class=\"small text-muted\">Bio:</span>\n                            ", "</p>"])), _Auth.default.currentUser.bio) : null, (0, _moment.default)(_Auth.default.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a'));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new ProfileView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","moment":"../node_modules/moment/moment.js"}],"api/Drink.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _App = _interopRequireDefault(require("../App"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-class Drink {
-  async getDrink(drinkId) {
-    // validate
-    if (!drinkId) return;
-
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/drink/").concat(drinkId), {
-      method: "GET",
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      }
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem getting drink!');
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async getDrinks() {
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/drink"), {
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      }
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem getting drinks!');
-    }
-    // convert response payload into json - return data
-    return await response.json();
-  }
-  async getSpecials() {
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/drink/special"), {
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      }
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem getting specials!');
-    }
-    // convert response payload into json - return data
-    return await response.json();
-  }
-  async getMySpecials(userId) {
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/drink/by/").concat(userId), {
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      }
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem getting my specials!');
-    }
-    // convert response payload into json - return data
-    return await response.json();
-  }
-  async createSpecial(formData) {
-    // send fetch request
-    const response = await fetch("".concat(_App.default.apiBase, "/drink"), {
-      method: 'POST',
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      },
-      body: formData
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      let message = 'Problem creating special!';
-      if (response.status === 400) {
-        const err = await response.json();
-        message = err.message;
-      }
-      // throw error (exit this function)
-      throw new Error(message);
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async updateSpecial(drinkId, formData) {
-    // validate
-    if (!drinkId || !formData) return;
-
-    // make fetch request to backend
-    const response = await fetch("".concat(_App.default.apiBase, "/drink/").concat(drinkId), {
-      method: "PUT",
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      },
-      body: formData
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem updating special!');
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async removeSpecial(drinkId) {
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/special/").concat(drinkId), {
-      method: 'DELETE',
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      }
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem deleting special!');
-    }
-    // convert response payload into json - return data
-    return await response.json();
-  }
-}
-var _default = exports.default = new Drink();
-},{"../App":"App.js"}],"api/User.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _App = _interopRequireDefault(require("../App"));
-var _Auth = _interopRequireDefault(require("./Auth"));
-var _Drink = _interopRequireDefault(require("./Drink"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-class User {
-  async updateUser(userId, userData) {
-    let dataType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'form';
-    // validate
-    if (!userId || !userData) return;
-    let responseHeader;
-
-    // form data
-    if (dataType === 'form') {
-      // fetch response header normal (form data)
-      responseHeader = {
-        method: "PUT",
-        headers: {
-          "Authorization": "Bearer ".concat(localStorage.accessToken)
-        },
-        body: userData
-      };
-
-      // json data
-    } else if (dataType === 'json') {
-      responseHeader = {
-        method: "PUT",
-        headers: {
-          "Authorization": "Bearer ".concat(localStorage.accessToken),
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(userData)
-      };
-    }
-
-    // make fetch request to backend
-    const response = await fetch("".concat(_App.default.apiBase, "/user/").concat(userId), responseHeader);
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem updating user');
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async getUser(userId) {
-    // validate
-    if (!userId) return;
-
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/user/").concat(userId), {
-      method: "GET",
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      }
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem getting user!');
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async getUsersByAccess() {
-    let accessLevel = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 2;
-    // Fetch baristas from the db
-    const response = await fetch("".concat(_App.default.apiBase, "/user/access/").concat(accessLevel), {
-      method: "GET",
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken)
-      }
-    });
-    if (!response.ok) {
-      const err = await response.json();
-      if (err) console.log(err);
-      throw new Error('Problem getting users!');
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async addFavouriteDrink(drinkId) {
-    // validate
-    if (!drinkId) return;
-
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/user/add/favouriteDrink"), {
-      method: "PUT",
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken),
-        "Content-Type": 'application/json'
-      },
-      body: JSON.stringify({
-        drinkId: drinkId
-      })
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem adding drink to favourites!');
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async removeFavouriteDrink(drinkId) {
-    // validate
-    if (!drinkId) return;
-
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/user/remove/favouriteDrink"), {
-      method: "PUT",
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken),
-        "Content-Type": 'application/json'
-      },
-      body: JSON.stringify({
-        drinkId: drinkId
-      })
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem removing drink from favourites!');
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async addFavouriteBarista(userId) {
-    // validate
-    if (!userId) return;
-
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/user/add/favouriteBarista"), {
-      method: "PUT",
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken),
-        "Content-Type": 'application/json'
-      },
-      body: JSON.stringify({
-        userId: userId
-      })
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem adding barista to favourites!');
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-  async removeFavouriteBarista(userId) {
-    // validate
-    if (!userId) return;
-
-    // fetch the json data
-    const response = await fetch("".concat(_App.default.apiBase, "/user/remove/favouriteBarista"), {
-      method: "PUT",
-      headers: {
-        "Authorization": "Bearer ".concat(localStorage.accessToken),
-        "Content-Type": 'application/json'
-      },
-      body: JSON.stringify({
-        userId: userId
-      })
-    });
-
-    // if response not ok
-    if (!response.ok) {
-      // console log error
-      const err = await response.json();
-      if (err) console.log(err);
-      // throw error (exit this function)
-      throw new Error('Problem removing barista from favourites!');
-    }
-
-    // convert response payload into json - store as data
-    // return data
-    return await response.json();
-  }
-}
-var _default = exports.default = new User();
-},{"../App":"App.js","./Auth":"api/Auth.js","./Drink":"api/Drink.js"}],"views/pages/editProfile.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","moment":"../node_modules/moment/moment.js"}],"views/pages/editProfile.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12307,6 +12378,7 @@ class EditProfileView {
     console.log('EditProfileView.init');
     document.title = "".concat(_App.default.name, " - Edit profile");
     this.user = null;
+    this.cartItemCount = await _Utils.default.getCartItemCount();
     this.render();
     _Utils.default.pageIntroAnim();
     await this.getUser();
@@ -12337,7 +12409,7 @@ class EditProfileView {
     submitBtn.removeAttribute('loading');
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <co-app-header user=", "></co-app-header>\n      <div class=\"row my-4 justify-content-center\">\n        ", "\n      </div>\n    "])), JSON.stringify(_Auth.default.currentUser), this.user == null ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n          <sl-spinner></sl-spinner>\n        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n            <div class=\"col-xs-12 col-sm-10\">\n                <h1>Edit profile</h1>\n                <p class=\"small mb-4 brand-color\">If your details need to be corrected, edit your profile to keep your details up to date.</p>\n\n                <form class=\"row gy-3 mt-0\" @submit=", ">\n                    <sl-input class=\"col-md-6\" type=\"text\" label=\"First name\" name=\"firstName\" value=\"", "\" placeholder=\"Enter your first name...\" required></sl-input>\n                    <sl-input class=\"col-md-6\" type=\"text\" label=\"Last name\" name=\"lastName\" value=\"", "\" placeholder=\"Enter your last name...\" required></sl-input>\n                    <sl-input class=\"col-md-6\" type=\"text\" label=\"Email\" name=\"email\" value=\"", "\" placeholder=\"Enter your email...\" required></sl-input>\n\n                    <div class=\"col-md-6\">\n                        <label for=\"formFile\" class=\"form-label mb-1\">Upload an avatar</label>\n                        <input class=\"form-control\" name=\"avatar\" type=\"file\" id=\"formFile\">\n                    </div>\n\n                    <sl-textarea name=\"bio\" label=\"Bio\" placeholder=\"Enter a short bio about yourself...\" value=\"", "\"></sl-textarea>\n\n                    <sl-button class=\"ms-auto col-md-2\" @click=\"", "\">Back</sl-button>\n                    <sl-button type=\"submit\" variant=\"primary\" class=\"col-md-2 submit-btn\">Update</sl-button>\n                </form>\n\n                <p class=\"mt-4 text-muted small\">Updated: ", "</p>\n        "])), this.updateProfileSubmitHandler.bind(this), this.user.firstName, this.user.lastName, this.user.email, this.user.bio, () => (0, _Router.gotoRoute)('/profile'), (0, _moment.default)(_Auth.default.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a')));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <co-app-header user=\"", "\" cartItemCount=\"", "\"></co-app-header>\n      <div class=\"row my-4 justify-content-center\">\n        ", "\n      </div>\n    "])), JSON.stringify(_Auth.default.currentUser), this.cartItemCount, this.user == null ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n          <sl-spinner></sl-spinner>\n        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n            <div class=\"col-xs-12 col-sm-10\">\n                <h1>Edit profile</h1>\n                <p class=\"small mb-4 brand-color\">If your details need to be corrected, edit your profile to keep your details up to date.</p>\n\n                <form class=\"row gy-3 mt-0\" @submit=", ">\n                    <sl-input class=\"col-md-6\" type=\"text\" label=\"First name\" name=\"firstName\" value=\"", "\" placeholder=\"Enter your first name...\" required></sl-input>\n                    <sl-input class=\"col-md-6\" type=\"text\" label=\"Last name\" name=\"lastName\" value=\"", "\" placeholder=\"Enter your last name...\" required></sl-input>\n                    <sl-input class=\"col-md-6\" type=\"text\" label=\"Email\" name=\"email\" value=\"", "\" placeholder=\"Enter your email...\" required></sl-input>\n\n                    <div class=\"col-md-6\">\n                        <label for=\"formFile\" class=\"form-label mb-1\">Upload an avatar</label>\n                        <input class=\"form-control\" name=\"avatar\" type=\"file\" id=\"formFile\">\n                    </div>\n\n                    <sl-textarea name=\"bio\" label=\"Bio\" placeholder=\"Enter a short bio about yourself...\" value=\"", "\"></sl-textarea>\n\n                    <sl-button class=\"ms-auto col-md-2\" @click=\"", "\">Back</sl-button>\n                    <sl-button type=\"submit\" variant=\"primary\" class=\"col-md-2 submit-btn\">Update</sl-button>\n                </form>\n\n                <p class=\"mt-4 text-muted small\">Updated: ", "</p>\n        "])), this.updateProfileSubmitHandler.bind(this), this.user.firstName, this.user.lastName, this.user.email, this.user.bio, () => (0, _Router.gotoRoute)('/profile'), (0, _moment.default)(_Auth.default.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a')));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
@@ -12403,6 +12475,7 @@ class BaristasView {
     if (_Auth.default.currentUser.accessLevel === 2) (0, _Router.gotoRoute)('/404');
     document.title = "".concat(_App.default.name, " - Baristas");
     this.baristas = null;
+    this.cartItemCount = await _Utils.default.getCartItemCount();
     await this.getBaristas();
     this.render();
     _Utils.default.pageIntroAnim();
@@ -12418,7 +12491,7 @@ class BaristasView {
     if (_Auth.default.currentUser.favouriteBaristas.includes(id)) return 1;else return 0;
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Baristas</h1>\n                    <p class=\"small mb-0 brand-color\">View our baristas and add them to your list of favourite\n                        baristas.</p>\n                </div>\n\n                <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                    ", "\n                    <div>\n\n\n                    </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.baristas.map(barista => (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                                <co-barista-card class=\"col-md-12 col-lg-6\"\n                                                 id=\"", "\"\n                                                 firstName=\"", "\"\n                                                 lastName=\"", "\"\n                                                 avatar=\"", "\"\n                                                 bio=\"", "\"\n                                                 favourite=\"", "\"></co-barista-card>\n                            "])), barista._id, barista.firstName, barista.lastName, barista.avatar, barista.bio, this.isFavouriteBarista(barista._id))));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\" cartItemCount=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Baristas</h1>\n                    <p class=\"small mb-0 brand-color\">View our baristas and add them to your list of favourite\n                        baristas.</p>\n                </div>\n\n                <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                    ", "\n                    <div>\n\n\n                    </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.cartItemCount, this.baristas.map(barista => (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                                <co-barista-card class=\"col-md-12 col-lg-6\"\n                                                 id=\"", "\"\n                                                 firstName=\"", "\"\n                                                 lastName=\"", "\"\n                                                 avatar=\"", "\"\n                                                 bio=\"", "\"\n                                                 favourite=\"", "\"></co-barista-card>\n                            "])), barista._id, barista.firstName, barista.lastName, barista.avatar, barista.bio, this.isFavouriteBarista(barista._id))));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
@@ -12545,6 +12618,7 @@ var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
 var _Drink = _interopRequireDefault(require("../../api/Drink"));
 var _Toast = _interopRequireDefault(require("../../Toast"));
+var _User = _interopRequireDefault(require("../../api/User"));
 var _templateObject, _templateObject2, _templateObject3, _templateObject4;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -12553,6 +12627,7 @@ class SpecialsView {
     if (_Auth.default.currentUser.accessLevel === 2) (0, _Router.gotoRoute)('/404');else {
       document.title = "".concat(_App.default.name, " - Specials");
       this.specials = null;
+      this.cartItemCount = await _Utils.default.getCartItemCount();
       await this.getSpecials();
       this.render();
       _Utils.default.pageIntroAnim();
@@ -12568,13 +12643,16 @@ class SpecialsView {
   isFavouriteDrink(id) {
     if (_Auth.default.currentUser.favouriteDrinks.includes(id)) return 1;else return 0;
   }
+  isAddedToCart(id) {
+    if (_Auth.default.currentUser.cart.includes(id)) return 1;else return 0;
+  }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Specials</h1>\n                    <p class=\"small mb-0 brand-color\">View and order special drinks created by our talented baristas. You can also add them to your favourites.</p>\n                </div>\n\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), Object.keys(this.specials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                <h2>We do not have any special drinks at the moment.</h2>\n                                <p class=\"small text-muted mb-0\">Check back later, as we may have a pleasant surprise for you.</p>\n                            </div>\n                        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                ", "\n                                <div>\n                        "])), this.specials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                            <co-drink-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                             id=\"", "\"\n                                                             name=\"", "\"\n                                                             description=\"", "\"\n                                                             price=\"", "\"\n                                                             user=\"", "\"\n                                                             image=\"", "\"\n                                                             drinkType=\"", "\"\n                                                             brewMethod=\"", "\"\n                                                             favourite=\"", "\">\n                                            </co-drink-card>\n                                        "])), special._id, special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod, this.isFavouriteDrink(special._id))).reverse()));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"\n                           cartItemCount=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Specials</h1>\n                    <p class=\"small mb-0 brand-color\">View and order special drinks created by our talented baristas.\n                        You can also add them to your favourites.</p>\n                </div>\n\n                ", "\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.cartItemCount, Object.keys(this.specials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                <h2>We do not have any special drinks at the moment.</h2>\n                                <p class=\"small text-muted mb-0\">Check back later, as we may have a pleasant surprise for\n                                    you.</p>\n                            </div>\n                        "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                ", "\n                                <div>\n                        "])), this.specials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                            <co-drink-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                           id=\"", "\"\n                                                           name=\"", "\"\n                                                           description=\"", "\"\n                                                           price=\"", "\"\n                                                           user=\"", "\"\n                                                           image=\"", "\"\n                                                           drinkType=\"", "\"\n                                                           brewMethod=\"", "\"\n                                                           favourite=\"", "\"\n                                                           inCart=\"", "\">\n                                            </co-drink-card>\n                                        "])), special._id, special.name, special.description, special.price, JSON.stringify(special.user), special.image, special.drinkType, special.brewMethod, this.isFavouriteDrink(special._id), this.isAddedToCart(special._id))).reverse()));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new SpecialsView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Drink":"api/Drink.js","../../Toast":"Toast.js"}],"views/pages/createSpecial.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Drink":"api/Drink.js","../../Toast":"Toast.js","../../api/User":"api/User.js"}],"views/pages/createSpecial.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13961,7 +14039,8 @@ var _lit = require("lit");
 var _Router = require("../Router");
 var _Auth = _interopRequireDefault(require("./../api/Auth"));
 var _App = _interopRequireDefault(require("./../App"));
-var _templateObject, _templateObject2, _templateObject3, _templateObject4;
+var _User = _interopRequireDefault(require("../api/User"));
+var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -13971,7 +14050,7 @@ class CoAppHeader extends _lit.LitElement {
   constructor() {
     super();
   }
-  firstUpdated(_changedProperties) {
+  async firstUpdated(_changedProperties) {
     super.firstUpdated(_changedProperties);
     this.navActiveLinks();
   }
@@ -14001,18 +14080,21 @@ class CoAppHeader extends _lit.LitElement {
     });
   }
   render() {
-    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <header class=\"app-header\">\n\n                <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\"></sl-icon-button>\n\n                <a class=\"app-header-logo\" title=\"Home\" href=\"/\" @click=\"", "\">\n                    <img src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                </a>\n\n                <nav class=\"app-header-top-nav\">\n                    <sl-dropdown>\n                        <sl-menu>\n                            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Logout</sl-menu-item>\n                        </sl-menu>\n                        <a title=\"Profile\" slot=\"trigger\" href=\"#\" @click=\"", "\">\n                            <sl-avatar class=\"avatar\"\n                                       image=", "></sl-avatar>\n                            ", "\n                        </a>\n                    </sl-dropdown>\n                </nav>\n\n            </header>\n\n            <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n                <nav class=\"app-drawer-menu-items\">\n                    <ul>\n                        <li><a title=\"Home\" href=\"/\" @click=\"", "\">Home</a></li>\n                        ", "\n                        <li><a title=\"Profile\" href=\"/profile\" @click=\"", "\">Profile</a></li>\n                        <li><a title=\"Logout\" href=\"#\" @click=\"", "\">Logout</a></li>\n                    </ul>\n                </nav>\n                <img slot=\"footer\" class=\"align-self-start app-drawer-logo\" src=\"/images/logo-white-alternate.svg\"\n                     alt=\"This is an image of the coffee on caf\xE9 logo.\">\n            </sl-drawer>\n        "])), this.hamburgerClick, _Router.anchorRoute, () => (0, _Router.gotoRoute)('/profile'), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.logout(), e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, this.user.firstName, this.menuClick, this.user.accessLevel === 2 ? (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <li><a title=\"My specials\" href=\"/mySpecials\" @click=\"", "\">My specials</a>\n                            </li>"])), this.menuClick) : (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <li><a title=\"Baristas\" href=\"/baristas\" @click=\"", "\">Baristas</a>\n                            <li><a title=\"Specials\" href=\"/specials\" @click=\"", "\">Specials</a>\n                        "])), this.menuClick, this.menuClick), this.menuClick, () => _Auth.default.logout());
+    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <header class=\"app-header\">\n\n                <sl-icon-button class=\"hamburger-btn\" name=\"list\" @click=\"", "\"></sl-icon-button>\n\n                <a class=\"app-header-logo\" title=\"Home\" href=\"/\" @click=\"", "\">\n                    <img src=\"/images/logo-primary-alternate.svg\" alt=\"This is an image of the coffee on caf\xE9 logo.\">\n                </a>\n\n                ", "\n\n                <nav class=\"app-header-top-nav\">\n                    <sl-dropdown>\n                        <sl-menu>\n                            <sl-menu-item @click=\"", "\">Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Edit Profile</sl-menu-item>\n                            <sl-menu-item @click=\"", "\">Logout</sl-menu-item>\n                        </sl-menu>\n                        <a title=\"Profile\" slot=\"trigger\" href=\"#\" @click=\"", "\">\n                            <sl-avatar class=\"avatar\"\n                                       image=", "></sl-avatar>\n                            ", "\n                        </a>\n                    </sl-dropdown>\n                </nav>\n\n            </header>\n\n            <sl-drawer class=\"app-drawer\" label=\"Welcome ", "!\" placement=\"start\">\n                <nav class=\"app-drawer-menu-items\">\n                    <ul>\n                        <li><a title=\"Home\" href=\"/\" @click=\"", "\">Home</a></li>\n                        ", "\n                        <li><a title=\"Profile\" href=\"/profile\" @click=\"", "\">Profile</a></li>\n                        <li><a title=\"Logout\" href=\"#\" @click=\"", "\">Logout</a></li>\n                    </ul>\n                </nav>\n                <img slot=\"footer\" class=\"align-self-start app-drawer-logo\" src=\"/images/logo-white-alternate.svg\"\n                     alt=\"This is an image of the coffee on caf\xE9 logo.\">\n            </sl-drawer>\n        "])), this.hamburgerClick, _Router.anchorRoute, this.user.accessLevel === 1 ? (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <sl-button variant=\"default\" size=\"small\" circle>\n                                <sl-icon name=\"cart2\" title=\"Shopping cart\" label=\"Shopping cart\"></sl-icon>\n                                <sl-badge pill>", "</sl-badge>\n                            </sl-button>\n                        "])), this.cartItemCount) : (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral([""]))), () => (0, _Router.gotoRoute)('/profile'), () => (0, _Router.gotoRoute)('/editProfile'), () => _Auth.default.logout(), e => e.preventDefault(), this.user && this.user.avatar ? "".concat(_App.default.apiBase, "/images/").concat(this.user.avatar) : '', this.user && this.user.firstName, this.user.firstName, this.menuClick, this.user.accessLevel === 2 ? (0, _lit.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                            <li><a title=\"My specials\" href=\"/mySpecials\" @click=\"", "\">My specials</a>\n                            </li>"])), this.menuClick) : (0, _lit.html)(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n                            <li><a title=\"Baristas\" href=\"/baristas\" @click=\"", "\">Baristas</a>\n                            <li><a title=\"Specials\" href=\"/specials\" @click=\"", "\">Specials</a>\n                        "])), this.menuClick, this.menuClick), this.menuClick, () => _Auth.default.logout());
   }
 }
 exports.CoAppHeader = CoAppHeader;
-_defineProperty(CoAppHeader, "styles", (0, _lit.css)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      * {\n        box-sizing: border-box;\n        margin: 0;\n        padding: 0;\n      }\n\n      .app-header {\n        padding: var(--sl-spacing-x-small) 0;\n        background-color: var(--body-bg);\n        border-bottom: var(--link-color) 1px solid;\n        display: flex;\n        align-items: center;\n        z-index: var(--sl-z-index-dropdown);\n      }\n\n      .app-header-logo {\n        display: flex;\n        flex-grow: 1;\n        align-items: center;\n      }\n\n      .app-header-logo img {\n        height: 2em;\n      }\n\n      .app-header-top-nav a {\n        text-decoration: none;\n        color: var(--brand-color);\n        font-weight: 300;\n      }\n\n      /* App drawer styles */\n\n      .app-drawer-menu-items ul {\n        list-style: none;\n      }\n\n      .app-drawer-menu-items a {\n        display: block;\n        text-decoration: none;\n        font-size: var(--sl-font-size-large);\n        color: var(--menu-link-color);\n        margin-bottom: var(--sl-spacing-small);\n        transition: 0.2s;\n      }\n\n      .app-drawer-menu-items a:hover {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer-menu-items a.active {\n        font-weight: bold;\n        color: var(--secondary-txt-color);\n        border-bottom: 1px solid var(--secondary-txt-color);\n        margin-right: var(--sl-spacing-x-small);\n        padding-bottom: var(--sl-spacing-2x-small);\n      }\n\n      .app-drawer-logo {\n        width: 150px;\n      }\n\n      /* Shoelace components ------------------------------------------------------ */\n\n      .hamburger-btn::part(base) {\n        color: var(--brand-color);\n        font-size: 2em;\n        padding-left: 0;\n      }\n\n      sl-drawer {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer::part(panel) {\n        background-color: var(--heading-color);\n      }\n\n      .app-drawer::part(close-button) {\n        color: var(--menu-link-color);\n      }\n\n      .app-drawer::part(close-button__base) {\n        transition: 0.2s;\n      }\n\n      .app-drawer::part(close-button__base):hover {\n        color: var(--secondary-txt-color);\n      }\n\n      sl-avatar {\n        --size: 2em;\n      }\n\n      .avatar::part(image) {\n        border: 1px var(--brand-color) solid;\n      }\n\n      sl-dropdown {\n        margin-right: 6px;\n      }\n\n      /* Responsive - Mobile ------------------------------------------------------ */\n\n      @media all and (max-width: 768px) {\n        .app-header-top-nav {\n          display: none;\n        }\n      }\n    "]))));
+_defineProperty(CoAppHeader, "styles", (0, _lit.css)(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      * {\n        box-sizing: border-box;\n        margin: 0;\n        padding: 0;\n      }\n\n      .app-header {\n        padding: var(--sl-spacing-x-small) 0;\n        background-color: var(--body-bg);\n        border-bottom: var(--link-color) 1px solid;\n        display: flex;\n        gap: var(--sl-spacing-medium);\n        align-items: center;\n        z-index: var(--sl-z-index-dropdown);\n      }\n\n      .app-header-logo {\n        display: flex;\n        flex-grow: 1;\n        align-items: center;\n      }\n\n      .app-header-logo img {\n        height: 2em;\n      }\n\n      .app-header-top-nav a {\n        text-decoration: none;\n        color: var(--brand-color);\n        font-weight: 300;\n      }\n\n      /* App drawer styles */\n\n      .app-drawer-menu-items ul {\n        list-style: none;\n      }\n\n      .app-drawer-menu-items a {\n        display: block;\n        text-decoration: none;\n        font-size: var(--sl-font-size-large);\n        color: var(--menu-link-color);\n        margin-bottom: var(--sl-spacing-small);\n        transition: 0.2s;\n      }\n\n      .app-drawer-menu-items a:hover {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer-menu-items a.active {\n        font-weight: bold;\n        color: var(--secondary-txt-color);\n        border-bottom: 1px solid var(--secondary-txt-color);\n        margin-right: var(--sl-spacing-x-small);\n        padding-bottom: var(--sl-spacing-2x-small);\n      }\n\n      .app-drawer-logo {\n        width: 150px;\n      }\n\n      /* Shoelace components ------------------------------------------------------ */\n\n      .hamburger-btn::part(base) {\n        color: var(--brand-color);\n        font-size: 2em;\n        padding-left: 0;\n        padding-right: 0;\n      }\n\n      sl-drawer {\n        color: var(--secondary-txt-color);\n      }\n\n      .app-drawer::part(panel) {\n        background-color: var(--heading-color);\n      }\n\n      .app-drawer::part(close-button) {\n        color: var(--menu-link-color);\n      }\n\n      .app-drawer::part(close-button__base) {\n        transition: 0.2s;\n      }\n\n      .app-drawer::part(close-button__base):hover {\n        color: var(--secondary-txt-color);\n      }\n\n      sl-avatar {\n        --size: 2em;\n      }\n\n      .avatar::part(image) {\n        border: 1px var(--brand-color) solid;\n      }\n\n      sl-dropdown {\n        margin-right: 6px;\n      }\n    "]))));
 _defineProperty(CoAppHeader, "properties", {
   user: {
     type: Object
+  },
+  cartItemCount: {
+    type: Number
   }
 });
 customElements.define('co-app-header', CoAppHeader);
-},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js"}],"components/co-drink-card.js":[function(require,module,exports) {
+},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js"}],"components/co-drink-card.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14026,7 +14108,7 @@ var _App = _interopRequireDefault(require("./../App"));
 var _User = _interopRequireDefault(require("../api/User"));
 var _Toast = _interopRequireDefault(require("../Toast"));
 var _Drink = _interopRequireDefault(require("../api/Drink"));
-var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8;
+var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -14039,19 +14121,24 @@ class CoDrinkCard extends _lit.LitElement {
   firstUpdated(_changedProperties) {
     super.firstUpdated(_changedProperties);
   }
-  addToCartHandler() {
-    const dialogEl = document.createElement('sl-dialog');
-    dialogEl.className = "special-dialog";
-    const dialogContent = (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <h2>Test</h2>\n        "])));
-    (0, _lit.render)(dialogContent, dialogEl);
-    document.body.append(dialogEl);
-    dialogEl.show();
 
-    // Delete dialog after hide.
-    dialogEl.addEventListener('sl-after-hide', () => {
-      dialogEl.remove();
-    });
-  }
+  // addToCartHandler() {
+  //     const dialogEl = document.createElement('sl-dialog');
+  //     dialogEl.className = "special-dialog"
+  //     const dialogContent = html`
+  //         <h2>Test</h2>
+  //     `;
+  //     render(dialogContent, dialogEl)
+  //
+  //     document.body.append(dialogEl)
+  //     dialogEl.show()
+  //
+  //     // Delete dialog after hide.
+  //     dialogEl.addEventListener('sl-after-hide', () => {
+  //         dialogEl.remove()
+  //     })
+  // }
+
   async addFavouriteHandler() {
     try {
       await _User.default.addFavouriteDrink(this.id);
@@ -14060,12 +14147,33 @@ class CoDrinkCard extends _lit.LitElement {
     } catch (err) {
       _Toast.default.show(err, 'error');
     }
+    this.render();
   }
   async removeFavouriteHandler() {
     try {
       await _User.default.removeFavouriteDrink(this.id);
       _Toast.default.show('Special removed from your favourites!');
       this.favourite = 0;
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  async addToCartHandler() {
+    try {
+      await _User.default.addToCart(this.id);
+      _Toast.default.show('Drink added to your shopping cart!');
+      this.inCart = 1;
+      (0, _Router.gotoRoute)('/specials');
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  async removeFromCartHandler() {
+    try {
+      await _User.default.removeFromCart(this.id);
+      _Toast.default.show('Drink removed from your shopping cart!');
+      this.inCart = 0;
+      (0, _Router.gotoRoute)('/specials');
     } catch (err) {
       _Toast.default.show(err, 'error');
     }
@@ -14077,7 +14185,7 @@ class CoDrinkCard extends _lit.LitElement {
   async removeMySpecialHandler() {
     const dialogEl = document.createElement('sl-dialog');
     dialogEl.setAttribute('label', "Remove ".concat(this.name));
-    const dialogContent = (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <p>Are you sure you want to remove ", " special?</p>\n            <sl-button slot=\"footer\" class=\"closeBtn\" style=\"margin-right: 0.5em;\">Close</sl-button>\n            <sl-button slot=\"footer\" class=\"removeBtn\" variant=\"primary\">Remove</sl-button>\n        "])), this.name);
+    const dialogContent = (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <p>Are you sure you want to remove ", " special?</p>\n            <sl-button slot=\"footer\" class=\"closeBtn\" style=\"margin-right: 0.5em;\">Close</sl-button>\n            <sl-button slot=\"footer\" class=\"removeBtn\" variant=\"primary\">Remove</sl-button>\n        "])), this.name);
     (0, _lit.render)(dialogContent, dialogEl);
     await document.body.append(dialogEl);
     dialogEl.show();
@@ -14100,11 +14208,11 @@ class CoDrinkCard extends _lit.LitElement {
     });
   }
   render() {
-    return (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n            <sl-card class=\"card-overview\">\n                <img\n                        slot=\"image\"\n                        src=\"", "/images/", "\"\n                        alt=\"An image of the special drink.\"\n                />\n\n                <h2>", "</h2>\n                <p>", "</p>\n                <small>$", "</small>\n\n                <div slot=\"footer\" class=\"card-footer\">\n                    ", "\n                </div>\n            </sl-card>\n        "])), _App.default.apiBase, this.image, this.name, this.description, this.price, _Auth.default.currentUser.accessLevel === 1 ? (0, _lit.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                <sl-button variant=\"primary\" pill @click=\"", "\">\n                                    <sl-icon slot=\"prefix\" name=\"cart2\"></sl-icon>\n                                    Add\n                                </sl-button>\n\n                                ", "\n\n                            "])), this.addToCartHandler.bind(this), this.favourite === 1 ? (0, _lit.html)(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n                                            <sl-icon-button name=\"heart-fill\" title=\"Remove from favourites\"\n                                                            label=\"Remove from favourite specials\"\n                                                            @click=\"", "\"></sl-icon-button>"])), this.removeFavouriteHandler.bind(this)) : (0, _lit.html)(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n                                            <sl-icon-button name=\"heart\" title=\"Add to favourites\"\n                                                            label=\"Add to favourite specials\"\n                                                            @click=\"", "\"></sl-icon-button>"])), this.addFavouriteHandler.bind(this))) : (0, _lit.html)(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n                                <sl-button variant=\"primary\" pill @click=\"", "\">\n                                    <sl-icon slot=\"prefix\" name=\"pencil-square\"></sl-icon>\n                                    Edit\n                                </sl-button>\n                                <sl-icon-button name=\"trash3\" title=\"Remove special\"\n                                                label=\"Remove special drink\"\n                                                @click=\"", "\"></sl-icon-button>\n                            "])), this.editMySpecialHandler.bind(this), this.removeMySpecialHandler.bind(this)));
+    return (0, _lit.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <sl-card class=\"card-overview\">\n                <img\n                        slot=\"image\"\n                        src=\"", "/images/", "\"\n                        alt=\"An image of the special drink.\"\n                />\n\n                <h2>", "</h2>\n                <p>", "</p>\n                <small>$", "</small>\n\n                <div slot=\"footer\" class=\"card-footer\">\n                    ", "\n                </div>\n            </sl-card>\n        "])), _App.default.apiBase, this.image, this.name, this.description, this.price, _Auth.default.currentUser.accessLevel === 1 ? (0, _lit.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                                ", "\n\n                                ", "\n\n                            "])), this.inCart === 1 ? (0, _lit.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                            <sl-button title=\"Remove from cart\" label=\"Remove drink from cart\" pill @click=\"", "\">\n                                                <sl-icon slot=\"prefix\" name=\"trash\"></sl-icon>\n                                            </sl-button>\n                                        "])), this.removeFromCartHandler.bind(this)) : (0, _lit.html)(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n                                            <sl-button title=\"Add to cart\" label=\"Add drink to cart\" variant=\"primary\" pill @click=\"", "\">\n                                                <sl-icon slot=\"prefix\" name=\"cart2\"></sl-icon>\n                                                Add\n                                            </sl-button>\n                                        "])), this.addToCartHandler.bind(this)), this.favourite === 1 ? (0, _lit.html)(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n                                            <sl-icon-button name=\"heart-fill\" title=\"Remove from favourites\"\n                                                            label=\"Remove from favourite specials\"\n                                                            @click=\"", "\"></sl-icon-button>"])), this.removeFavouriteHandler.bind(this)) : (0, _lit.html)(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n                                            <sl-icon-button name=\"heart\" title=\"Add to favourites\"\n                                                            label=\"Add to favourite specials\"\n                                                            @click=\"", "\"></sl-icon-button>"])), this.addFavouriteHandler.bind(this))) : (0, _lit.html)(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n                                <sl-button variant=\"primary\" pill @click=\"", "\">\n                                    <sl-icon slot=\"prefix\" name=\"pencil-square\"></sl-icon>\n                                    Edit\n                                </sl-button>\n                                <sl-icon-button name=\"trash3\" title=\"Remove special\"\n                                                label=\"Remove special drink\"\n                                                @click=\"", "\"></sl-icon-button>\n                            "])), this.editMySpecialHandler.bind(this), this.removeMySpecialHandler.bind(this)));
   }
 }
 exports.CoDrinkCard = CoDrinkCard;
-_defineProperty(CoDrinkCard, "styles", (0, _lit.css)(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      sl-card {\n        width: 100%;\n      }\n\n      sl-card img {\n        height: 200px;\n        object-fit: cover;\n      }\n\n      sl-card h2, p {\n        margin: 0 0 var(--sl-spacing-x-small) 0;\n      }\n\n      small {\n        color: var(--brand-color);\n        font-weight: bold;\n      }\n\n      .card-footer {\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n      }\n    "]))));
+_defineProperty(CoDrinkCard, "styles", (0, _lit.css)(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n      /* General styles ----------------------------------------------------------- */\n\n      sl-card {\n        width: 100%;\n      }\n\n      sl-card img {\n        height: 200px;\n        object-fit: cover;\n      }\n\n      sl-card h2, p {\n        margin: 0 0 var(--sl-spacing-x-small) 0;\n      }\n\n      small {\n        color: var(--brand-color);\n        font-weight: bold;\n      }\n\n      .card-footer {\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n      }\n    "]))));
 _defineProperty(CoDrinkCard, "properties", {
   id: {
     type: String
@@ -14131,6 +14239,9 @@ _defineProperty(CoDrinkCard, "properties", {
     type: String
   },
   favourite: {
+    type: Number
+  },
+  inCart: {
     type: Number
   }
 });

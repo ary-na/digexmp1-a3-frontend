@@ -5,16 +5,17 @@ import Auth from '../../api/Auth'
 import Utils from './../../Utils'
 
 class HomeView {
-  init(){    
+  async init(){
     console.log('HomeView.init')
     document.title = `${App.name} - Home`
+    this.cartItemCount = await Utils.getCartItemCount()
     this.render()    
     Utils.pageIntroAnim()    
   }
 
   render(){
     const template = html`
-      <co-app-header title="Home" user=${JSON.stringify(Auth.currentUser)}></co-app-header>
+      <co-app-header title="Home" user="${JSON.stringify(Auth.currentUser)}" cartItemCount="${this.cartItemCount}"></co-app-header>
       
       <div class="row app-header-padding">
         <h1 class="col-6 anim-in">Hey ${Auth.currentUser.firstName}</h1>

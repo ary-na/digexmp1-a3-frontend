@@ -193,6 +193,59 @@ class User {
     return await response.json()
 
   }
+
+  async addToCart(drinkId){
+    // validate
+    if(!drinkId) return
+
+    // fetch the json data
+    const response = await fetch(`${App.apiBase}/user/add/cart`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${localStorage.accessToken}`, "Content-Type": 'application/json'},
+      body: JSON.stringify({drinkId: drinkId})
+    })
+
+    // if response not ok
+    if(!response.ok){
+      // console log error
+      const err = await response.json()
+      if(err) console.log(err)
+      // throw error (exit this function)
+      throw new Error('Problem adding drink to shopping cart!')
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json()
+
+  }
+
+  async removeFromCart(drinkId){
+    // validate
+    if(!drinkId) return
+
+    // fetch the json data
+    const response = await fetch(`${App.apiBase}/user/remove/cart`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${localStorage.accessToken}`, "Content-Type": 'application/json'},
+      body: JSON.stringify({drinkId: drinkId})
+    })
+
+    // if response not ok
+    if(!response.ok){
+      // console log error
+      const err = await response.json()
+      if(err) console.log(err)
+      // throw error (exit this function)
+      throw new Error('Problem removing drink from shopping cart!')
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json()
+
+  }
+
 }
 
 export default new User()

@@ -13,6 +13,7 @@ class BaristasView {
 
         document.title = `${App.name} - Baristas`
         this.baristas = null
+        this.cartItemCount = await Utils.getCartItemCount()
         await this.getBaristas()
         this.render()
         Utils.pageIntroAnim()
@@ -35,7 +36,7 @@ class BaristasView {
 
     render() {
         const template = html`
-            <co-app-header user="${JSON.stringify(Auth.currentUser)}"></co-app-header>
+            <co-app-header user="${JSON.stringify(Auth.currentUser)}" cartItemCount="${this.cartItemCount}"></co-app-header>
             <div class="row my-4 justify-content-center">
                 <div class="row col-xs-12 col-sm-10">
                     <h1>Baristas</h1>

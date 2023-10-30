@@ -45,6 +45,7 @@ export class CoDrinkCard extends LitElement {
         drinkType: {type: String},
         brewMethod: {type: String},
         favourite: {type: Number},
+        inCart: {type: Number},
     }
 
     constructor() {
@@ -55,22 +56,22 @@ export class CoDrinkCard extends LitElement {
         super.firstUpdated(_changedProperties)
     }
 
-    addToCartHandler() {
-        const dialogEl = document.createElement('sl-dialog');
-        dialogEl.className = "special-dialog"
-        const dialogContent = html`
-            <h2>Test</h2>
-        `;
-        render(dialogContent, dialogEl)
-
-        document.body.append(dialogEl)
-        dialogEl.show()
-
-        // Delete dialog after hide.
-        dialogEl.addEventListener('sl-after-hide', () => {
-            dialogEl.remove()
-        })
-    }
+    // addToCartHandler() {
+    //     const dialogEl = document.createElement('sl-dialog');
+    //     dialogEl.className = "special-dialog"
+    //     const dialogContent = html`
+    //         <h2>Test</h2>
+    //     `;
+    //     render(dialogContent, dialogEl)
+    //
+    //     document.body.append(dialogEl)
+    //     dialogEl.show()
+    //
+    //     // Delete dialog after hide.
+    //     dialogEl.addEventListener('sl-after-hide', () => {
+    //         dialogEl.remove()
+    //     })
+    // }
 
     async addFavouriteHandler() {
         try {
@@ -80,6 +81,7 @@ export class CoDrinkCard extends LitElement {
         } catch (err) {
             Toast.show(err, 'error')
         }
+        this.render()
     }
 
     async removeFavouriteHandler() {
@@ -87,6 +89,28 @@ export class CoDrinkCard extends LitElement {
             await User.removeFavouriteDrink(this.id)
             Toast.show('Special removed from your favourites!')
             this.favourite = 0
+        } catch (err) {
+            Toast.show(err, 'error')
+        }
+    }
+
+    async addToCartHandler() {
+        try {
+            await User.addToCart(this.id)
+            Toast.show('Drink added to your shopping cart!')
+            this.inCart = 1
+            gotoRoute('/specials')
+        } catch (err) {
+            Toast.show(err, 'error')
+        }
+    }
+
+    async removeFromCartHandler(){
+        try {
+            await User.removeFromCart(this.id)
+            Toast.show('Drink removed from your shopping cart!')
+            this.inCart = 0
+            gotoRoute('/specials')
         } catch (err) {
             Toast.show(err, 'error')
         }
@@ -146,10 +170,18 @@ export class CoDrinkCard extends LitElement {
                 <div slot="footer" class="card-footer">
                     ${Auth.currentUser.accessLevel === 1
                             ? html`
-                                <sl-button variant="primary" pill @click="${this.addToCartHandler.bind(this)}">
-                                    <sl-icon slot="prefix" name="cart2"></sl-icon>
-                                    Add
-                                </sl-button>
+                                ${this.inCart === 1 
+                                        ? html`
+                                            <sl-button title="Remove from cart" label="Remove drink from cart" pill @click="${this.removeFromCartHandler.bind(this)}">
+                                                <sl-icon slot="prefix" name="trash"></sl-icon>
+                                            </sl-button>
+                                        ` 
+                                        : html`
+                                            <sl-button title="Add to cart" label="Add drink to cart" variant="primary" pill @click="${this.addToCartHandler.bind(this)}">
+                                                <sl-icon slot="prefix" name="cart2"></sl-icon>
+                                                Add
+                                            </sl-button>
+                                        `}
 
                                 ${this.favourite === 1 ? html`
                                             <sl-icon-button name="heart-fill" title="Remove from favourites"

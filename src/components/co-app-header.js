@@ -2,6 +2,7 @@ import {LitElement, html, css} from 'lit'
 import {anchorRoute, gotoRoute} from '../Router'
 import Auth from './../api/Auth'
 import App from './../App'
+import User from "../api/User";
 
 export class CoAppHeader extends LitElement {
     static styles = css`
@@ -18,6 +19,7 @@ export class CoAppHeader extends LitElement {
         background-color: var(--body-bg);
         border-bottom: var(--link-color) 1px solid;
         display: flex;
+        gap: var(--sl-spacing-medium);
         align-items: center;
         z-index: var(--sl-z-index-dropdown);
       }
@@ -75,6 +77,7 @@ export class CoAppHeader extends LitElement {
         color: var(--brand-color);
         font-size: 2em;
         padding-left: 0;
+        padding-right: 0;
       }
 
       sl-drawer {
@@ -108,25 +111,18 @@ export class CoAppHeader extends LitElement {
       sl-dropdown {
         margin-right: 6px;
       }
-
-      /* Responsive - Mobile ------------------------------------------------------ */
-
-      @media all and (max-width: 768px) {
-        .app-header-top-nav {
-          display: none;
-        }
-      }
-    `;
+    `
 
     static properties = {
         user: {type: Object},
+        cartItemCount: {type: Number}
     }
 
     constructor() {
         super()
     }
 
-    firstUpdated(_changedProperties) {
+    async firstUpdated(_changedProperties) {
         super.firstUpdated(_changedProperties)
         this.navActiveLinks()
     }
@@ -168,6 +164,15 @@ export class CoAppHeader extends LitElement {
                 <a class="app-header-logo" title="Home" href="/" @click="${anchorRoute}">
                     <img src="/images/logo-primary-alternate.svg" alt="This is an image of the coffee on café logo.">
                 </a>
+
+                ${this.user.accessLevel === 1
+                        ? html`
+                            <sl-button variant="default" size="small" circle>
+                                <sl-icon name="cart2" title="Shopping cart" label="Shopping cart"></sl-icon>
+                                <sl-badge pill>${this.cartItemCount}</sl-badge>
+                            </sl-button>
+                        `
+                        : html``}
 
                 <nav class="app-header-top-nav">
                     <sl-dropdown>

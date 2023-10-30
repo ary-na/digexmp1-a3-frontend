@@ -1,4 +1,7 @@
 import gsap from 'gsap'
+import User from "./api/User";
+import Auth from "./api/Auth";
+import Toast from "./Toast";
 
 class Utils {
 
@@ -16,6 +19,18 @@ class Utils {
     const pageContent = document.querySelector('.page-content')
     if(!pageContent) return
     gsap.fromTo(pageContent, {opacity: 0, y: -12}, {opacity: 1, y: 0, ease: 'power2.out', duration: 0.3})
+  }
+
+  async getCartItemCount() {
+    try {
+      const user = await User.getUser(Auth.currentUser._id)
+      if (!user.cart)
+        return 0
+      else
+        return user.cart.length
+    } catch (err) {
+      Toast.show(err, 'error')
+    }
   }
 }
 

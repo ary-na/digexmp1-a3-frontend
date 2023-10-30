@@ -12,6 +12,7 @@ class EditProfileView {
     console.log('EditProfileView.init')
     document.title = `${App.name} - Edit profile`
     this.user = null
+    this.cartItemCount = await Utils.getCartItemCount()
     this.render()    
     Utils.pageIntroAnim()
     await this.getUser()
@@ -46,7 +47,7 @@ class EditProfileView {
 
   render(){
     const template = html`
-      <co-app-header user=${JSON.stringify(Auth.currentUser)}></co-app-header>
+      <co-app-header user="${JSON.stringify(Auth.currentUser)}" cartItemCount="${this.cartItemCount}"></co-app-header>
       <div class="row my-4 justify-content-center">
         ${(this.user == null) ? html`
           <sl-spinner></sl-spinner>
