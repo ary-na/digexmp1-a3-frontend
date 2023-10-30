@@ -14,6 +14,7 @@ class MySpecialsView {
             document.title = `${App.name} - My specials`
             this.mySpecials = null
             await this.getMySpecials(Auth.currentUser._id)
+            localStorage.removeItem('specialId')
             this.render()
             Utils.pageIntroAnim()
         }
@@ -63,7 +64,7 @@ class MySpecialsView {
                                                              drinkType="${special.drinkType}"
                                                              brewMethod="${special.brewMethod}"></co-special-card>
                                         `
-                                )}
+                                ).reverse()}
                                 <div>
                         `
                 }

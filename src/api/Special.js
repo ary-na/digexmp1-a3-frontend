@@ -1,18 +1,42 @@
 import App from '../App'
 
 class Special {
-    async getSpecials(){
+    async getSpecial(specialId) {
+        // validate
+        if (!specialId) return
 
         // fetch the json data
-        const response = await fetch(`${App.apiBase}/special`, {
-            headers: { "Authorization": `Bearer ${localStorage.accessToken}`}
+        const response = await fetch(`${App.apiBase}/special/${specialId}`, {
+            method: "GET",
+            headers: {"Authorization": `Bearer ${localStorage.accessToken}`}
         })
 
         // if response not ok
-        if(!response.ok){
+        if (!response.ok) {
             // console log error
             const err = await response.json()
-            if(err) console.log(err)
+            if (err) console.log(err)
+            // throw error (exit this function)
+            throw new Error('Problem getting special!')
+        }
+
+        // convert response payload into json - store as data
+        // return data
+        return await response.json()
+    }
+
+    async getSpecials() {
+
+        // fetch the json data
+        const response = await fetch(`${App.apiBase}/special`, {
+            headers: {"Authorization": `Bearer ${localStorage.accessToken}`}
+        })
+
+        // if response not ok
+        if (!response.ok) {
+            // console log error
+            const err = await response.json()
+            if (err) console.log(err)
             // throw error (exit this function)
             throw new Error('Problem getting specials!')
         }
@@ -20,17 +44,17 @@ class Special {
         return await response.json()
     }
 
-    async getMySpecials(userId){
+    async getMySpecials(userId) {
         // fetch the json data
-        const response = await fetch(`${App.apiBase}/special/${userId}`, {
-            headers: { "Authorization": `Bearer ${localStorage.accessToken}`}
+        const response = await fetch(`${App.apiBase}/special/by/${userId}`, {
+            headers: {"Authorization": `Bearer ${localStorage.accessToken}`}
         })
 
         // if response not ok
-        if(!response.ok){
+        if (!response.ok) {
             // console log error
             const err = await response.json()
-            if(err) console.log(err)
+            if (err) console.log(err)
             // throw error (exit this function)
             throw new Error('Problem getting my specials!')
         }
@@ -38,18 +62,18 @@ class Special {
         return await response.json()
     }
 
-    async createSpecial(formData){
+    async createSpecial(formData) {
         // send fetch request
         const response = await fetch(`${App.apiBase}/special`, {
             method: 'POST',
-            headers: { "Authorization": `Bearer ${localStorage.accessToken}`},
+            headers: {"Authorization": `Bearer ${localStorage.accessToken}`},
             body: formData
         })
 
         // if response not ok
-        if(!response.ok){
+        if (!response.ok) {
             let message = 'Problem adding special!'
-            if(response.status === 400){
+            if (response.status === 400) {
                 const err = await response.json()
                 message = err.message
             }
@@ -62,18 +86,43 @@ class Special {
         return await response.json()
     }
 
-    async removeSpecial(specialId){
-        // fetch the json data
+    async updateSpecial(specialId, formData) {
+        // validate
+        if (!specialId || !formData) return
+
+        // make fetch request to backend
         const response = await fetch(`${App.apiBase}/special/${specialId}`, {
-            method: 'DELETE',
-            headers: { "Authorization": `Bearer ${localStorage.accessToken}`}
+            method: "PUT",
+            headers: {"Authorization": `Bearer ${localStorage.accessToken}`},
+            body: formData
         })
 
         // if response not ok
-        if(!response.ok){
+        if (!response.ok) {
             // console log error
             const err = await response.json()
-            if(err) console.log(err)
+            if (err) console.log(err)
+            // throw error (exit this function)
+            throw new Error('Problem updating special!')
+        }
+
+        // convert response payload into json - store as data
+        // return data
+        return await response.json()
+    }
+
+    async removeSpecial(specialId) {
+        // fetch the json data
+        const response = await fetch(`${App.apiBase}/special/${specialId}`, {
+            method: 'DELETE',
+            headers: {"Authorization": `Bearer ${localStorage.accessToken}`}
+        })
+
+        // if response not ok
+        if (!response.ok) {
+            // console log error
+            const err = await response.json()
+            if (err) console.log(err)
             // throw error (exit this function)
             throw new Error('Problem getting my specials!')
         }

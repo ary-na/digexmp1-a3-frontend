@@ -3,23 +3,23 @@ import {html, render } from 'lit-html'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
-import UserAPI from '../../api/User'
 import Toast from '../../Toast'
 import moment from 'moment'
+import User from "../../api/User";
 
 class EditProfileView {
-  init(){
+  async init(){
     console.log('EditProfileView.init')
     document.title = `${App.name} - Edit profile`
     this.user = null
     this.render()    
     Utils.pageIntroAnim()
-    this.getUser()    
+    await this.getUser()
   }
 
   async getUser(){
     try {
-      this.user = await UserAPI.getUser(Auth.currentUser._id)      
+      this.user = await User.getUser(Auth.currentUser._id)
       this.render()
     }catch(err){
       Toast.show(err, 'error')
@@ -32,7 +32,7 @@ class EditProfileView {
     const submitBtn = document.querySelector('.submit-btn')
     submitBtn.setAttribute('loading', '')
     try {
-      const updatedUser = await UserAPI.updateUser(Auth.currentUser._id, formData)      
+      const updatedUser = await User.updateUser(Auth.currentUser._id, formData)
       delete updatedUser.password        
       this.user = updatedUser     
       Auth.currentUser = updatedUser

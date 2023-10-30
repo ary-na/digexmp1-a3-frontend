@@ -64,7 +64,7 @@ class SpecialsView {
                                                              favourite="${this.isFavouriteSpecial(special._id)}">
                                             </co-special-card>
                                         `
-                                )}
+                                ).reverse()}
                                 <div>
                         `
                 }

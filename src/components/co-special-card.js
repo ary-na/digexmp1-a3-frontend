@@ -92,11 +92,12 @@ export class CoSpecialCard extends LitElement {
         }
     }
 
-    async editSpecialHandler() {
-
+    async editMySpecialHandler() {
+        await localStorage.setItem('specialId', this.id)
+        gotoRoute('/editSpecial')
     }
 
-    async removeSpecialHandler() {
+    async removeMySpecialHandler() {
         const dialogEl = document.createElement('sl-dialog');
         dialogEl.setAttribute('label', `Remove ${this.name}`)
         const dialogContent = html`
@@ -161,13 +162,13 @@ export class CoSpecialCard extends LitElement {
 
                             `
                             : html`
-                                <sl-button variant="primary" pill @click="${this.editSpecialHandler.bind(this)}">
+                                <sl-button variant="primary" pill @click="${this.editMySpecialHandler.bind(this)}">
                                     <sl-icon slot="prefix" name="pencil-square"></sl-icon>
                                     Edit
                                 </sl-button>
                                 <sl-icon-button name="trash3" title="Remove special"
                                                 label="Remove special drink"
-                                                @click="${this.removeSpecialHandler.bind(this)}"></sl-icon-button>
+                                                @click="${this.removeMySpecialHandler.bind(this)}"></sl-icon-button>
                             `}
                 </div>
             </sl-card>

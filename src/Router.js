@@ -12,57 +12,59 @@ import menuView from './views/pages/menu'
 import mySpecialsView from './views/pages/mySpecials'
 import specialsView from './views/pages/specials'
 import createSpecialView from './views/pages/createSpecial'
+import editSpecialView from './views/pages/editSpecial'
 
 // define routes
 const routes = {
-	'/': homeView,	
-	'404' : fourOFourView,
-	'/login': loginView,
-	'/register': registerView,
-	'/profile': profileView,
-	'/editProfile': editProfileView,
-	'/menu': menuView,
-	'/baristas': baristasView,
-	'/mySpecials': mySpecialsView,
-	'/specials': specialsView,
-	'/favouriteDrinks': favouriteDrinksView,
-	'/guide': guideView,
-	'/createSpecial': createSpecialView
+    '/': homeView,
+    '404': fourOFourView,
+    '/login': loginView,
+    '/register': registerView,
+    '/profile': profileView,
+    '/editProfile': editProfileView,
+    '/menu': menuView,
+    '/baristas': baristasView,
+    '/mySpecials': mySpecialsView,
+    '/specials': specialsView,
+    '/favouriteDrinks': favouriteDrinksView,
+    '/guide': guideView,
+    '/createSpecial': createSpecialView,
+    '/editSpecial': editSpecialView,
 }
 
 class Router {
-	constructor(){
-		this.routes = routes
-	}
-	
-	init(){
-		// initial call
-		this.route(window.location.pathname)
+    constructor() {
+        this.routes = routes
+    }
 
-		// on back/forward
-		window.addEventListener('popstate', () => {
-			this.route(window.location.pathname)
-		})
-	}
-	
-	route(fullPathname){
-		// extract path without params
-		const pathname = fullPathname.split('?')[0]
-		const route = this.routes[pathname]
-		
-		if(route){
-			// if route exists, run init() of the view
-			this.routes[window.location.pathname].init()
-		}else{			
-			// show 404 view instead
-			this.routes['404'].init()			
-		}
-	}
+    init() {
+        // initial call
+        this.route(window.location.pathname)
 
-	gotoRoute(pathname){
-		window.history.pushState({}, pathname, window.location.origin + pathname);
-		this.route(pathname)
-	}	
+        // on back/forward
+        window.addEventListener('popstate', () => {
+            this.route(window.location.pathname)
+        })
+    }
+
+    route(fullPathname) {
+        // extract path without params
+        const pathname = fullPathname.split('?')[0]
+        const route = this.routes[pathname]
+
+        if (route) {
+            // if route exists, run init() of the view
+            this.routes[window.location.pathname].init()
+        } else {
+            // show 404 view instead
+            this.routes['404'].init()
+        }
+    }
+
+    gotoRoute(pathname) {
+        window.history.pushState({}, pathname, window.location.origin + pathname);
+        this.route(pathname)
+    }
 }
 
 // create appRouter instance and export
@@ -71,14 +73,14 @@ export default AppRouter
 
 
 // programmatically load any route
-export function gotoRoute(pathname){
-	AppRouter.gotoRoute(pathname)
+export function gotoRoute(pathname) {
+    AppRouter.gotoRoute(pathname)
 }
 
 
 // allows anchor <a> links to load routes
-export function anchorRoute(e){
-	e.preventDefault()	
-	const pathname = e.target.closest('a').pathname
-	AppRouter.gotoRoute(pathname)
+export function anchorRoute(e) {
+    e.preventDefault()
+    const pathname = e.target.closest('a').pathname
+    AppRouter.gotoRoute(pathname)
 }

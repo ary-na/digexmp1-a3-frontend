@@ -66,6 +66,14 @@ a {
   width: 50px;
 }
 
+.edit-image {
+  min-width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border: 1px var(--brand-color) solid;
+  border-radius: var(--sl-border-radius-circle);
+}
+
 // generic-entry ------------
 .generic-entry {
   box-shadow: 0px 3px 5px rgba(0,0,0,0.07);

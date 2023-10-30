@@ -35,6 +35,10 @@ export class CoBaristaCard extends LitElement {
         align-items: center;
         justify-content: space-between;
       }
+
+      a {
+        color: var(--link-color);
+      }
     `
 
     static properties = {
@@ -74,6 +78,24 @@ export class CoBaristaCard extends LitElement {
         }
     }
 
+    async readMoreHandler(e){
+        e.preventDefault()
+        const dialogEl = document.createElement('sl-dialog');
+        dialogEl.setAttribute('label', `${this.firstName}'s bio`)
+        const dialogContent = html`
+            <p>${this.bio}</p>
+        `;
+        render(dialogContent, dialogEl)
+
+        await document.body.append(dialogEl)
+        dialogEl.show()
+
+        // Delete dialog after hide.
+        dialogEl.addEventListener('sl-after-hide', () => {
+            dialogEl.remove()
+        })
+    }
+
     render() {
         return html`
             <sl-card class="card-basic">
@@ -91,7 +113,8 @@ export class CoBaristaCard extends LitElement {
                                                         label="Add to favourite baristas"
                                                         @click="${this.addFavouriteHandler.bind(this)}"></sl-icon-button>`}
                         </div>
-                        <p>${this.bio}</p>
+                        <p>${this.bio.substring(0, 60)}...</p>
+                        <a href="#" @click=${this.readMoreHandler.bind(this)}>read more</a>
                     </div>
                 </div>
             </sl-card>
