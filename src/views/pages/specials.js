@@ -69,12 +69,13 @@ class SpecialsView {
                                                            name="${special.name}"
                                                            description="${special.description}"
                                                            price="${special.price}"
-                                                           user="${JSON.stringify(special.user)}"
+                                                           user="${JSON.stringify(Auth.currentUser)}"
                                                            image="${special.image}"
                                                            drinkType="${special.drinkType}"
                                                            brewMethod="${special.brewMethod}"
                                                            favourite="${this.isFavouriteDrink(special._id)}"
-                                                           inCart="${this.isAddedToCart(special._id)}">
+                                                           inCart="${this.isAddedToCart(special._id)}"
+                                                           route="${'/specials'}">
                                             </co-drink-card>
                                         `
                                 ).reverse()}

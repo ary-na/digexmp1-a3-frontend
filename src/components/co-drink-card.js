@@ -1,4 +1,4 @@
-import {LitElement, render, html, css} from 'lit'
+import {LitElement, render, html, css } from 'lit'
 import {anchorRoute, gotoRoute} from '../Router'
 import Auth from './../api/Auth'
 import App from './../App'
@@ -46,32 +46,12 @@ export class CoDrinkCard extends LitElement {
         brewMethod: {type: String},
         favourite: {type: Number},
         inCart: {type: Number},
+        route: {type: String}
     }
 
     constructor() {
         super()
     }
-
-    firstUpdated(_changedProperties) {
-        super.firstUpdated(_changedProperties)
-    }
-
-    // addToCartHandler() {
-    //     const dialogEl = document.createElement('sl-dialog');
-    //     dialogEl.className = "special-dialog"
-    //     const dialogContent = html`
-    //         <h2>Test</h2>
-    //     `;
-    //     render(dialogContent, dialogEl)
-    //
-    //     document.body.append(dialogEl)
-    //     dialogEl.show()
-    //
-    //     // Delete dialog after hide.
-    //     dialogEl.addEventListener('sl-after-hide', () => {
-    //         dialogEl.remove()
-    //     })
-    // }
 
     async addFavouriteHandler() {
         try {
@@ -81,7 +61,6 @@ export class CoDrinkCard extends LitElement {
         } catch (err) {
             Toast.show(err, 'error')
         }
-        this.render()
     }
 
     async removeFavouriteHandler() {
@@ -99,18 +78,20 @@ export class CoDrinkCard extends LitElement {
             await User.addToCart(this.id)
             Toast.show('Drink added to your shopping cart!')
             this.inCart = 1
-            gotoRoute('/specials')
+            if (this.route)
+                gotoRoute(this.route)
         } catch (err) {
             Toast.show(err, 'error')
         }
     }
 
-    async removeFromCartHandler(){
+    async removeFromCartHandler() {
         try {
             await User.removeFromCart(this.id)
             Toast.show('Drink removed from your shopping cart!')
             this.inCart = 0
-            gotoRoute('/specials')
+            if (this.route)
+                gotoRoute(this.route)
         } catch (err) {
             Toast.show(err, 'error')
         }
@@ -170,19 +151,18 @@ export class CoDrinkCard extends LitElement {
                 <div slot="footer" class="card-footer">
                     ${Auth.currentUser.accessLevel === 1
                             ? html`
-                                ${this.inCart === 1 
-                                        ? html`
-                                            <sl-button title="Remove from cart" label="Remove drink from cart" pill @click="${this.removeFromCartHandler.bind(this)}">
-                                                <sl-icon slot="prefix" name="trash"></sl-icon>
-                                            </sl-button>
-                                        ` 
-                                        : html`
-                                            <sl-button title="Add to cart" label="Add drink to cart" variant="primary" pill @click="${this.addToCartHandler.bind(this)}">
-                                                <sl-icon slot="prefix" name="cart2"></sl-icon>
-                                                Add
-                                            </sl-button>
-                                        `}
-
+                                ${this.inCart === 1 ? html`
+                                    <sl-button title="Remove from cart" label="Remove drink from cart" pill
+                                               @click="${this.removeFromCartHandler.bind(this)}">
+                                        <sl-icon slot="prefix" name="trash"></sl-icon>
+                                    </sl-button>
+                                ` : html`
+                                    <sl-button title="Add to cart" label="Add drink to cart" variant="primary"
+                                               pill @click="${this.addToCartHandler.bind(this)}">
+                                        <sl-icon slot="prefix" name="cart2"></sl-icon>
+                                        Add
+                                    </sl-button>
+                                `}
                                 ${this.favourite === 1 ? html`
                                             <sl-icon-button name="heart-fill" title="Remove from favourites"
                                                             label="Remove from favourite specials"
@@ -192,8 +172,7 @@ export class CoDrinkCard extends LitElement {
                                                             label="Add to favourite specials"
                                                             @click="${this.addFavouriteHandler.bind(this)}"></sl-icon-button>`}
 
-                            `
-                            : html`
+                            ` : html`
                                 <sl-button variant="primary" pill @click="${this.editMySpecialHandler.bind(this)}">
                                     <sl-icon slot="prefix" name="pencil-square"></sl-icon>
                                     Edit
