@@ -73,6 +73,7 @@ class EditProfileView {
                 </form>
 
                 <p class="mt-4 text-muted small">Updated: ${moment(Auth.currentUser.updatedAt).format('MMMM Do YYYY, @ h:mm a')}</p>
+            </div>
         `}
       </div>
     `

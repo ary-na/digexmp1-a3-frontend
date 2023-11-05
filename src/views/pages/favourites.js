@@ -38,20 +38,6 @@ class FavouritesView {
         }
     }
 
-    isFavouriteDrink(id) {
-        if (Auth.currentUser.favouriteDrinks.includes(id))
-            return 1
-        else
-            return 0
-    }
-
-    isAddedToCart(id) {
-        if (Auth.currentUser.cart.includes(id))
-            return 1
-        else
-            return 0
-    }
-
     render() {
         const template = html`
             <co-app-header user="${JSON.stringify(Auth.currentUser)}"
@@ -86,8 +72,6 @@ class FavouritesView {
                                                                    image="${drink.image}"
                                                                    drinkType="${drink.drinkType}"
                                                                    brewMethod="${drink.brewMethod}"
-                                                                   favourite="${this.isFavouriteDrink(drink._id)}"
-                                                                   inCart="${this.isAddedToCart(drink._id)}"
                                                                    route="${'/favourites'}">
                                                     </co-drink-card>
                                                 `

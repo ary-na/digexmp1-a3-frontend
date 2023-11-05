@@ -167,7 +167,7 @@ export class CoAppHeader extends LitElement {
 
                 ${this.user.accessLevel === 1
                         ? html`
-                            <sl-button variant="default" size="small" circle>
+                            <sl-button variant="default" size="small" @click="${() => gotoRoute('/cart')}" circle>
                                 <sl-icon name="cart2" title="Shopping cart" label="Shopping cart"></sl-icon>
                                 <sl-badge pill>${this.cartItemCount}</sl-badge>
                             </sl-button>

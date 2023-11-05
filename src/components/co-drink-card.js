@@ -1,4 +1,4 @@
-import {LitElement, render, html, css } from 'lit'
+import {LitElement, render, html, css} from 'lit'
 import {anchorRoute, gotoRoute} from '../Router'
 import Auth from './../api/Auth'
 import App from './../App'
@@ -46,11 +46,30 @@ export class CoDrinkCard extends LitElement {
         brewMethod: {type: String},
         favourite: {type: Number},
         inCart: {type: Number},
-        route: {type: String}
+        route: {type: String},
     }
 
     constructor() {
         super()
+    }
+
+    firstUpdated(_changedProperties) {
+        this.favourite = this._isFavouriteDrink(this.id)
+        this.inCart = this._isAddedToCart(this.id)
+    }
+
+    _isFavouriteDrink(id) {
+        if (Auth.currentUser.favouriteDrinks.includes(id))
+            return 1
+        else
+            return 0
+    }
+
+    _isAddedToCart(id) {
+        if (Auth.currentUser.cart.includes(id))
+            return 1
+        else
+            return 0
     }
 
     async addFavouriteHandler() {
