@@ -11,7 +11,7 @@ class BaristasView {
         if (Auth.currentUser.accessLevel === 2)
             gotoRoute('/404')
 
-        document.title = `${App.name} - Baristas`
+        document.title = `Baristas - ${App.name}`
         this.baristas = null
         this.cartItemCount = await Utils.getCartItemCount()
         await this.getBaristas()

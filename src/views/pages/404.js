@@ -5,7 +5,7 @@ import {gotoRoute} from "../../Router";
 class FourOFourView{
   init(){
     console.log('FourOFourView.init')    
-    document.title = `${App.name} - Page not found`
+    document.title = `Page not found - ${App.name}`
     this.render()
   }
 

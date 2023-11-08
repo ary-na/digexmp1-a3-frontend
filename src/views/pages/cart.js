@@ -11,7 +11,7 @@ import baristas from "./baristas";
 
 class CartView {
     async init() {
-        document.title = `${App.name} - Cart`
+        document.title = `Cart - ${App.name}`
         this.cartItems = null
         this.baristas = null
         this.favouriteBaristas = null

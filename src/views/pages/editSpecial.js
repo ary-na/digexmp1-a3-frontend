@@ -7,7 +7,7 @@ import Toast from "../../Toast";
 import Drink from "../../api/Drink";
 class EditSpecialView {
     async init() {
-        document.title = `${App.name} - Edit my special`
+        document.title = `Edit my special - ${App.name}`
         this.specialId = localStorage.getItem('specialId')
         this.special = null
         await this.getMySpecial(this.specialId)

@@ -11,7 +11,7 @@ class createSpecial {
         if (Auth.currentUser.accessLevel === 1)
             gotoRoute('/404')
         else {
-            document.title = `${App.name} - Create special`
+            document.title = `Create special - ${App.name}`
             this.render()
             Utils.pageIntroAnim()
         }

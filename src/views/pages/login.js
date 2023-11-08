@@ -7,7 +7,7 @@ import Utils from './../../Utils'
 class LoginView {
     init() {
         console.log('LoginView.init')
-        document.title = `${App.name} - Login`
+        document.title = `Login - ${App.name}`
         this.render()
         Utils.pageIntroAnim()
     }

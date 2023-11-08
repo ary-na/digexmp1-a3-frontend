@@ -9,7 +9,7 @@ import Drink from "../../api/Drink";
 
 class FavouritesView {
     async init() {
-        document.title = `${App.name} - Favourites`
+        document.title = `Favourites - ${App.name}`
         this.favouriteBaristas = null
         this.favouriteDrinks = null
         this.cartItemCount = await Utils.getCartItemCount()

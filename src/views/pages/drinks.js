@@ -7,12 +7,12 @@ import Drink from "../../api/Drink";
 import Toast from "../../Toast";
 import User from "../../api/User";
 
-class SpecialsView {
+class DrinksView {
     async init() {
         if (Auth.currentUser.accessLevel === 2)
             gotoRoute('/404')
         else {
-            document.title = `${App.name} - Specials`
+            document.title = `Drinks - ${App.name}`
             this.specials = null
             this.cartItemCount = await Utils.getCartItemCount()
             await this.getSpecials()
@@ -132,4 +132,4 @@ class SpecialsView {
 }
 
 
-export default new SpecialsView()
+export default new DrinksView()

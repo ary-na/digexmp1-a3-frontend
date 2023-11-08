@@ -8,9 +8,8 @@ import editProfileView from './views/pages/editProfile'
 import guideView from './views/pages/guide'
 import baristasView from './views/pages/baristas'
 import favouritesView from './views/pages/favourites'
-import menuView from './views/pages/menu'
 import mySpecialsView from './views/pages/mySpecials'
-import specialsView from './views/pages/specials'
+import drinksView from './views/pages/drinks'
 import createSpecialView from './views/pages/createSpecial'
 import editSpecialView from './views/pages/editSpecial'
 import cartView from './views/pages/cart'
@@ -23,10 +22,9 @@ const routes = {
     '/register': registerView,
     '/profile': profileView,
     '/editProfile': editProfileView,
-    '/menu': menuView,
     '/baristas': baristasView,
     '/mySpecials': mySpecialsView,
-    '/specials': specialsView,
+    '/drinks': drinksView,
     '/favourites': favouritesView,
     '/guide': guideView,
     '/createSpecial': createSpecialView,

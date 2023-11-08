@@ -200,7 +200,7 @@ export class CoAppHeader extends LitElement {
                             </li>` : html`
                             <li><a title="Favourites" href="/favourites" @click="${this.menuClick}">Favourites</a>
                             <li><a title="Baristas" href="/baristas" @click="${this.menuClick}">Baristas</a>
-                            <li><a title="Specials" href="/specials" @click="${this.menuClick}">Specials</a>
+                            <li><a title="Specials" href="/drinks" @click="${this.menuClick}">Drinks</a>
                         `}
                         <li><a title="Profile" href="/profile" @click="${this.menuClick}">Profile</a></li>
                         <li><a title="Logout" href="#" @click="${() => Auth.logout()}">Logout</a></li>

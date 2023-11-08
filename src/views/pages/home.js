@@ -7,7 +7,7 @@ import Utils from './../../Utils'
 class HomeView {
   async init(){
     console.log('HomeView.init')
-    document.title = `${App.name} - Home`
+    document.title = `Home - ${App.name}`
     this.cartItemCount = await Utils.getCartItemCount()
     this.render()    
     Utils.pageIntroAnim()    

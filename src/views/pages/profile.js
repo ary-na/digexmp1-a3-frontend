@@ -8,7 +8,7 @@ import moment from 'moment'
 class ProfileView {
     async init() {
         console.log('ProfileView.init')
-        document.title = `${App.name} - Profile`
+        document.title = `Profile - ${App.name}`
         this.cartItemCount = await Utils.getCartItemCount()
         this.render()
         Utils.pageIntroAnim()

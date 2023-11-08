@@ -10,7 +10,7 @@ import User from "../../api/User";
 class EditProfileView {
   async init(){
     console.log('EditProfileView.init')
-    document.title = `${App.name} - Edit profile`
+    document.title = `Edit profile - ${App.name}`
     this.user = null
     this.cartItemCount = await Utils.getCartItemCount()
     this.render()    

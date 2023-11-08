@@ -8,7 +8,7 @@ class RegisterView {
 
     init() {
         console.log('RegisterView.init')
-        document.title = `${App.name} - Register`
+        document.title = `Register - ${App.name}`
         this.render()
         Utils.pageIntroAnim()
     }

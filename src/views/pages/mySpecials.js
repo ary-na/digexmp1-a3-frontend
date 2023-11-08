@@ -11,7 +11,7 @@ class MySpecialsView {
         if (Auth.currentUser.accessLevel === 1)
             gotoRoute('/404')
         else {
-            document.title = `${App.name} - My specials`
+            document.title = `My specials - ${App.name}`
             this.mySpecials = null
             await this.getMySpecials(Auth.currentUser._id)
             localStorage.removeItem('specialId')
