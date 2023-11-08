@@ -38,6 +38,13 @@ class FavouritesView {
         }
     }
 
+    isFavouriteBarista(id) {
+        if (Auth.currentUser.favouriteBaristas.includes(id))
+            return 1
+        else
+            return 0
+    }
+
     render() {
         const template = html`
             <co-app-header user="${JSON.stringify(Auth.currentUser)}"
@@ -61,7 +68,7 @@ class FavouritesView {
                                     </div>
                                 `
                                 : html`
-                                    <div class="col-xs-12 col-sm-10 row g-4 mt-0">
+                                    <div class="row g-4 mt-0">
                                         ${this.favouriteDrinks.map(drink => html`
                                                     <co-drink-card class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"
                                                                    id="${drink._id}"
@@ -81,7 +88,27 @@ class FavouritesView {
                         }
                     </sl-tab-panel>
                     <sl-tab-panel name="baristas">
-
+                        ${Object.keys(this.favouriteBaristas).length === 0 ? html`
+                                    <div class="text-center m-4 p-4 bg-white rounded-1">
+                                        <h2>You do not have any favourite baristas added to your account.</h2>
+                                        <p class="small text-muted mb-0">Look at their profile and add your favourite barista to your account.</p>
+                                    </div>
+                                `
+                                : html`
+                                    <div class="row g-4 mt-0">
+                                        ${this.favouriteBaristas.map(barista => html`
+                                            <co-barista-card class="col-md-12 col-lg-6"
+                                                             id="${barista._id}"
+                                                             firstName="${barista.firstName}"
+                                                             lastName="${barista.lastName}"
+                                                             avatar="${barista.avatar}"
+                                                             bio="${barista.bio}"
+                                                             favourite="${this.isFavouriteBarista(barista._id)}"></co-barista-card>
+                                                `
+                                ).reverse()}
+                                        <div>
+                                `
+                        }
 
                     </sl-tab-panel>
                 </sl-tab-group>
