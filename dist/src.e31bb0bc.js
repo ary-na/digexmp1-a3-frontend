@@ -12603,68 +12603,63 @@ var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
 var _Drink = _interopRequireDefault(require("../../api/Drink"));
 var _Toast = _interopRequireDefault(require("../../Toast"));
-var _User = _interopRequireDefault(require("../../api/User"));
-var _templateObject, _templateObject2, _templateObject3, _templateObject4;
+var _templateObject, _templateObject2;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 class DrinksView {
   async init() {
     if (_Auth.default.currentUser.accessLevel === 2) (0, _Router.gotoRoute)('/404');else {
       document.title = "Drinks - ".concat(_App.default.name);
-      this.specials = null;
+      this.drinks = null;
       this.cartItemCount = await _Utils.default.getCartItemCount();
-      await this.getSpecials();
-      //this.filterDrinks('price', '30-40')
+      await this.getDrinks();
       this.render();
       _Utils.default.pageIntroAnim();
     }
   }
-  async getSpecials() {
+  async getDrinks() {
     try {
-      this.specials = await _Drink.default.getSpecials();
+      this.drinks = await _Drink.default.getDrinks();
     } catch (err) {
       _Toast.default.show(err, 'error');
     }
   }
   clearFilterButtons() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    filterButtons.forEach(btn => btn.removeAttribute("type"));
+    filterButtons.forEach(btn => btn.setAttribute("variant", "default"));
   }
-  filterButtonHandler(e) {
+  async filterButtonHandler(e) {
     this.clearFilterButtons();
     // Set button type
-    e.target.setAttribute("type", "primary");
-    e.target.getAttribute("data-property");
-    e.target.getAttribute("data-match");
+    e.target.setAttribute("variant", "primary");
+    const property = e.target.getAttribute("data-property");
+    const match = e.target.getAttribute("data-match");
+    await this.filterDrinks(property, match);
+  }
+  async clearFilters() {
+    await this.getDrinks();
+    this.clearFilterButtons();
+    this.render();
   }
   async filterDrinks(property, match) {
     if (!property || !match) return;
 
     // Get drinks again
-    this.specials = await this.getSpecials();
+    this.drinks = await _Drink.default.getDrinks();
     let filteredDrinks;
-    if (property === 'drinkType') filteredDrinks = this.specials.filter(drink => drink.drinkType === match);
-    if (property === 'decaf') filteredDrinks = this.specials.filter(drink => drink.decaf === match);
-    if (property === 'price') {
-      const priceRangeStart = match.split('-')[0];
-      const priceRangeEnd = match.split('-')[1];
-      filteredDrinks = this.specials.filter(drink => drink.price >= priceRangeStart && drink.price <= priceRangeEnd);
-    }
-    this.specials = filteredDrinks;
-    this.render();
-  }
-  async clearFilters() {
-    this.clearFilterButtons();
-    await this.getSpecials();
+    if (property === 'type') filteredDrinks = this.drinks.filter(drink => drink.type === match);
+    if (property === 'decaf') filteredDrinks = this.drinks.filter(drink => drink.decaf === Boolean(match).valueOf());
+    if (property === 'special') filteredDrinks = this.drinks.filter(drink => drink.special === Boolean(match).valueOf());
+    this.drinks = filteredDrinks;
     this.render();
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"\n                           cartItemCount=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Specials</h1>\n                    <p class=\"small mb-0 brand-color\">View and order special drinks created by our talented baristas.\n                        You can also add them to your favourites.</p>\n\n\n                    <div>\n                        <div>Filter by\n                            <div>\n                                <div>Drink type</div>\n                                <sl-button class=\"filter-btn\" size=\"small\" data-property=\"drinkType\" data-match=\"Ice\"\n                                           @click=\"", "\">Ice\n                                </sl-button>\n                                <sl-button size=\"small\" @click=\"", "\">Hot</sl-button>\n                                <sl-button size=\"small\" @click=\"", ">Clear filter</sl-button>\n                            </div>\n\n\n                        </div>\n\n                        ", "\n                    </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.cartItemCount, this.filterButtonHandler.bind(this), this.filterButtonHandler.bind(this), this.clearFilters().bind(this), Object.keys(this.specials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                                    <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                        <h2>We do not have any special drinks at the moment.</h2>\n                                        <p class=\"small text-muted mb-0\">Check back later, as we may have a pleasant surprise\n                                            for\n                                            you.</p>\n                                    </div>\n                                "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                                    <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                        ", "\n                                        <div>\n                                "])), this.specials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                                    <co-drink-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                                   id=\"", "\"\n                                                                   name=\"", "\"\n                                                                   description=\"", "\"\n                                                                   price=\"", "\"\n                                                                   user=\"", "\"\n                                                                   image=\"", "\"\n                                                                   drinkType=\"", "\"\n                                                                   brewMethod=\"", "\"\n                                                                   route=\"", "\">\n                                                    </co-drink-card>\n                                                "])), special._id, special.name, special.description, special.price, JSON.stringify(_Auth.default.currentUser), special.image, special.drinkType, special.brewMethod, '/specials')).reverse()));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"\n                           cartItemCount=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Drinks</h1>\n                    <p class=\"small mb-4 brand-color\">View and order drinks created by our talented baristas.\n                        You can also add them to your favourites.</p>\n\n\n                    <div class=\"align-items-center\">\n                        <span class=\"text-muted\">Filters: </span>\n                        <sl-button pill class=\"filter-btn\" size=\"small\" data-property=\"type\" data-match=\"Hot\"\n                                   @click=\"", "\">Hot\n                        </sl-button>\n                        <sl-button pill class=\"filter-btn\" size=\"small\" data-property=\"type\" data-match=\"Ice\"\n                                   @click=\"", "\">Ice\n                        </sl-button>\n                        <sl-button pill class=\"filter-btn\" size=\"small\" data-property=\"decaf\" data-match=\"true\"\n                                   @click=\"", "\">Decaf\n                        </sl-button>\n                        <sl-button pill class=\"filter-btn\" size=\"small\" data-property=\"special\" data-match=\"true\"\n                                   @click=\"", "\">Special\n                        </sl-button>\n                        <sl-button pill size=\"small\" @click=\"", "\">Clear filter</sl-button>\n                    </div>\n\n\n                    <div class=\"row g-4 mt-0\">\n                        ", "\n                    </div>\n                </div>\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.cartItemCount, this.filterButtonHandler.bind(this), this.filterButtonHandler.bind(this), this.filterButtonHandler.bind(this), this.filterButtonHandler.bind(this), this.clearFilters.bind(this), this.drinks.map(drink => (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                                    <co-drink-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                   id=\"", "\"\n                                                   name=\"", "\"\n                                                   description=\"", "\"\n                                                   price=\"", "\"\n                                                   user=\"", "\"\n                                                   image=\"", "\"\n                                                   drinkType=\"", "\"\n                                                   brewMethod=\"", "\"\n                                                   route=\"", "\">\n                                    </co-drink-card>\n                                "])), drink._id, drink.name, drink.description, drink.price, JSON.stringify(_Auth.default.currentUser), drink.image, drink.drinkType, drink.brewMethod, '/drinks')).reverse());
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new DrinksView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Drink":"api/Drink.js","../../Toast":"Toast.js","../../api/User":"api/User.js"}],"views/pages/createSpecial.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Drink":"api/Drink.js","../../Toast":"Toast.js"}],"views/pages/createSpecial.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14597,7 +14592,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54143" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55133" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
