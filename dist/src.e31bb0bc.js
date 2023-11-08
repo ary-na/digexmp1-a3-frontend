@@ -12686,7 +12686,7 @@ class SpecialsView {
     this.render();
   }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"\n                           cartItemCount=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Specials</h1>\n                    <p class=\"small mb-0 brand-color\">View and order special drinks created by our talented baristas.\n                        You can also add them to your favourites.</p>\n\n\n                    <div>\n                        <div>Filter by\n                            <div>\n                                <div>Drink type</div>\n                                <sl-button class=\"filter-btn\" size=\"small\" data-property=\"drinkType\" data-match=\"Ice\"\n                                           @click=\"", "\">Ice\n                                </sl-button>\n                                <sl-button size=\"small\" @click=\"", "\">Hot</sl-button>\n                                <sl-button size=\"small\" @click=\"", "\">Clear filter\n                                </sl-button>\n                            </div>\n\n\n                        </div>\n\n                        ", "\n                    </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.cartItemCount, this.filterButtonHandler.bind(this), this.filterButtonHandler.bind(this), this.clearFilters().bind(this), Object.keys(this.specials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                                    <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                        <h2>We do not have any special drinks at the moment.</h2>\n                                        <p class=\"small text-muted mb-0\">Check back later, as we may have a pleasant surprise\n                                            for\n                                            you.</p>\n                                    </div>\n                                "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                                    <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                        ", "\n                                        <div>\n                                "])), this.specials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                                    <co-drink-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                                   id=\"", "\"\n                                                                   name=\"", "\"\n                                                                   description=\"", "\"\n                                                                   price=\"", "\"\n                                                                   user=\"", "\"\n                                                                   image=\"", "\"\n                                                                   drinkType=\"", "\"\n                                                                   brewMethod=\"", "\"\n                                                                   route=\"", "\">\n                                                    </co-drink-card>\n                                                "])), special._id, special.name, special.description, special.price, JSON.stringify(_Auth.default.currentUser), special.image, special.drinkType, special.brewMethod, '/specials')).reverse()));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"\n                           cartItemCount=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"row col-xs-12 col-sm-10\">\n                    <h1>Specials</h1>\n                    <p class=\"small mb-0 brand-color\">View and order special drinks created by our talented baristas.\n                        You can also add them to your favourites.</p>\n\n\n                    <div>\n                        <div>Filter by\n                            <div>\n                                <div>Drink type</div>\n                                <sl-button class=\"filter-btn\" size=\"small\" data-property=\"drinkType\" data-match=\"Ice\"\n                                           @click=\"", "\">Ice\n                                </sl-button>\n                                <sl-button size=\"small\" @click=\"", "\">Hot</sl-button>\n                                <sl-button size=\"small\" @click=\"", ">Clear filter</sl-button>\n                            </div>\n\n\n                        </div>\n\n                        ", "\n                    </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.cartItemCount, this.filterButtonHandler.bind(this), this.filterButtonHandler.bind(this), this.clearFilters().bind(this), Object.keys(this.specials).length === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                                    <div class=\"col-xs-12 col-sm-10 text-center m-4 p-4 bg-white rounded-1\">\n                                        <h2>We do not have any special drinks at the moment.</h2>\n                                        <p class=\"small text-muted mb-0\">Check back later, as we may have a pleasant surprise\n                                            for\n                                            you.</p>\n                                    </div>\n                                "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                                    <div class=\"col-xs-12 col-sm-10 row g-4 mt-0\">\n                                        ", "\n                                        <div>\n                                "])), this.specials.map(special => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                                    <co-drink-card class=\"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3\"\n                                                                   id=\"", "\"\n                                                                   name=\"", "\"\n                                                                   description=\"", "\"\n                                                                   price=\"", "\"\n                                                                   user=\"", "\"\n                                                                   image=\"", "\"\n                                                                   drinkType=\"", "\"\n                                                                   brewMethod=\"", "\"\n                                                                   route=\"", "\">\n                                                    </co-drink-card>\n                                                "])), special._id, special.name, special.description, special.price, JSON.stringify(_Auth.default.currentUser), special.image, special.drinkType, special.brewMethod, '/specials')).reverse()));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
@@ -12800,7 +12800,44 @@ class EditSpecialView {
   }
 }
 var _default = exports.default = new EditSpecialView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/Drink":"api/Drink.js"}],"views/pages/cart.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/Drink":"api/Drink.js"}],"api/Order.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _App = _interopRequireDefault(require("../App"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+class Order {
+  async createOrder(formData) {
+    // send fetch request
+    const response = await fetch("".concat(_App.default.apiBase, "/order"), {
+      method: 'POST',
+      headers: {
+        "Authorization": "Bearer ".concat(localStorage.accessToken)
+      },
+      body: formData
+    });
+
+    // if response not ok
+    if (!response.ok) {
+      let message = 'Problem creating order!';
+      if (response.status === 400) {
+        const err = await response.json();
+        message = err.message;
+      }
+      // throw error (exit this function)
+      throw new Error(message);
+    }
+
+    // convert response payload into json - store as data
+    // return data
+    return await response.json();
+  }
+}
+var _default = exports.default = new Order();
+},{"../App":"App.js"}],"views/pages/cart.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12814,6 +12851,9 @@ var _Auth = _interopRequireDefault(require("../../api/Auth"));
 var _Utils = _interopRequireDefault(require("./../../Utils"));
 var _Toast = _interopRequireDefault(require("../../Toast"));
 var _User = _interopRequireDefault(require("../../api/User"));
+var _Drink = _interopRequireDefault(require("../../api/Drink"));
+var _Order = _interopRequireDefault(require("../../api/Order"));
+var _baristas = _interopRequireDefault(require("./baristas"));
 var _templateObject, _templateObject2, _templateObject3, _templateObject4;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -12821,9 +12861,16 @@ class CartView {
   async init() {
     document.title = "".concat(_App.default.name, " - Cart");
     this.cartItems = null;
+    this.baristas = null;
+    this.favouriteBaristas = null;
+    this.total = 0;
     this.cartItemCount = await _Utils.default.getCartItemCount();
     await this.getCartItems();
+    await this.calculateTotal(null);
+    await this.getBaristas();
+    await this.getFavouriteBaristas();
     this.render();
+    await this.createBaristaSelectOptions();
     _Utils.default.pageIntroAnim();
   }
   async getCartItems() {
@@ -12834,14 +12881,92 @@ class CartView {
       _Toast.default.show(err, 'error');
     }
   }
-  async orderSubmitHandler() {}
+  async getDrink(id) {
+    try {
+      return await _Drink.default.getDrink(id);
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  async getBaristas() {
+    try {
+      this.baristas = await _User.default.getUsersByAccess();
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  async getFavouriteBaristas() {
+    try {
+      const currentUser = await _User.default.getUser(_Auth.default.currentUser._id);
+      this.favouriteBaristas = currentUser.favouriteBaristas;
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  async createBaristaSelectOptions() {
+    if (this.favouriteBaristas.length !== 0) {
+      this.favouriteBaristas.map(barista => {
+        this.createOptionElement(barista._id, "".concat(barista.firstName, " ").concat(barista.lastName));
+      });
+    } else {
+      this.baristas.map(barista => {
+        this.createOptionElement(barista._id, "".concat(barista.firstName, " ").concat(barista.lastName));
+      });
+    }
+    this.render();
+  }
+  async createOptionElement(barista_id, baristaName) {
+    const selectElement = await document.querySelector("sl-select");
+    const optionElement = document.createElement('sl-option');
+    optionElement.value = barista_id;
+    optionElement.innerHTML = baristaName;
+    selectElement.appendChild(optionElement);
+  }
+  async calculateTotal(e) {
+    this.total = 0;
+    const quantityElements = document.querySelectorAll("sl-input");
+
+    // Calculate total price.
+    if (e) {
+      for (let i = 0; i < quantityElements.length; i++) {
+        let drink = await this.getDrink(quantityElements[i].id);
+        this.total += drink.price * quantityElements[i].value;
+      }
+      this.render();
+    } else {
+      this.cartItems.forEach(item => this.total += item.price);
+    }
+  }
+  async removeFromCartHandler(id) {
+    try {
+      await _User.default.removeFromCart(id);
+      _Toast.default.show('Drink removed from your shopping cart!');
+      (0, _Router.gotoRoute)('/cart');
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+  }
+  async orderSubmitHandler(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    formData.append('total', this.total);
+    const submitBtn = document.querySelector('.submit-btn');
+    submitBtn.setAttribute('loading', '');
+    try {
+      await _Order.default.createOrder(formData);
+      _Toast.default.show("Order created!");
+    } catch (err) {
+      _Toast.default.show(err, 'error');
+    }
+    submitBtn.removeAttribute('loading');
+  }
   render() {
-    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"\n                           cartItemCount=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"col-xs-12 col-sm-10\">\n                    <h1>Cart</h1>\n                    <p class=\"small mb-4 brand-color\">You have ", " items in your cart.</p>\n\n                    ", "\n                </div>\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.cartItemCount, this.cartItemCount, this.cartItemCount === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                                <div class=\"text-center m-4 p-4 bg-white rounded-1\">\n                                    <h2>You do not have any items in your cart.</h2>\n                                    <p class=\"small text-muted mb-0\">Explore our website, and we promise you will find what\n                                        you love.</p>\n                                </div>\n                            "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                                <form class=\"row gy-3 mt-0\" @submit=", ">\n                                    ", "\n\n                                    <div>\n                \n                                    </div>\n                                </form>\n                            "])), this.orderSubmitHandler.bind(this), this.cartItems.map(cart => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n                                                <co-cart-item id=\"", "\"\n                                                              name=\"", "\"\n                                                              description=\"", "\"\n                                                              price=\"", "\"\n                                                              image=\"", "\"\n                                                              route=\"", "\">\n                                                </co-cart-item>\n                                            "])), cart._id, cart.name, cart.description, cart.price, cart.image, '/cart')).reverse()));
+    const template = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <co-app-header user=\"", "\"\n                           cartItemCount=\"", "\"></co-app-header>\n            <div class=\"row my-4 justify-content-center\">\n                <div class=\"col-xs-12 col-sm-10\">\n                    <h1>Cart</h1>\n                    <p class=\"small mb-4 brand-color\">You have ", " items in your cart.</p>\n\n                    ", "\n                </div>\n            </div>\n        "])), JSON.stringify(_Auth.default.currentUser), this.cartItemCount, this.cartItemCount, this.cartItemCount === 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                                <div class=\"text-center m-4 p-4 bg-white rounded-1\">\n                                    <h2>You do not have any items in your cart.</h2>\n                                    <p class=\"small text-muted mb-0\">Explore our website, and we promise you will find what\n                                        you love.</p>\n                                </div>\n                            "]))) : (0, _litHtml.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                                <form class=\"row gy-3 mt-0\" @submit=", ">\n                                    <input name=\"user\" type=\"hidden\" value=\"", "\"/>\n                                    ", "\n\n                                    <sl-textarea name=\"instructions\" label=\"Instructions\" placeholder=\"Enter any instructions (e.g., extra hot, sugar etc.)...\"></sl-textarea>\n\n\n                                    <sl-select class=\"col-12\" name=\"barista\" label=\"Barista\"\n                                               placeholder=\"Select a barista to make your drink/s...\" required>\n                                    </sl-select>\n\n                                    <div class=\"col-12 d-flex justify-content-between border-top pt-2\">\n                                        <h3>Total:</h3>\n                                        <p class=\"align-self-end mb-2 fw-bold link-color\">$", "</p>\n                                    </div>\n\n                                    <sl-button type=\"submit\" variant=\"primary\" class=\"ms-auto col-md-2 submit-btn\">\n                                        Checkout\n                                    </sl-button>\n                                </form>\n                            "])), this.orderSubmitHandler.bind(this), _Auth.default.currentUser._id, this.cartItems.map(cart => (0, _litHtml.html)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n\n                                                <sl-card>\n                                                    <div class=\"row gy-3\">\n                                                        <div class=\"col d-flex gap-3 align-items-center\">\n                                                            <img class=\"cart-img\"\n                                                                 src=\"", "/images/", "\"\n                                                                 alt=\"An image of the drink.\"/>\n                                                            <div>\n                                                                <h2>", "</h2>\n                                                                <p>", "...</p>\n                                                            </div>\n                                                        </div>\n                                                        <div class=\"col d-flex align-items-center gap-3 justify-content-end\">\n                                                            <input name=\"items\" type=\"hidden\" value=\"", "\"/>\n                                                            <input name=\"prices\" type=\"hidden\" value=\"", "\"/>\n                                                            <sl-input @input=\"", "\"\n                                                                      id=\"", "\"\n                                                                      value=\"1\"\n                                                                      class=\"w-25\" name=\"quantities\" type=\"number\"\n                                                                      size=\"small\"\n                                                                      min=\"1\" max=\"10\" required></sl-input>\n\n                                                            <p class=\"fw-bold link-color mb-0\">$", "</p>\n                                                            <sl-button title=\"Remove from cart\"\n                                                                       label=\"Remove drink from cart\" pill\n                                                                       @click=\"", "\">\n                                                                <sl-icon slot=\"prefix\" name=\"trash\"></sl-icon>\n                                                            </sl-button>\n                                                        </div>\n                                                    </div>\n                                                </sl-card>\n\n                                            "])), _App.default.apiBase, cart.image, cart.name, cart.description.substring(0, 60), cart._id, cart.price, this.calculateTotal.bind(this), cart._id, cart.price, () => this.removeFromCartHandler(cart._id))).reverse(), this.total));
     (0, _litHtml.render)(template, _App.default.rootEl);
   }
 }
 var _default = exports.default = new CartView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/User":"api/User.js"}],"Router.js":[function(require,module,exports) {
+},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/User":"api/User.js","../../api/Drink":"api/Drink.js","../../api/Order":"api/Order.js","./baristas":"views/pages/baristas.js"}],"Router.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14404,68 +14529,6 @@ _defineProperty(CoBaristaCard, "properties", {
   }
 });
 customElements.define('co-barista-card', CoBaristaCard);
-},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js","../Toast":"Toast.js"}],"components/co-cart-item.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CoCartItem = void 0;
-var _lit = require("lit");
-var _Router = require("../Router");
-var _Auth = _interopRequireDefault(require("./../api/Auth"));
-var _App = _interopRequireDefault(require("./../App"));
-var _User = _interopRequireDefault(require("../api/User"));
-var _Toast = _interopRequireDefault(require("../Toast"));
-var _templateObject, _templateObject2;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-class CoCartItem extends _lit.LitElement {
-  constructor() {
-    super();
-  }
-  firstUpdated(_changedProperties) {
-    super.firstUpdated(_changedProperties);
-  }
-  async removeFromCartHandler() {
-    try {
-      await _User.default.removeFromCart(this.id);
-      _Toast.default.show('Drink removed from your shopping cart!');
-      if (this.route) (0, _Router.gotoRoute)(this.route);
-    } catch (err) {
-      _Toast.default.show(err, 'error');
-    }
-  }
-  render() {
-    return (0, _lit.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <sl-card class=\"card-basic\">\n                <div class=\"card-body\">\n                    <div class=\"card-body-left\">\n                        <img src=\"", "/images/", "\" alt=\"An image of the drink.\"/>\n                        <div>\n                            <h2>", "</h2>\n                            <p>", "...</p>\n                        </div>\n                    </div>\n                    <div class=\"card-body-right\">\n                        <input name=\"drink[]\" type=\"hidden\" value=\"", "\"/>\n                        <sl-input name=\"quantity[]\" type=\"number\" value=\"1\" size=\"small\" min=\"1\" max=\"10\"\n                                  required></sl-input>\n                        <div>\n                            <p class=\"price\">$", "</p>\n                            <sl-button title=\"Remove from cart\" label=\"Remove drink from cart\" pill\n                                       @click=\"", "\">\n                                <sl-icon slot=\"prefix\" name=\"trash\"></sl-icon>\n                            </sl-button>\n                        </div>\n                    </div>\n            </sl-card>\n        "])), _App.default.apiBase, this.image, this.name, this.description.substring(0, 60), this.id, this.price, this.removeFromCartHandler.bind(this));
-  }
-}
-exports.CoCartItem = CoCartItem;
-_defineProperty(CoCartItem, "styles", (0, _lit.css)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n      sl-card {\n        width: 100%;\n      }\n\n      h2 {\n        margin-bottom: 0;\n        margin-top: 0;\n      }\n\n      .card-body {\n        display: flex;\n        justify-content: space-between;\n        gap: var(--sl-spacing-large);\n      }\n\n      .card-body-left {\n        display: flex;\n        flex-direction: row;\n        align-items: center;\n        justify-content: center;\n        gap: var(--sl-spacing-large);\n      }\n\n      .card-body-left img {\n        min-width: 60px;\n        height: 60px;\n        object-fit: cover;\n        border: 2px var(--brand-color) solid;\n        border-radius: var(--sl-border-radius-circle);\n      }\n\n      .card-body-right {\n        display: flex;\n        flex-direction: column;\n        align-items: center;\n        justify-content: center;\n        gap: var(--sl-spacing-large);\n      }\n      \n      .card-body-right div {\n        flex-direction: column;\n      }\n\n      .price {\n        font-size: var(--sl-font-size-large);\n        color: var(--link-color);\n        font-weight: var(--sl-font-weight-semibold);\n      }\n    "]))));
-_defineProperty(CoCartItem, "properties", {
-  id: {
-    type: String
-  },
-  name: {
-    type: String
-  },
-  description: {
-    type: String
-  },
-  price: {
-    type: Number
-  },
-  image: {
-    type: String
-  },
-  route: {
-    type: String
-  }
-});
-customElements.define('co-cart-item', CoCartItem);
 },{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js","../Toast":"Toast.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
@@ -14528,7 +14591,6 @@ var _App = _interopRequireDefault(require("./App.js"));
 require("./components/co-app-header");
 require("./components/co-drink-card");
 require("./components/co-barista-card");
-require("./components/co-cart-item");
 require("./scss/master.scss");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 // components (custom web components)
@@ -14539,7 +14601,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener('DOMContentLoaded', () => {
   _App.default.init();
 });
-},{"./App.js":"App.js","./components/co-app-header":"components/co-app-header.js","./components/co-drink-card":"components/co-drink-card.js","./components/co-barista-card":"components/co-barista-card.js","./components/co-cart-item":"components/co-cart-item.js","./scss/master.scss":"scss/master.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./App.js":"App.js","./components/co-app-header":"components/co-app-header.js","./components/co-drink-card":"components/co-drink-card.js","./components/co-barista-card":"components/co-barista-card.js","./scss/master.scss":"scss/master.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -14564,7 +14626,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60125" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60422" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

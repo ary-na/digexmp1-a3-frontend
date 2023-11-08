@@ -31,6 +31,14 @@ a {
   font-weight: 400;
 }
 
+// images ---------------
+.cart-img {
+  min-width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 2px var(--brand-color) solid;
+  border-radius: var(--sl-border-radius-circle);
+}
 
 // app splash screen -------
 .app-splash {
@@ -60,6 +68,10 @@ a {
 
 .brand-color {
   color: var(--brand-color);
+}
+
+.link-color {
+  color: var(--link-color)
 }
 
 .logo-size {

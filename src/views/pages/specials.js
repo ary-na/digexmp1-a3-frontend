@@ -92,8 +92,7 @@ class SpecialsView {
                                            @click="${this.filterButtonHandler.bind(this)}">Ice
                                 </sl-button>
                                 <sl-button size="small" @click="${this.filterButtonHandler.bind(this)}">Hot</sl-button>
-                                <sl-button size="small" @click="${this.clearFilters().bind(this)}">Clear filter
-                                </sl-button>
+                                <sl-button size="small" @click="${this.clearFilters().bind(this)}>Clear filter</sl-button>
                             </div>
 
 
