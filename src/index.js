@@ -4,6 +4,7 @@ import App from './App.js'
 import './components/co-app-header'
 import './components/co-drink-card'
 import './components/co-barista-card'
+import './components/co-order-card'
 
 // styles
 import './scss/master.scss'

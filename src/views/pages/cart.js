@@ -123,6 +123,9 @@ class CartView {
             Toast.show(err, 'error');
         }
         submitBtn.removeAttribute('loading')
+
+        await User.removeAllFromCart()
+        gotoRoute('/cart')
     }
 
     render() {
@@ -135,7 +138,7 @@ class CartView {
                     <p class="small mb-4 brand-color">You have ${this.cartItemCount} items in your cart.</p>
 
                     ${this.cartItemCount === 0 ? html`
-                                <div class="text-center m-4 p-4 bg-white rounded-1">
+                                <div class="text-center mb-4 mt-4 p-4 bg-white rounded-1">
                                     <h2>You do not have any items in your cart.</h2>
                                     <p class="small text-muted mb-0">Explore our website, and we promise you will find what
                                         you love.</p>

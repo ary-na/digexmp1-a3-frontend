@@ -36,7 +36,8 @@ class BaristasView {
 
     render() {
         const template = html`
-            <co-app-header user="${JSON.stringify(Auth.currentUser)}" cartItemCount="${this.cartItemCount}"></co-app-header>
+            <co-app-header user="${JSON.stringify(Auth.currentUser)}"
+                           cartItemCount="${this.cartItemCount}"></co-app-header>
             <div class="row my-4 justify-content-center">
                 <div class="row col-xs-12 col-sm-10">
                     <h1>Baristas</h1>
@@ -55,10 +56,8 @@ class BaristasView {
                                                  favourite="${this.isFavouriteBarista(barista._id)}"></co-barista-card>
                             `
                     )}
-                    <div>
-
-
-                    </div>
+                </div>
+            </div>
         `
         render(template, App.rootEl)
     }

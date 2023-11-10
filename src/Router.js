@@ -13,6 +13,7 @@ import drinksView from './views/pages/drinks'
 import createSpecialView from './views/pages/createSpecial'
 import editSpecialView from './views/pages/editSpecial'
 import cartView from './views/pages/cart'
+import ordersView from './views/pages/orders'
 
 // define routes
 const routes = {
@@ -30,6 +31,7 @@ const routes = {
     '/createSpecial': createSpecialView,
     '/editSpecial': editSpecialView,
     '/cart': cartView,
+    '/orders': ordersView,
 }
 
 class Router {

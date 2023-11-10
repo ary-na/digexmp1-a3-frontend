@@ -61,7 +61,7 @@ class FavouritesView {
 
                     <sl-tab-panel name="drinks">
                         ${Object.keys(this.favouriteDrinks).length === 0 ? html`
-                                    <div class="text-center m-4 p-4 bg-white rounded-1">
+                                    <div class="text-center mb-4 mt-4 p-4 bg-white rounded-1">
                                         <h2>You do not have any favourite drinks added to your account.</h2>
                                         <p class="small text-muted mb-0">Explore our website, and we promise you will find what
                                             you love.</p>
@@ -89,7 +89,7 @@ class FavouritesView {
                     </sl-tab-panel>
                     <sl-tab-panel name="baristas">
                         ${Object.keys(this.favouriteBaristas).length === 0 ? html`
-                                    <div class="text-center m-4 p-4 bg-white rounded-1">
+                                    <div class="text-center mb-4 mt-4 p-4 bg-white rounded-1">
                                         <h2>You do not have any favourite baristas added to your account.</h2>
                                         <p class="small text-muted mb-0">Look at their profile and add your favourite barista to your account.</p>
                                     </div>
