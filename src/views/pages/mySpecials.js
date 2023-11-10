@@ -69,6 +69,7 @@ class MySpecialsView {
                         `
                 }
             </div>
+            <co-app-footer></co-app-footer>
         `
         render(template, App.rootEl)
     }

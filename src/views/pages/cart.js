@@ -78,7 +78,8 @@ class CartView {
         const optionElement = document.createElement('sl-option')
         optionElement.value = barista_id
         optionElement.innerHTML = baristaName
-        selectElement.appendChild(optionElement)
+        if(selectElement)
+            selectElement.appendChild(optionElement)
     }
 
     async calculateTotal(e) {

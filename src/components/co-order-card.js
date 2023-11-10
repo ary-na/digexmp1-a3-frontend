@@ -81,10 +81,11 @@ export class CoOrderCard extends LitElement {
                     <div class="row pe-0 ps-0 col-12 mb-4 border-bottom">
                         <h4><span class="small">${this.itemCountBaristaView++}.</span> ${drink._id.name}</h4>
                         <sl-badge class="pe-0 mb-2 col-auto" pill>${drink._id.type}</sl-badge>
-                        <sl-badge class="ps-1 pe-1 mb-2 col-auto" pill>${drink._id.brewMethod.replace('_', ' ')}
+                        <sl-badge class="ps-1 pe-1 mb-2 col-auto" pill>${drink._id.brewMethod.replaceAll('_', ' ')}
                         </sl-badge>
-                        <sl-badge class="ps-0 pe-0 mb-2 col-auto" pill>${drink._id.decaf ? html`Decaf` : html``}
-                        </sl-badge>
+                        ${drink._id.decaf ? html`
+                            <sl-badge class="ps-0 pe-0 mb-2 col-auto" pill>Decaf</sl-badge>
+                        ` : html``}
                         <h6><span class="small text-muted">Description: </span> ${drink._id.description}</h6>
                     </div>
                 `)}

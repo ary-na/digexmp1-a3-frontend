@@ -13,14 +13,14 @@ class RegisterView {
         Utils.pageIntroAnim()
     }
 
-    registerSubmitHandler(e) {
+    async registerSubmitHandler(e) {
         e.preventDefault()
         const formData = new FormData(e.target)
         const submitBtn = document.querySelector('.submit-btn')
         submitBtn.setAttribute('loading', '')
 
         // sign up using Auth
-        Auth.register(formData, () => {
+        await Auth.register(formData, () => {
             submitBtn.removeAttribute('loading')
         })
     }

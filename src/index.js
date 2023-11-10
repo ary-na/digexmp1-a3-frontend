@@ -5,6 +5,7 @@ import './components/co-app-header'
 import './components/co-drink-card'
 import './components/co-barista-card'
 import './components/co-order-card'
+import './components/co-app-footer'
 
 // styles
 import './scss/master.scss'

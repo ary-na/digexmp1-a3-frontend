@@ -54,6 +54,7 @@ class OrdersView {
                     `).reverse()}
                 </div>
             </div>
+            <co-app-footer></co-app-footer>
         `
         render(template, App.rootEl)
     }
