@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../node_modules/lit-html/lit-html.js":[function(require,module,exports) {
+})({"SPDu":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -448,7 +448,7 @@ const j = (t, i, s) => {
   return h._$AI(t), h;
 };
 exports.render = j;
-},{}],"views/partials/splash.js":[function(require,module,exports) {
+},{}],"wMWK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -460,7 +460,7 @@ var _templateObject;
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 const splash = (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n\n  <div class=\"app-splash\">\n    <div class=\"inner\">\n      <img class=\"app-logo\" src=\"/images/logo-primary.svg\" />\n      <sl-spinner style=\"font-size: 2em;\"></sl-spinner>\n    </div>\n  </div>\n"])));
 var _default = exports.default = splash;
-},{"lit-html":"../node_modules/lit-html/lit-html.js"}],"../node_modules/gsap/gsap-core.js":[function(require,module,exports) {
+},{"lit-html":"SPDu"}],"TNS6":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4301,7 +4301,7 @@ var Power0 = exports.Power0 = _easeMap.Power0,
   Circ = exports.Circ = _easeMap.Circ;
 
 //export some internal methods/orojects for use in CSSPlugin so that we can externalize that file and allow custom builds that exclude it.
-},{}],"../node_modules/gsap/CSSPlugin.js":[function(require,module,exports) {
+},{}],"bp4Z":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5673,7 +5673,7 @@ _gsapCore.gsap.core.getStyleSaver = _getStyleSaver;
   _gsapCore._config.units[name] = "px";
 });
 _gsapCore.gsap.registerPlugin(CSSPlugin);
-},{"./gsap-core.js":"../node_modules/gsap/gsap-core.js"}],"../node_modules/gsap/index.js":[function(require,module,exports) {
+},{"./gsap-core.js":"TNS6"}],"TpQl":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5817,7 +5817,7 @@ var _CSSPlugin = require("./CSSPlugin.js");
 var gsapWithCSS = exports.default = exports.gsap = _gsapCore.gsap.registerPlugin(_CSSPlugin.CSSPlugin) || _gsapCore.gsap,
   // to protect from tree shaking
   TweenMaxWithCSS = exports.TweenMax = gsapWithCSS.core.Tween;
-},{"./gsap-core.js":"../node_modules/gsap/gsap-core.js","./CSSPlugin.js":"../node_modules/gsap/CSSPlugin.js"}],"Toast.js":[function(require,module,exports) {
+},{"./gsap-core.js":"TNS6","./CSSPlugin.js":"bp4Z"}],"VXTj":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5869,7 +5869,7 @@ class Toast {
   }
 }
 exports.default = Toast;
-},{"./App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","gsap":"../node_modules/gsap/index.js"}],"api/Auth.js":[function(require,module,exports) {
+},{"./App":"lY9v","lit-html":"SPDu","gsap":"TpQl"}],"fAlA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5999,7 +5999,7 @@ class Auth {
   }
 }
 var _default = exports.default = new Auth();
-},{"../App":"App.js","../Router":"Router.js","../views/partials/splash":"views/partials/splash.js","lit-html":"../node_modules/lit-html/lit-html.js","../Toast":"Toast.js"}],"api/Drink.js":[function(require,module,exports) {
+},{"../App":"lY9v","../Router":"jmDk","../views/partials/splash":"wMWK","lit-html":"SPDu","../Toast":"VXTj"}],"s8mJ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6164,7 +6164,7 @@ class Drink {
   }
 }
 var _default = exports.default = new Drink();
-},{"../App":"App.js"}],"api/User.js":[function(require,module,exports) {
+},{"../App":"lY9v"}],"Upjm":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6463,7 +6463,7 @@ class User {
   }
 }
 var _default = exports.default = new User();
-},{"../App":"App.js","./Auth":"api/Auth.js","./Drink":"api/Drink.js"}],"Utils.js":[function(require,module,exports) {
+},{"../App":"lY9v","./Auth":"fAlA","./Drink":"s8mJ"}],"EjxN":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6503,7 +6503,7 @@ class Utils {
   }
 }
 var _default = exports.default = new Utils();
-},{"gsap":"../node_modules/gsap/index.js","./api/User":"api/User.js","./api/Auth":"api/Auth.js","./Toast":"Toast.js"}],"api/Order.js":[function(require,module,exports) {
+},{"gsap":"TpQl","./api/User":"Upjm","./api/Auth":"fAlA","./Toast":"VXTj"}],"FV7g":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6646,7 +6646,7 @@ class Order {
   }
 }
 var _default = exports.default = new Order();
-},{"../App":"App.js"}],"views/pages/home.js":[function(require,module,exports) {
+},{"../App":"lY9v"}],"VeCc":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6687,7 +6687,7 @@ class HomeView {
   }
 }
 var _default = exports.default = new HomeView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/Order":"api/Order.js"}],"views/pages/404.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../Toast":"VXTj","../../api/Order":"FV7g"}],"gRnB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6712,7 +6712,7 @@ class FourOFourView {
   }
 }
 var _default = exports.default = new FourOFourView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js"}],"views/pages/login.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk"}],"StzU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6751,7 +6751,7 @@ class LoginView {
   }
 }
 var _default = exports.default = new LoginView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js"}],"views/pages/register.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN"}],"dSsi":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6790,7 +6790,7 @@ class RegisterView {
   }
 }
 var _default = exports.default = new RegisterView();
-},{"./../../App":"App.js","../../api/Auth":"api/Auth.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","./../../Utils":"Utils.js"}],"../node_modules/moment/moment.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","../../api/Auth":"fAlA","lit-html":"SPDu","../../Router":"jmDk","./../../Utils":"EjxN"}],"a2Bw":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 //! moment.js
@@ -12479,7 +12479,7 @@ var global = arguments[3];
 
 })));
 
-},{}],"views/pages/profile.js":[function(require,module,exports) {
+},{}],"UX9w":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12509,7 +12509,7 @@ class ProfileView {
   }
 }
 var _default = exports.default = new ProfileView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","moment":"../node_modules/moment/moment.js"}],"views/pages/editProfile.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","moment":"a2Bw"}],"H8gn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12568,7 +12568,7 @@ class EditProfileView {
   }
 }
 var _default = exports.default = new EditProfileView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","moment":"../node_modules/moment/moment.js","../../api/User":"api/User.js"}],"views/pages/guide.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../Toast":"VXTj","moment":"a2Bw","../../api/User":"Upjm"}],"P9zQ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12607,7 +12607,7 @@ class GuideView {
   }
 }
 var _default = exports.default = new GuideView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/User":"api/User.js","../../Toast":"Toast.js"}],"views/pages/baristas.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../api/User":"Upjm","../../Toast":"VXTj"}],"MMzw":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12650,7 +12650,7 @@ class BaristasView {
   }
 }
 var _default = exports.default = new BaristasView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/User":"api/User.js","../../Toast":"Toast.js"}],"views/pages/favourites.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../api/User":"Upjm","../../Toast":"VXTj"}],"Qm1k":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12705,7 +12705,7 @@ class FavouritesView {
   }
 }
 var _default = exports.default = new FavouritesView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/User":"api/User.js","../../api/Drink":"api/Drink.js"}],"views/pages/mySpecials.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../Toast":"VXTj","../../api/User":"Upjm","../../api/Drink":"s8mJ"}],"xkff":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12746,7 +12746,7 @@ class MySpecialsView {
   }
 }
 var _default = exports.default = new MySpecialsView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Drink":"api/Drink.js","../../Toast":"Toast.js"}],"views/pages/drinks.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../api/Drink":"s8mJ","../../Toast":"VXTj"}],"kxhn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12816,7 +12816,7 @@ class DrinksView {
   }
 }
 var _default = exports.default = new DrinksView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../api/Drink":"api/Drink.js","../../Toast":"Toast.js"}],"views/pages/createSpecial.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../api/Drink":"s8mJ","../../Toast":"VXTj"}],"VUFK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12866,7 +12866,7 @@ class createSpecial {
   }
 }
 var _default = exports.default = new createSpecial();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/Drink":"api/Drink.js"}],"views/pages/editSpecial.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../Toast":"VXTj","../../api/Drink":"s8mJ"}],"KD8h":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12925,7 +12925,7 @@ class EditSpecialView {
   }
 }
 var _default = exports.default = new EditSpecialView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/Drink":"api/Drink.js"}],"views/pages/cart.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../Toast":"VXTj","../../api/Drink":"s8mJ"}],"ehKX":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13056,7 +13056,7 @@ class CartView {
   }
 }
 var _default = exports.default = new CartView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/User":"api/User.js","../../api/Drink":"api/Drink.js","../../api/Order":"api/Order.js","./baristas":"views/pages/baristas.js"}],"views/pages/orders.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../Toast":"VXTj","../../api/User":"Upjm","../../api/Drink":"s8mJ","../../api/Order":"FV7g","./baristas":"MMzw"}],"KIPp":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13098,7 +13098,7 @@ class OrdersView {
   }
 }
 var _default = exports.default = new OrdersView();
-},{"./../../App":"App.js","lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../Toast":"Toast.js","../../api/Order":"api/Order.js","moment":"../node_modules/moment/moment.js"}],"views/pages/myOrders.js":[function(require,module,exports) {
+},{"./../../App":"lY9v","lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../Toast":"VXTj","../../api/Order":"FV7g","moment":"a2Bw"}],"hkli":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13138,7 +13138,7 @@ class MyOrdersView {
   }
 }
 var _default = exports.default = new MyOrdersView();
-},{"lit-html":"../node_modules/lit-html/lit-html.js","../../Router":"Router.js","../../api/Auth":"api/Auth.js","./../../Utils":"Utils.js","../../App":"App.js","../../api/Order":"api/Order.js","../../Toast":"Toast.js"}],"Router.js":[function(require,module,exports) {
+},{"lit-html":"SPDu","../../Router":"jmDk","../../api/Auth":"fAlA","./../../Utils":"EjxN","../../App":"lY9v","../../api/Order":"FV7g","../../Toast":"VXTj"}],"jmDk":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13229,7 +13229,7 @@ function anchorRoute(e) {
   const pathname = e.target.closest('a').pathname;
   AppRouter.gotoRoute(pathname);
 }
-},{"./views/pages/home":"views/pages/home.js","./views/pages/404":"views/pages/404.js","./views/pages/login":"views/pages/login.js","./views/pages/register":"views/pages/register.js","./views/pages/profile":"views/pages/profile.js","./views/pages/editProfile":"views/pages/editProfile.js","./views/pages/guide":"views/pages/guide.js","./views/pages/baristas":"views/pages/baristas.js","./views/pages/favourites":"views/pages/favourites.js","./views/pages/mySpecials":"views/pages/mySpecials.js","./views/pages/drinks":"views/pages/drinks.js","./views/pages/createSpecial":"views/pages/createSpecial.js","./views/pages/editSpecial":"views/pages/editSpecial.js","./views/pages/cart":"views/pages/cart.js","./views/pages/orders":"views/pages/orders.js","./views/pages/myOrders":"views/pages/myOrders.js"}],"App.js":[function(require,module,exports) {
+},{"./views/pages/home":"VeCc","./views/pages/404":"gRnB","./views/pages/login":"StzU","./views/pages/register":"dSsi","./views/pages/profile":"UX9w","./views/pages/editProfile":"H8gn","./views/pages/guide":"P9zQ","./views/pages/baristas":"MMzw","./views/pages/favourites":"Qm1k","./views/pages/mySpecials":"xkff","./views/pages/drinks":"kxhn","./views/pages/createSpecial":"VUFK","./views/pages/editSpecial":"KD8h","./views/pages/cart":"ehKX","./views/pages/orders":"KIPp","./views/pages/myOrders":"hkli"}],"lY9v":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13262,7 +13262,7 @@ class App {
   }
 }
 var _default = exports.default = new App();
-},{"./Router":"Router.js","./api/Auth":"api/Auth.js","./Toast":"Toast.js"}],"../node_modules/@lit/reactive-element/css-tag.js":[function(require,module,exports) {
+},{"./Router":"jmDk","./api/Auth":"fAlA","./Toast":"VXTj"}],"jMeY":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13321,7 +13321,7 @@ const r = t => new n("string" == typeof t ? t : t + "", void 0, s),
 exports.adoptStyles = S;
 exports.css = i;
 exports.unsafeCSS = r;
-},{}],"../node_modules/@lit/reactive-element/reactive-element.js":[function(require,module,exports) {
+},{}],"iQtY":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13625,7 +13625,7 @@ b.elementStyles = [], b.shadowRootOptions = {
 }, b[d("elementProperties")] = new Map(), b[d("finalized")] = new Map(), p?.({
   ReactiveElement: b
 }), (a.reactiveElementVersions ??= []).push("2.0.1");
-},{"./css-tag.js":"../node_modules/@lit/reactive-element/css-tag.js"}],"../node_modules/lit-element/lit-element.js":[function(require,module,exports) {
+},{"./css-tag.js":"jMeY"}],"bhxD":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13704,7 +13704,7 @@ const o = exports._$LE = {
   _$AL: t => t._$AL
 };
 (globalThis.litElementVersions ??= []).push("4.0.1");
-},{"@lit/reactive-element":"../node_modules/@lit/reactive-element/reactive-element.js","lit-html":"../node_modules/lit-html/lit-html.js"}],"../node_modules/lit-html/is-server.js":[function(require,module,exports) {
+},{"@lit/reactive-element":"iQtY","lit-html":"SPDu"}],"WHid":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13717,7 +13717,7 @@ exports.isServer = void 0;
  * SPDX-License-Identifier: BSD-3-Clause
  */
 const o = exports.isServer = !1;
-},{}],"../node_modules/lit/index.js":[function(require,module,exports) {
+},{}],"CcGr":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13747,7 +13747,7 @@ Object.keys(_isServer).forEach(function (key) {
     }
   });
 });
-},{"@lit/reactive-element":"../node_modules/@lit/reactive-element/reactive-element.js","lit-html":"../node_modules/lit-html/lit-html.js","lit-element/lit-element.js":"../node_modules/lit-element/lit-element.js","lit-html/is-server.js":"../node_modules/lit-html/is-server.js"}],"components/co-app-header.js":[function(require,module,exports) {
+},{"@lit/reactive-element":"iQtY","lit-html":"SPDu","lit-element/lit-element.js":"bhxD","lit-html/is-server.js":"WHid"}],"NGny":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13813,7 +13813,7 @@ _defineProperty(CoAppHeader, "properties", {
   }
 });
 customElements.define('co-app-header', CoAppHeader);
-},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js"}],"components/co-drink-card.js":[function(require,module,exports) {
+},{"lit":"CcGr","../Router":"jmDk","./../api/Auth":"fAlA","./../App":"lY9v","../api/User":"Upjm"}],"egH5":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13956,7 +13956,7 @@ _defineProperty(CoDrinkCard, "properties", {
   }
 });
 customElements.define('co-drink-card', CoDrinkCard);
-},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js","../Toast":"Toast.js","../api/Drink":"api/Drink.js"}],"components/co-barista-card.js":[function(require,module,exports) {
+},{"lit":"CcGr","../Router":"jmDk","./../api/Auth":"fAlA","./../App":"lY9v","../api/User":"Upjm","../Toast":"VXTj","../api/Drink":"s8mJ"}],"qXgA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14041,7 +14041,7 @@ _defineProperty(CoBaristaCard, "properties", {
   }
 });
 customElements.define('co-barista-card', CoBaristaCard);
-},{"lit":"../node_modules/lit/index.js","../Router":"Router.js","./../api/Auth":"api/Auth.js","./../App":"App.js","../api/User":"api/User.js","../Toast":"Toast.js"}],"components/co-order-card.js":[function(require,module,exports) {
+},{"lit":"CcGr","../Router":"jmDk","./../api/Auth":"fAlA","./../App":"lY9v","../api/User":"Upjm","../Toast":"VXTj"}],"WMVJ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14148,7 +14148,7 @@ _defineProperty(CoOrderCard, "properties", {
   }
 });
 customElements.define('co-order-card', CoOrderCard);
-},{"lit":"../node_modules/lit/index.js","moment":"../node_modules/moment/moment.js","../api/Auth":"api/Auth.js","../Toast":"Toast.js","../api/Order":"api/Order.js"}],"components/co-app-footer.js":[function(require,module,exports) {
+},{"lit":"CcGr","moment":"a2Bw","../api/Auth":"fAlA","../Toast":"VXTj","../api/Order":"FV7g"}],"xOxK":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14170,62 +14170,9 @@ class CoAppFooter extends _lit.LitElement {
 exports.CoAppFooter = CoAppFooter;
 _defineProperty(CoAppFooter, "styles", (0, _lit.css)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n      footer {\n        display: flex;\n        flex-direction: column;\n        justify-content: center;\n        align-items: center;\n      }\n\n      img {\n        width: 40px;\n      }\n\n      p {\n        color: var(--link-color);\n      }\n    "]))));
 customElements.define('co-app-footer', CoAppFooter);
-},{"lit":"../node_modules/lit/index.js","../Router":"Router.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
-var bundleURL = null;
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
-  return bundleURL;
-}
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-  return '/';
-}
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)?\/[^/]+(?:\?.*)?$/, '$1') + '/';
-}
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
-var bundle = require('./bundle-url');
-function updateLink(link) {
-  var newLink = link.cloneNode();
-  newLink.onload = function () {
-    link.remove();
-  };
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
-var cssTimeout = null;
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
-  }
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
-      }
-    }
-    cssTimeout = null;
-  }, 50);
-}
-module.exports = reloadCSS;
-},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"scss/master.scss":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.js":[function(require,module,exports) {
+},{"lit":"CcGr","../Router":"jmDk"}],"QrWG":[function(require,module,exports) {
+
+},{}],"Focm":[function(require,module,exports) {
 "use strict";
 
 var _App = _interopRequireDefault(require("./App.js"));
@@ -14244,174 +14191,5 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener('DOMContentLoaded', () => {
   _App.default.init();
 });
-},{"./App.js":"App.js","./components/co-app-header":"components/co-app-header.js","./components/co-drink-card":"components/co-drink-card.js","./components/co-barista-card":"components/co-barista-card.js","./components/co-order-card":"components/co-order-card.js","./components/co-app-footer":"components/co-app-footer.js","./scss/master.scss":"scss/master.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
-var global = arguments[3];
-var OVERLAY_ID = '__parcel__error__overlay__';
-var OldModule = module.bundle.Module;
-function Module(moduleName) {
-  OldModule.call(this, moduleName);
-  this.hot = {
-    data: module.bundle.hotData,
-    _acceptCallbacks: [],
-    _disposeCallbacks: [],
-    accept: function (fn) {
-      this._acceptCallbacks.push(fn || function () {});
-    },
-    dispose: function (fn) {
-      this._disposeCallbacks.push(fn);
-    }
-  };
-  module.bundle.hotData = null;
-}
-module.bundle.Module = Module;
-var checkedAssets, assetsToAccept;
-var parent = module.bundle.parent;
-if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
-  var hostname = "" || location.hostname;
-  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50681" + '/');
-  ws.onmessage = function (event) {
-    checkedAssets = {};
-    assetsToAccept = [];
-    var data = JSON.parse(event.data);
-    if (data.type === 'update') {
-      var handled = false;
-      data.assets.forEach(function (asset) {
-        if (!asset.isNew) {
-          var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
-          if (didAccept) {
-            handled = true;
-          }
-        }
-      });
-
-      // Enable HMR for CSS by default.
-      handled = handled || data.assets.every(function (asset) {
-        return asset.type === 'css' && asset.generated.js;
-      });
-      if (handled) {
-        console.clear();
-        data.assets.forEach(function (asset) {
-          hmrApply(global.parcelRequire, asset);
-        });
-        assetsToAccept.forEach(function (v) {
-          hmrAcceptRun(v[0], v[1]);
-        });
-      } else if (location.reload) {
-        // `location` global exists in a web worker context but lacks `.reload()` function.
-        location.reload();
-      }
-    }
-    if (data.type === 'reload') {
-      ws.close();
-      ws.onclose = function () {
-        location.reload();
-      };
-    }
-    if (data.type === 'error-resolved') {
-      console.log('[parcel] ✨ Error resolved');
-      removeErrorOverlay();
-    }
-    if (data.type === 'error') {
-      console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
-      removeErrorOverlay();
-      var overlay = createErrorOverlay(data);
-      document.body.appendChild(overlay);
-    }
-  };
-}
-function removeErrorOverlay() {
-  var overlay = document.getElementById(OVERLAY_ID);
-  if (overlay) {
-    overlay.remove();
-  }
-}
-function createErrorOverlay(data) {
-  var overlay = document.createElement('div');
-  overlay.id = OVERLAY_ID;
-
-  // html encode message and stack trace
-  var message = document.createElement('div');
-  var stackTrace = document.createElement('pre');
-  message.innerText = data.error.message;
-  stackTrace.innerText = data.error.stack;
-  overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
-  return overlay;
-}
-function getParents(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return [];
-  }
-  var parents = [];
-  var k, d, dep;
-  for (k in modules) {
-    for (d in modules[k][1]) {
-      dep = modules[k][1][d];
-      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
-        parents.push(k);
-      }
-    }
-  }
-  if (bundle.parent) {
-    parents = parents.concat(getParents(bundle.parent, id));
-  }
-  return parents;
-}
-function hmrApply(bundle, asset) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-  if (modules[asset.id] || !bundle.parent) {
-    var fn = new Function('require', 'module', 'exports', asset.generated.js);
-    asset.isNew = !modules[asset.id];
-    modules[asset.id] = [fn, asset.deps];
-  } else if (bundle.parent) {
-    hmrApply(bundle.parent, asset);
-  }
-}
-function hmrAcceptCheck(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-  if (!modules[id] && bundle.parent) {
-    return hmrAcceptCheck(bundle.parent, id);
-  }
-  if (checkedAssets[id]) {
-    return;
-  }
-  checkedAssets[id] = true;
-  var cached = bundle.cache[id];
-  assetsToAccept.push([bundle, id]);
-  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
-    return true;
-  }
-  return getParents(global.parcelRequire, id).some(function (id) {
-    return hmrAcceptCheck(global.parcelRequire, id);
-  });
-}
-function hmrAcceptRun(bundle, id) {
-  var cached = bundle.cache[id];
-  bundle.hotData = {};
-  if (cached) {
-    cached.hot.data = bundle.hotData;
-  }
-  if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
-    cached.hot._disposeCallbacks.forEach(function (cb) {
-      cb(bundle.hotData);
-    });
-  }
-  delete bundle.cache[id];
-  bundle(id);
-  cached = bundle.cache[id];
-  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
-    cached.hot._acceptCallbacks.forEach(function (cb) {
-      cb();
-    });
-    return true;
-  }
-}
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
-//# sourceMappingURL=/src.e31bb0bc.js.map
+},{"./App.js":"lY9v","./components/co-app-header":"NGny","./components/co-drink-card":"egH5","./components/co-barista-card":"qXgA","./components/co-order-card":"WMVJ","./components/co-app-footer":"xOxK","./scss/master.scss":"QrWG"}]},{},["Focm"], null)
+//# sourceMappingURL=/src.c11ba305.js.map
