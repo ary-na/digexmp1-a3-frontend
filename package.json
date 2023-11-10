@@ -27,7 +27,7 @@
     "gsap": "^3.12.2",
     "lit": "^3.0.0",
     "lit-element": "^4.0.0",
-    "lit-html": "^2.8.0",
+    "lit-html": "^3.0.2",
     "moment": "^2.29.4",
     "parcel-plugin-static-files-copy": "^2.6.0",
     "scss": "^0.2.4"
