@@ -88,6 +88,7 @@ export class CoOrderCard extends LitElement {
                         <h6><span class="small text-muted">Description: </span> ${drink._id.description}</h6>
                     </div>
                 `)}
+                <h4 class="small">Instructions: <span class="fw-light">${this.instructions}</span></h4>
             </div>
             ${this.ready === 'false'
                     ? html`
@@ -144,11 +145,18 @@ export class CoOrderCard extends LitElement {
                 <div class="card-header">
                     <p>Ordered: ${moment(this.date).format('MMMM Do YYYY, @ h:mm a')}</p>
                     <p>Status:
-                        ${this.ready === "false" ? html`<span>Preparing</span>` : html`<span>Ready for pickup</span>`}</p>
+                        ${this.ready === "false" ? html`<span>Preparing</span>` : html`
+                            <span>Ready for pickup</span>`}</p>
                 </div>
 
                 <div class="card-body">
-                    <h2>Barista: <span>${this.barista.firstName} ${this.barista.lastName}</span></h2>
+                    ${Auth.currentUser.accessLevel === 1 
+                            ? html`
+                                <h2>Barista: <span>${this.barista.firstName} ${this.barista.lastName}</span></h2>
+                            `
+                            : html`
+                                <h2>Customer: <span>${this.user.firstName} ${this.user.lastName}</span></h2>
+                            `}
                     ${Auth.currentUser.accessLevel === 2 ? html`
                         <sl-button @click="${this.viewDetailsHandler.bind(this)}">View details</sl-button>
                     ` : html``}

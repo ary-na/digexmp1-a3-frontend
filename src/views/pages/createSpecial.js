@@ -54,14 +54,11 @@ class createSpecial {
 
                     <form class="row gy-3 mt-0" @submit=${this.createSpecialHandler}>
                         <input name="user" type="hidden" value="${Auth.currentUser._id}"/>
-                        <sl-input class="col-12" name="name" type="text" label="Drink name"
-                                  placeholder="Enter drink name..." required></sl-input>
+                        <sl-input class="col-12" name="name" type="text" label="Drink name" placeholder="Enter drink name..." required></sl-input>
 
-                        <sl-textarea name="description" label="Description"
-                                     placeholder="Enter a detailed description of the drink..." required></sl-textarea>
+                        <sl-textarea name="description" label="Description" placeholder="Enter a detailed description of the drink..." required></sl-textarea>
 
-                        <sl-select class="col-md-8" name="brewMethod" label="Brew method"
-                                   placeholder="Select a brew method..." required>
+                        <sl-select class="col-md-8" name="brewMethod" label="Brew method" placeholder="Select a brew method..." required>
                             <sl-option value="Aeropress_(pressure)">Aeropress (pressure)</sl-option>
                             <sl-option value="Auto_drip_(drip)">Auto drip (drip)</sl-option>
                             <sl-option value="Chemex_(drip)">Chemex (drip)</sl-option>
@@ -73,8 +70,7 @@ class createSpecial {
                             <sl-option value="Siphon_(pressure)">Siphon (pressure)</sl-option>
                         </sl-select>
 
-                        <sl-input class="col-md-4" name="price" type="text" label="Price" placeholder="Enter price..."
-                                  required>
+                        <sl-input class="col-md-4" name="price" type="text" label="Price" placeholder="Enter price..." required>
                             <sl-icon class="ps-2" name="currency-dollar" slot="prefix"></sl-icon>
                         </sl-input>
 

@@ -14,6 +14,7 @@ import createSpecialView from './views/pages/createSpecial'
 import editSpecialView from './views/pages/editSpecial'
 import cartView from './views/pages/cart'
 import ordersView from './views/pages/orders'
+import myOrdersView from './views/pages/myOrders'
 
 // define routes
 const routes = {
@@ -32,6 +33,7 @@ const routes = {
     '/editSpecial': editSpecialView,
     '/cart': cartView,
     '/orders': ordersView,
+    '/myOrders': myOrdersView,
 }
 
 class Router {

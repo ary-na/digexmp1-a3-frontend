@@ -199,6 +199,7 @@ export class CoAppHeader extends LitElement {
                     <ul>
                         <li><a title="Home" href="/" @click="${this.menuClick}">Home</a></li>
                         ${this.user.accessLevel === 2 ? html`
+                            <li><a title="My specials" href="/myOrders" @click="${this.menuClick}">My orders</a>
                             <li><a title="My specials" href="/mySpecials" @click="${this.menuClick}">My specials</a>
                             </li>` : html`
                             <li><a title="Favourites" href="/favourites" @click="${this.menuClick}">Favourites</a>
