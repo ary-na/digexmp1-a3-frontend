@@ -28,10 +28,9 @@ class Auth {
     }
     /// sign up success - show toast and redirect to sign in page
     Toast.show('Account created, please login!')
-    // redirect to login
+    // redirect to log in
     gotoRoute('/login')
   }
-
 
   async login(userData, fail = false){
     const response = await fetch(`${App.apiBase}/auth/login`, {
