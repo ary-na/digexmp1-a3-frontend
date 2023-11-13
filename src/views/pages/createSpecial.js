@@ -74,7 +74,7 @@ class createSpecial {
                             <sl-icon class="ps-2" name="currency-dollar" slot="prefix"></sl-icon>
                         </sl-input>
 
-                        <sl-radio-group label="Drink type" name="drinkType" required>
+                        <sl-radio-group label="Drink type" name="type" required>
                             <sl-radio class="d-inline me-2" value="Hot">Hot</sl-radio>
                             <sl-radio class="d-inline" value="Ice">Ice</sl-radio>
                         </sl-radio-group>

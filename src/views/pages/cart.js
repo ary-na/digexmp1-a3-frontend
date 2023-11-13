@@ -1,5 +1,5 @@
 import App from './../../App'
-import {html, render} from 'lit-html'
+import {html, render} from 'lit'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
@@ -119,14 +119,12 @@ class CartView {
         try {
             await Order.createOrder(formData)
             Toast.show("Order created!")
-
+            await User.removeAllFromCart()
+            gotoRoute('/cart')
         } catch (err) {
             Toast.show(err, 'error');
         }
         submitBtn.removeAttribute('loading')
-
-        await User.removeAllFromCart()
-        gotoRoute('/cart')
     }
 
     render() {
@@ -134,16 +132,18 @@ class CartView {
             <co-app-header user="${JSON.stringify(Auth.currentUser)}"
                            cartItemCount="${this.cartItemCount}"></co-app-header>
             <div class="row my-4 justify-content-center">
-                <div class="col-xs-12 col-sm-10">
+                <div class="row col-xs-12 col-sm-10">
                     <h1>Cart</h1>
                     <p class="small mb-4 brand-color">You have ${this.cartItemCount} items in your cart.</p>
+                    </div>
 
+                <div class="row col-xs-12 col-sm-10">
                     ${this.cartItemCount === 0 ? html`
-                                <div class="text-center mb-4 mt-4 p-4 bg-white rounded-1">
+                                <sl-card class="text-center col-12">
                                     <h2>You do not have any items in your cart.</h2>
                                     <p class="small text-muted mb-0">Explore our website, and we promise you will find what
                                         you love.</p>
-                                </div>
+                                </sl-card>
                             `
                             : html`
                                 <form class="row gy-3 mt-0" @submit=${this.orderSubmitHandler.bind(this)}>

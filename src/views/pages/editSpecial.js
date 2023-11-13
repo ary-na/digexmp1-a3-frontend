@@ -7,13 +7,17 @@ import Toast from "../../Toast";
 import Drink from "../../api/Drink";
 class EditSpecialView {
     async init() {
-        document.title = `Edit my special - ${App.name}`
-        this.specialId = localStorage.getItem('specialId')
-        this.special = null
-        await this.getMySpecial(this.specialId)
-        this.render()
-        Utils.pageIntroAnim()
-        await this.retrieveCheckboxCheckedValue()
+        if (Auth.currentUser.accessLevel === 1)
+            gotoRoute('/404')
+        else {
+            document.title = `Edit my special - ${App.name}`
+            this.specialId = localStorage.getItem('specialId')
+            this.special = null
+            await this.getMySpecial(this.specialId)
+            this.render()
+            Utils.pageIntroAnim()
+            await this.retrieveCheckboxCheckedValue()
+        }
     }
 
     async getMySpecial(id) {
@@ -82,7 +86,7 @@ class EditSpecialView {
                             <sl-icon class="ps-2" name="currency-dollar" slot="prefix"></sl-icon>
                         </sl-input>
 
-                        <sl-radio-group label="Drink type" name="drinkType" value="${this.special.drinkType}" required>
+                        <sl-radio-group label="Drink type" name="type" value="${this.special.type}" required>
                             <sl-radio class="d-inline me-2" value="Hot">Hot</sl-radio>
                             <sl-radio class="d-inline" value="Ice">Ice</sl-radio>
                         </sl-radio-group>

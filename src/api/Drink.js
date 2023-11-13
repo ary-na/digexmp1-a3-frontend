@@ -25,6 +25,30 @@ class Drink {
         return await response.json()
     }
 
+    async getDrinkCount(userId) {
+        // validate
+        if (!userId) return
+
+        // fetch the json data
+        const response = await fetch(`${App.apiBase}/drink/count/${userId}`, {
+            method: "GET",
+            headers: {"Authorization": `Bearer ${localStorage.accessToken}`}
+        })
+
+        // if response not ok
+        if (!response.ok) {
+            // console log error
+            const err = await response.json()
+            if (err) console.log(err)
+            // throw error (exit this function)
+            throw new Error('Problem getting drink count!')
+        }
+
+        // convert response payload into json - store as data
+        // return data
+        return await response.json()
+    }
+
     async getDrinks() {
 
         // fetch the json data
@@ -132,7 +156,7 @@ class Drink {
 
     async removeSpecial(drinkId) {
         // fetch the json data
-        const response = await fetch(`${App.apiBase}/special/${drinkId}`, {
+        const response = await fetch(`${App.apiBase}/drink/${drinkId}`, {
             method: 'DELETE',
             headers: {"Authorization": `Bearer ${localStorage.accessToken}`}
         })

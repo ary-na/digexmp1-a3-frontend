@@ -96,24 +96,25 @@ class DrinksView {
                         </sl-button>
                         <sl-button pill size="small" @click="${this.clearFilters.bind(this)}">Clear filter</sl-button>
                     </div>
+                </div>
 
 
-                    <div class="row g-4 mt-0">
-                        ${this.drinks.map(drink => html`
-                                    <co-drink-card class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"
-                                                   id="${drink._id}"
-                                                   name="${drink.name}"
-                                                   description="${drink.description}"
-                                                   price="${drink.price}"
-                                                   user="${JSON.stringify(Auth.currentUser)}"
-                                                   image="${drink.image}"
-                                                   drinkType="${drink.drinkType}"
-                                                   brewMethod="${drink.brewMethod}"
-                                                   route="${'/drinks'}">
-                                    </co-drink-card>
-                                `
-                        ).reverse()}
-                    </div>
+                <div class="row col-xs-12 col-sm-10 g-4 mt-0">
+                    ${this.drinks.map(drink => html`
+                                <co-drink-card class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"
+                                               id="${drink._id}"
+                                               name="${drink.name}"
+                                               description="${drink.description}"
+                                               price="${drink.price}"
+                                               user="${JSON.stringify(Auth.currentUser)}"
+                                               barista="${JSON.stringify(drink.user)}"
+                                               image="${drink.image}"
+                                               drinkType="${drink.drinkType}"
+                                               brewMethod="${drink.brewMethod}"
+                                               route="${'/drinks'}">
+                                </co-drink-card>
+                            `
+                    ).reverse()}
                 </div>
             </div>
             <co-app-footer></co-app-footer>

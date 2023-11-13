@@ -11,6 +11,10 @@ export class CoBaristaCard extends LitElement {
         width: 100%;
       }
 
+      sl-card::part(base) {
+        --border-color: none;
+      }
+
       .card-body {
         display: flex;
         align-items: center;

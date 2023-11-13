@@ -13,6 +13,10 @@ export class CoDrinkCard extends LitElement {
       sl-card {
         width: 100%;
       }
+      
+      sl-card::part(base) {
+        --border-color: none;
+      }
 
       sl-card img {
         height: 200px;
@@ -33,6 +37,12 @@ export class CoDrinkCard extends LitElement {
         justify-content: space-between;
         align-items: center;
       }
+
+      a {
+        display: block;
+        color: var(--link-color);
+        margin-bottom: var(--sl-spacing-small);
+      }
     `
 
     static properties = {
@@ -41,6 +51,7 @@ export class CoDrinkCard extends LitElement {
         description: {type: String},
         price: {type: Number},
         user: {type: Object},
+        barista: {type: Object},
         image: {type: String},
         drinkType: {type: String},
         brewMethod: {type: String},
@@ -142,6 +153,7 @@ export class CoDrinkCard extends LitElement {
             dialogEl.hide()
             try {
                 await Drink.removeSpecial(this.id)
+                gotoRoute('/mySpecials')
             } catch (err) {
                 Toast.show(err, 'error')
             }
@@ -150,7 +162,27 @@ export class CoDrinkCard extends LitElement {
         // Delete dialog after hide.
         dialogEl.addEventListener('sl-after-hide', () => {
             dialogEl.remove()
-            gotoRoute('/mySpecials')
+        })
+    }
+
+    async readMoreHandler(e){
+        e.preventDefault()
+        const dialogEl = document.createElement('sl-dialog');
+        dialogEl.setAttribute('label', `${this.name}`)
+        const dialogContent = html`
+            <p>${this.description}</p>
+            ${this.barista ? html`
+                <small><em>by ${this.barista.firstName} ${this.barista.lastName}</em></small>
+            ` : html``}
+        `;
+        render(dialogContent, dialogEl)
+
+        await document.body.append(dialogEl)
+        dialogEl.show()
+
+        // Delete dialog after hide.
+        dialogEl.addEventListener('sl-after-hide', () => {
+            dialogEl.remove()
         })
     }
 
@@ -164,8 +196,9 @@ export class CoDrinkCard extends LitElement {
                 />
 
                 <h2>${this.name}</h2>
-                <p>${this.description}</p>
-                <small>$${this.price}</small>
+                <p>${this.description.substring(0, 60)}...</p>
+                <a href="#" @click=${this.readMoreHandler.bind(this)}>read more</a>
+                <small>$${this.price}.00</small>
 
                 <div slot="footer" class="card-footer">
                     ${Auth.currentUser.accessLevel === 1

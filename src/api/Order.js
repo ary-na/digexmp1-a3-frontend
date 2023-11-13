@@ -73,6 +73,54 @@ class Order {
         return await response.json()
     }
 
+    async getMyLastOrder(userId){
+        // validate
+        if (!userId) return
+
+        // fetch the json data
+        const response = await fetch(`${App.apiBase}/order/myLast/${userId}`, {
+            method: "GET",
+            headers: {"Authorization": `Bearer ${localStorage.accessToken}`}
+        })
+
+        // if response not ok
+        if (!response.ok) {
+            // console log error
+            const err = await response.json()
+            if (err) console.log(err)
+            // throw error (exit this function)
+            throw new Error('Problem getting my order!')
+        }
+
+        // convert response payload into json - store as data
+        // return data
+        return await response.json()
+    }
+
+    async getOrderCount(userId) {
+        // validate
+        if (!userId) return
+
+        // fetch the json data
+        const response = await fetch(`${App.apiBase}/order/count/${userId}`, {
+            method: "GET",
+            headers: {"Authorization": `Bearer ${localStorage.accessToken}`}
+        })
+
+        // if response not ok
+        if (!response.ok) {
+            // console log error
+            const err = await response.json()
+            if (err) console.log(err)
+            // throw error (exit this function)
+            throw new Error('Problem getting order count!')
+        }
+
+        // convert response payload into json - store as data
+        // return data
+        return await response.json()
+    }
+
     async getMyOrders(userId) {
         // validate
         if (!userId) return
