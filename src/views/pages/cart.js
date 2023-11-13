@@ -147,7 +147,7 @@ class CartView {
                                 </sl-card>
                             `
                             : html`
-                                <form class="row gy-3 mt-0" @submit=${this.orderSubmitHandler.bind(this)}>
+                                <form class="d-flex gap-3 flex-column mt-0" @submit=${this.orderSubmitHandler.bind(this)}>
                                     <input name="user" type="hidden" value="${Auth.currentUser._id}"/>
                                     ${this.cartItems.map(cart =>
                                             html`

@@ -10,7 +10,7 @@ class WelcomeView {
     async init() {
         document.title = `Welcome - ${App.name}`
         this.render()
-        // await this.updateCurrentUser()
+        await this.updateCurrentUser()
         Utils.pageIntroAnim()
     }
 
