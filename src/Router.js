@@ -5,7 +5,7 @@ import loginView from './views/pages/login'
 import registerView from './views/pages/register'
 import profileView from './views/pages/profile'
 import editProfileView from './views/pages/editProfile'
-import guideView from './views/pages/guide'
+import welcomeView from './views/pages/welcome'
 import baristasView from './views/pages/baristas'
 import favouritesView from './views/pages/favourites'
 import mySpecialsView from './views/pages/mySpecials'
@@ -28,7 +28,7 @@ const routes = {
     '/mySpecials': mySpecialsView,
     '/drinks': drinksView,
     '/favourites': favouritesView,
-    '/guide': guideView,
+    '/welcome': welcomeView,
     '/createSpecial': createSpecialView,
     '/editSpecial': editSpecialView,
     '/cart': cartView,

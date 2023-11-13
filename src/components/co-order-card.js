@@ -157,7 +157,7 @@ export class CoOrderCard extends LitElement {
                         <div>${this.itemCountUserView++}.</div>
                         <div>${drink._id.name}</div>
                         <div>${drink.quantity}</div>
-                        <div>$${drink._id.price}</div>`)}
+                        <div>$${drink._id.price}.00</div>`)}
                 </div>
 
                 ${this.instructions !== "" ? html`
@@ -168,7 +168,7 @@ export class CoOrderCard extends LitElement {
 
                 <div class="card-footer">
                     <h3>Total:</h3>
-                    <h3>$${this.total}<span>
+                    <h3>$${this.total}.00<span>
                 </div>
             </sl-card>
         `

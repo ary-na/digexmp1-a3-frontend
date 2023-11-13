@@ -62,7 +62,7 @@ class Auth {
 
         // Redirect new user to guide page.
         if (this.currentUser.newUser) {
-            gotoRoute('/guide')
+            gotoRoute('/welcome')
         } else {
             gotoRoute('/')
         }

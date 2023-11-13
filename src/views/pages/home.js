@@ -62,8 +62,7 @@ class HomeView {
 
     render() {
         const template = html`
-            <co-app-header title="Home" user="${JSON.stringify(Auth.currentUser)}"
-                           cartItemCount="${this.cartItemCount}"></co-app-header>
+            <co-app-header title="Home" user="${JSON.stringify(Auth.currentUser)}" cartItemCount="${this.cartItemCount}"></co-app-header>
 
             <div class="row my-4 justify-content-center">
                 <div class="row col-xs-12 col-sm-10 mb-4">
@@ -78,13 +77,13 @@ class HomeView {
                                     <div class="row align-items-center gy-2 justify-content-between">
                                         <div class="col-md-6 d-flex gap-2 align-items-center">
                                             <sl-icon class="link-color" name="star-fill"></sl-icon>
-                                            <p class="text-muted mb-0">You have <span class="fw-bold text-black">${Auth.currentUser.favouriteBaristas.length}</span>favourite baristas.</p>
+                                            <p class="text-muted mb-0">You have <span class="fw-bold text-black">${Auth.currentUser.favouriteBaristas.length}</span> favourite baristas.</p>
                                         </div>
                                         <sl-button @click="${() => gotoRoute('/baristas')}" pill size="small" class="col-md-2">Baristas
                                         </sl-button>
                                         <div class="col-md-6 d-flex gap-2 align-items-center">
                                             <sl-icon class="link-color" name="heart-fill"></sl-icon>
-                                            <p class="text-muted mb-0">You have <span class="fw-bold text-black">${Auth.currentUser.favouriteDrinks.length}</span>favourite drinks.</p>
+                                            <p class="text-muted mb-0">You have <span class="fw-bold text-black">${Auth.currentUser.favouriteDrinks.length}</span> favourite drinks.</p>
                                         </div>
                                         <sl-button @click="${() => gotoRoute('/drinks')}" pill size="small" class="col-md-2">Drinks</sl-button>
                                     </div>
@@ -128,7 +127,7 @@ class HomeView {
                                         </sl-button>
                                         <div class="col-md-6 d-flex gap-2 align-items-center">
                                             <sl-icon class="link-color" name="bag-heart-fill"></sl-icon>
-                                            <p class="text-muted mb-0">You have received <span class="fw-bold text-black">${this.orderCount}</span>orders.</p>
+                                            <p class="text-muted mb-0">You have received <span class="fw-bold text-black">${this.orderCount}</span> orders.</p>
                                         </div>
                                         <sl-button @click="${() => gotoRoute('/myOrders')}" pill size="small" class="col-md-2">My orders</sl-button>
                                     </div>
