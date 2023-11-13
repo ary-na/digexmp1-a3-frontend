@@ -78,23 +78,15 @@ class HomeView {
                                     <div class="row align-items-center gy-2 justify-content-between">
                                         <div class="col-md-6 d-flex gap-2 align-items-center">
                                             <sl-icon class="link-color" name="star-fill"></sl-icon>
-                                            <p class="text-muted mb-0">You have <span
-                                                    class="fw-bold text-black">${Auth.currentUser.favouriteBaristas.length}</span>
-                                                favourite baristas.
-                                            </p>
+                                            <p class="text-muted mb-0">You have <span class="fw-bold text-black">${Auth.currentUser.favouriteBaristas.length}</span>favourite baristas.</p>
                                         </div>
-                                        <sl-button @click="${() => gotoRoute('/baristas')}" pill size="small"
-                                                   class="col-md-2">Baristas
+                                        <sl-button @click="${() => gotoRoute('/baristas')}" pill size="small" class="col-md-2">Baristas
                                         </sl-button>
                                         <div class="col-md-6 d-flex gap-2 align-items-center">
                                             <sl-icon class="link-color" name="heart-fill"></sl-icon>
-                                            <p class="text-muted mb-0">You have <span
-                                                    class="fw-bold text-black">${Auth.currentUser.favouriteDrinks.length}</span>
-                                                favourite drinks.</p>
+                                            <p class="text-muted mb-0">You have <span class="fw-bold text-black">${Auth.currentUser.favouriteDrinks.length}</span>favourite drinks.</p>
                                         </div>
-                                        <sl-button @click="${() => gotoRoute('/drinks')}" pill size="small"
-                                                   class="col-md-2">Drinks
-                                        </sl-button>
+                                        <sl-button @click="${() => gotoRoute('/drinks')}" pill size="small" class="col-md-2">Drinks</sl-button>
                                     </div>
                                 </sl-card>
 
@@ -108,8 +100,7 @@ class HomeView {
                                         ? html`
                                             <sl-card class="text-center col-12">
                                                 <h2>You do not have any orders.</h2>
-                                                <p class="small text-muted mb-0">Explore our drinks, and we promise you
-                                                    will find what you love.</p>
+                                                <p class="small text-muted mb-0">Explore our drinks, and we promise you will find what you love.</p>
                                             </sl-card>
                                         `
                                         : html`
@@ -130,49 +121,39 @@ class HomeView {
                                     <div class="row align-items-center gy-2 justify-content-between">
                                         <div class="col-md-6 d-flex gap-2 align-items-center">
                                             <sl-icon class="link-color" name="cup-hot-fill"></sl-icon>
-                                            <p class="text-muted mb-0">You have <span
-                                                    class="fw-bold text-black">${this.drinkCount}</span> special drinks.
+                                            <p class="text-muted mb-0">You have <span class="fw-bold text-black">${this.drinkCount}</span> special drinks.
                                             </p>
                                         </div>
-                                        <sl-button @click="${() => gotoRoute('/mySpecials')}" pill size="small"
-                                                   class="col-md-2">My specials
+                                        <sl-button @click="${() => gotoRoute('/mySpecials')}" pill size="small" class="col-md-2">My specials
                                         </sl-button>
                                         <div class="col-md-6 d-flex gap-2 align-items-center">
                                             <sl-icon class="link-color" name="bag-heart-fill"></sl-icon>
-                                            <p class="text-muted mb-0">You have received <span
-                                                    class="fw-bold text-black">${this.orderCount}</span>
-                                                orders.</p>
+                                            <p class="text-muted mb-0">You have received <span class="fw-bold text-black">${this.orderCount}</span>orders.</p>
                                         </div>
-                                        <sl-button @click="${() => gotoRoute('/myOrders')}" pill size="small"
-                                                   class="col-md-2">My orders
-                                        </sl-button>
+                                        <sl-button @click="${() => gotoRoute('/myOrders')}" pill size="small" class="col-md-2">My orders</sl-button>
                                     </div>
                                 </sl-card>
 
                                 <div class="d-flex mb-4 mt-4 justify-content-between align-items-end">
                                     <h2 class="mb-0">My last order</h2>
-                                    ${this.myOrder._id != null ? html`
-                                                <a href="/myOrders" @click=${anchorRoute}>View all my orders</a>
-                                            `
-                                            : html``}
+                                    ${this.myOrder._id != null ? html`<a href="/myOrders" @click=${anchorRoute}>View all my orders</a>` : html``}
                                 </div>
                                 ${this.myOrder._id == null
                                         ? html`
                                             <sl-card class="text-center col-12">
                                                 <h2>You have not received any orders.</h2>
-                                                <p class="small text-muted mb-0">Create more exciting drinks to receive
-                                                    more orders.</p>
+                                                <p class="small text-muted mb-0">Create more exciting drinks to receive more orders.</p>
                                             </sl-card>
                                         `
                                         : html`
-                                            <co-order-card class="col-12" id="${this.order._id}"
-                                                           date="${this.order.date}"
-                                                           ready="${this.order.ready}"
-                                                           instructions="${this.order.instructions}"
-                                                           barista="${JSON.stringify(this.order.barista)}"
-                                                           user="${JSON.stringify(this.order.user)}"
-                                                           drinks="${JSON.stringify(this.order.drinks)}"
-                                                           total="${this.order.total}"
+                                            <co-order-card class="col-12" id="${this.myOrder._id}"
+                                                           date="${this.myOrder.date}"
+                                                           ready="${this.myOrder.ready}"
+                                                           instructions="${this.myOrder.instructions}"
+                                                           barista="${JSON.stringify(this.myOrder.barista)}"
+                                                           user="${JSON.stringify(this.myOrder.user)}"
+                                                           drinks="${JSON.stringify(this.myOrder.drinks)}"
+                                                           total="${this.myOrder.total}"
                                             ></co-order-card>
                                         `}
                             `}

@@ -1,5 +1,5 @@
 import App from './../../App'
-import {html, render} from 'lit-html'
+import {html, render} from 'lit'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
@@ -71,28 +71,21 @@ class DrinksView {
 
     render() {
         const template = html`
-            <co-app-header user="${JSON.stringify(Auth.currentUser)}"
-                           cartItemCount="${this.cartItemCount}"></co-app-header>
+            <co-app-header user="${JSON.stringify(Auth.currentUser)}" cartItemCount="${this.cartItemCount}"></co-app-header>
             <div class="row my-4 justify-content-center">
                 <div class="row col-xs-12 col-sm-10">
                     <h1>Drinks</h1>
-                    <p class="small mb-4 brand-color">View and order drinks created by our talented baristas.
-                        You can also add them to your favourites.</p>
-
-
+                    <p class="small mb-4 brand-color">View and order drinks created by our talented baristas. You can also add them to your favourites.</p>
+                    
                     <div class="align-items-center">
                         <span class="text-muted">Filters: </span>
-                        <sl-button pill class="filter-btn" size="small" data-property="type" data-match="Hot"
-                                   @click="${this.filterButtonHandler.bind(this)}">Hot
+                        <sl-button pill class="filter-btn" size="small" data-property="type" data-match="Hot" @click="${this.filterButtonHandler.bind(this)}">Hot
                         </sl-button>
-                        <sl-button pill class="filter-btn" size="small" data-property="type" data-match="Ice"
-                                   @click="${this.filterButtonHandler.bind(this)}">Ice
+                        <sl-button pill class="filter-btn" size="small" data-property="type" data-match="Ice" @click="${this.filterButtonHandler.bind(this)}">Ice
                         </sl-button>
-                        <sl-button pill class="filter-btn" size="small" data-property="decaf" data-match="true"
-                                   @click="${this.filterButtonHandler.bind(this)}">Decaf
+                        <sl-button pill class="filter-btn" size="small" data-property="decaf" data-match="true" @click="${this.filterButtonHandler.bind(this)}">Decaf
                         </sl-button>
-                        <sl-button pill class="filter-btn" size="small" data-property="special" data-match="true"
-                                   @click="${this.filterButtonHandler.bind(this)}">Special
+                        <sl-button pill class="filter-btn" size="small" data-property="special" data-match="true" @click="${this.filterButtonHandler.bind(this)}">Special
                         </sl-button>
                         <sl-button pill size="small" @click="${this.clearFilters.bind(this)}">Clear filter</sl-button>
                     </div>
@@ -109,7 +102,8 @@ class DrinksView {
                                                user="${JSON.stringify(Auth.currentUser)}"
                                                barista="${JSON.stringify(drink.user)}"
                                                image="${drink.image}"
-                                               drinkType="${drink.drinkType}"
+                                               type="${drink.type}"
+                                               decaf="${drink.decaf}"
                                                brewMethod="${drink.brewMethod}"
                                                route="${'/drinks'}">
                                 </co-drink-card>
@@ -122,6 +116,5 @@ class DrinksView {
         render(template, App.rootEl)
     }
 }
-
 
 export default new DrinksView()

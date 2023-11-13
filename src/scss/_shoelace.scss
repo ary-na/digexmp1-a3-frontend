@@ -1,13 +1,12 @@
 // Shoelace
 
 // sl-dialog
-sl-dialog::part(title){
+sl-dialog::part(title) {
   font-weight: 500;
   font-size: 1.6em;
 }
 
 // sl-avatar
-
 sl-avatar {
   --size: 5em;
 }
@@ -17,7 +16,7 @@ sl-avatar {
 }
 
 // RESPONSIVE - MOBILE -------------------
-@media all and (max-width: 768px){ 
+@media all and (max-width: 768px) {
 
   sl-dialog::part(panel) {
     width: 100%;

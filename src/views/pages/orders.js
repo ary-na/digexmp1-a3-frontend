@@ -1,11 +1,10 @@
 import App from './../../App'
-import {html, render} from 'lit-html'
+import {html, render} from 'lit'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
 import Toast from "../../Toast";
 import Order from "../../api/Order"
-import moment from 'moment'
 
 class OrdersView {
     async init() {
@@ -21,7 +20,7 @@ class OrdersView {
         }
     }
 
-    async getOrders(id){
+    async getOrders(id) {
         try {
             this.orders = await Order.getOrders(id)
         } catch (err) {
@@ -31,13 +30,11 @@ class OrdersView {
 
     render() {
         const template = html`
-            <co-app-header user="${JSON.stringify(Auth.currentUser)}"
-                           cartItemCount="${this.cartItemCount}"></co-app-header>
+            <co-app-header user="${JSON.stringify(Auth.currentUser)}" cartItemCount="${this.cartItemCount}"></co-app-header>
             <div class="row my-4 justify-content-center">
                 <div class="row col-xs-12 col-sm-10">
                     <h1>Orders</h1>
-                    <p class="small mb-0 brand-color">View and see the status of your orders before you pick them
-                        up.</p>
+                    <p class="small mb-0 brand-color">View and see the status of your orders before you pick them up.</p>
                 </div>
 
                 <div class="col-xs-12 col-sm-10 row g-4 mt-0">
@@ -59,6 +56,5 @@ class OrdersView {
         render(template, App.rootEl)
     }
 }
-
 
 export default new OrdersView()

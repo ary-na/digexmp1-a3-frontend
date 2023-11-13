@@ -1,5 +1,5 @@
 import App from './../../App'
-import {html, render} from 'lit-html'
+import {html, render} from 'lit'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
@@ -81,7 +81,7 @@ class createSpecial {
 
                         <div>
                             <label for="formFile" class="form-label">Upload an image</label>
-                            <input class="form-control" name="image" type="file" id="formFile" required>
+                            <input class="form-control" name="image" type="file" id="formFile">
                         </div>
 
                         <sl-checkbox name="decaf" value="${true}">Decaf</sl-checkbox>
@@ -95,6 +95,5 @@ class createSpecial {
         render(template, App.rootEl)
     }
 }
-
 
 export default new createSpecial()

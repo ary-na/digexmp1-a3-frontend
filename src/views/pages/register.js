@@ -1,6 +1,6 @@
 import App from './../../App'
 import Auth from '../../api/Auth'
-import {html, render} from 'lit-html'
+import {html, render} from 'lit'
 import {anchorRoute, gotoRoute} from '../../Router'
 import Utils from './../../Utils'
 
@@ -51,6 +51,5 @@ class RegisterView {
         render(template, App.rootEl)
     }
 }
-
 
 export default new RegisterView()

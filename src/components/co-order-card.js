@@ -83,23 +83,16 @@ export class CoOrderCard extends LitElement {
                         <sl-badge class="pe-0 mb-2 col-auto" pill>${drink._id.type}</sl-badge>
                         <sl-badge class="ps-1 pe-1 mb-2 col-auto" pill>${drink._id.brewMethod.replaceAll('_', ' ')}
                         </sl-badge>
-                        ${drink._id.decaf ? html`
-                            <sl-badge class="ps-0 pe-0 mb-2 col-auto" pill>Decaf</sl-badge>
-                        ` : html``}
-                        <h6><span class="small text-muted">Description: </span> ${drink._id.description}</h6>
+                        ${drink._id.decaf ? html`<sl-badge class="ps-0 pe-0 mb-2 col-auto" pill>Decaf</sl-badge>` : html``}
+                        <p><span class="small text-muted">Description: </span> ${drink._id.description}</p>
                     </div>
                 `)}
-                <h4 class="small">Instructions: <span class="fw-light">${this.instructions}</span></h4>
+                ${this.instructions ? html`<p class="small">Instructions: <span class="fw-light">${this.instructions}</span></p>` : html``}
             </div>
             ${this.ready === 'false'
-                    ? html`
-                        <sl-button slot="footer" class="markAsReadyBtn" variant="primary">Mark as Ready</sl-button>
-                    `
-                    : html`
-                        <sl-button slot="footer" class="markAsPreparingBtn" variant="primary">Mark as Preparing
-                        </sl-button>
-                    `}
-        `;
+                    ? html`<sl-button slot="footer" class="markAsReadyBtn" variant="primary">Mark as Ready</sl-button>`
+                    : html`<sl-button slot="footer" class="markAsPreparingBtn" variant="primary">Mark as Preparing</sl-button>`}`
+
         render(dialogContent, dialogEl)
 
         await document.body.append(dialogEl)
@@ -141,26 +134,17 @@ export class CoOrderCard extends LitElement {
 
     render() {
         return html`
-
             <sl-card class="card-basic">
                 <div class="card-header">
                     <p>Ordered: ${moment(this.date).format('MMMM Do YYYY, @ h:mm a')}</p>
-                    <p>Status:
-                        ${this.ready === "false" ? html`<span>Preparing</span>` : html`
-                            <span>Ready for pickup</span>`}</p>
+                    <p>Status: ${this.ready === "false" ? html`<span>Preparing</span>` : html`<span>Ready for pickup</span>`}</p>
                 </div>
 
                 <div class="card-body">
-                    ${Auth.currentUser.accessLevel === 1 
-                            ? html`
-                                <h2>Barista: <span>${this.barista.firstName} ${this.barista.lastName}</span></h2>
-                            `
-                            : html`
-                                <h2>Customer: <span>${this.user.firstName} ${this.user.lastName}</span></h2>
-                            `}
-                    ${Auth.currentUser.accessLevel === 2 ? html`
-                        <sl-button @click="${this.viewDetailsHandler.bind(this)}">View details</sl-button>
-                    ` : html``}
+                    ${Auth.currentUser.accessLevel === 1
+                            ? html`<h2>Barista: <span>${this.barista.firstName} ${this.barista.lastName}</span></h2>`
+                            : html`<h2>Customer: <span>${this.user.firstName} ${this.user.lastName}</span></h2>`}
+                    ${Auth.currentUser.accessLevel === 2 ? html`<sl-button @click="${this.viewDetailsHandler.bind(this)}">View details</sl-button>` : html``}
                 </div>
 
                 <div class="table">
@@ -173,16 +157,14 @@ export class CoOrderCard extends LitElement {
                         <div>${this.itemCountUserView++}.</div>
                         <div>${drink._id.name}</div>
                         <div>${drink.quantity}</div>
-                        <div>$${drink._id.price}</div>
-                    `)}
+                        <div>$${drink._id.price}</div>`)}
                 </div>
 
                 ${this.instructions !== "" ? html`
                     <div class="instructions">
                         <h3>Instructions</h3>
                         <p>${this.instructions}</p>
-                    </div>
-                ` : html``}
+                    </div>` : html``}
 
                 <div class="card-footer">
                     <h3>Total:</h3>

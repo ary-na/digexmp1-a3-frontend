@@ -2,7 +2,6 @@ import {LitElement, html, css} from 'lit'
 import {anchorRoute, gotoRoute} from '../Router'
 import Auth from './../api/Auth'
 import App from './../App'
-import User from "../api/User";
 
 export class CoAppHeader extends LitElement {
     static styles = css`
@@ -40,7 +39,7 @@ export class CoAppHeader extends LitElement {
         font-weight: 300;
       }
 
-      /* App drawer styles */
+      /* App drawer styles -------------------------------------------------------- */
 
       .app-drawer-menu-items ul {
         list-style: none;
@@ -115,7 +114,7 @@ export class CoAppHeader extends LitElement {
 
     static properties = {
         user: {type: Object},
-        cartItemCount: {type: Number}
+        cartItemCount: {type: Number},
     }
 
     constructor() {
@@ -165,28 +164,23 @@ export class CoAppHeader extends LitElement {
                     <img src="/images/logo-primary-alternate.svg" alt="This is an image of the coffee on café logo.">
                 </a>
 
-                ${this.user.accessLevel === 1
-                        ? html`
+                ${this.user.accessLevel === 1 ? html`
                             <sl-button variant="default" size="small" @click="${() => gotoRoute('/cart')}" circle>
                                 <sl-icon name="cart2" title="Shopping cart" label="Shopping cart"></sl-icon>
                                 <sl-badge pill>${this.cartItemCount}</sl-badge>
-                            </sl-button>
-                        `
-                        : html``}
+                            </sl-button>` : html``}
 
                 <nav class="app-header-top-nav">
                     <sl-dropdown>
                         <sl-menu>
                             ${this.user.accessLevel === 1 ? html`
-                                <sl-menu-item @click="${() => gotoRoute('/orders')}">Orders</sl-menu-item>
-                            ` : html``}
+                                <sl-menu-item @click="${() => gotoRoute('/orders')}">Orders</sl-menu-item>` : html``}
                             <sl-menu-item @click="${() => gotoRoute('/profile')}">Profile</sl-menu-item>
                             <sl-menu-item @click="${() => gotoRoute('/editProfile')}">Edit Profile</sl-menu-item>
                             <sl-menu-item @click="${() => Auth.logout()}">Logout</sl-menu-item>
                         </sl-menu>
                         <a title="Profile" slot="trigger" href="#" @click="${(e) => e.preventDefault()}">
-                            <sl-avatar class="avatar"
-                                       image=${(this.user && this.user.avatar) ? `${App.apiBase}/images/${this.user.avatar}` : ''}></sl-avatar>
+                            <sl-avatar class="avatar" image=${(this.user && this.user.avatar) ? `${App.apiBase}/images/${this.user.avatar}` : ''}></sl-avatar>
                             ${this.user && this.user.firstName}
                         </a>
                     </sl-dropdown>
@@ -199,19 +193,18 @@ export class CoAppHeader extends LitElement {
                     <ul>
                         <li><a title="Home" href="/" @click="${this.menuClick}">Home</a></li>
                         ${this.user.accessLevel === 2 ? html`
-                            <li><a title="My specials" href="/myOrders" @click="${this.menuClick}">My orders</a>
-                            <li><a title="My specials" href="/mySpecials" @click="${this.menuClick}">My specials</a>
-                            </li>` : html`
+                            <li><a title="My specials" href="/mySpecials" @click="${this.menuClick}">My specials</a></li>
+                            <li><a title="My orders" href="/myOrders" @click="${this.menuClick}">My orders</a>` : html`
                             <li><a title="Favourites" href="/favourites" @click="${this.menuClick}">Favourites</a>
                             <li><a title="Baristas" href="/baristas" @click="${this.menuClick}">Baristas</a>
                             <li><a title="Specials" href="/drinks" @click="${this.menuClick}">Drinks</a>
+                            <li><a title="Orders" href="/orders" @click="${this.menuClick}">Orders</a>
                         `}
                         <li><a title="Profile" href="/profile" @click="${this.menuClick}">Profile</a></li>
                         <li><a title="Logout" href="#" @click="${() => Auth.logout()}">Logout</a></li>
                     </ul>
                 </nav>
-                <img slot="footer" class="align-self-start app-drawer-logo" src="/images/logo-white-alternate.svg"
-                     alt="This is an image of the coffee on café logo.">
+                <img slot="footer" class="align-self-start app-drawer-logo" src="/images/logo-white-alternate.svg" alt="This is an image of the coffee on café logo.">
             </sl-drawer>
         `
     }

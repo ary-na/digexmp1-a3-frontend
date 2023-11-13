@@ -7,23 +7,26 @@ import Toast from "../../Toast";
 import User from "../../api/User";
 import Drink from "../../api/Drink";
 import Order from "../../api/Order";
-import baristas from "./baristas";
 
 class CartView {
     async init() {
-        document.title = `Cart - ${App.name}`
-        this.cartItems = null
-        this.baristas = null
-        this.favouriteBaristas = null
-        this.total = 0
-        this.cartItemCount = await Utils.getCartItemCount()
-        await this.getCartItems()
-        await this.calculateTotal(null)
-        await this.getBaristas()
-        await this.getFavouriteBaristas()
-        this.render()
-        await this.createBaristaSelectOptions()
-        Utils.pageIntroAnim()
+        if (Auth.currentUser.accessLevel === 2)
+            gotoRoute('/404')
+        else {
+            document.title = `Cart - ${App.name}`
+            this.cartItems = null
+            this.baristas = null
+            this.favouriteBaristas = null
+            this.total = 0
+            this.cartItemCount = await Utils.getCartItemCount()
+            await this.getCartItems()
+            await this.calculateTotal(null)
+            await this.getBaristas()
+            await this.getFavouriteBaristas()
+            this.render()
+            await this.createBaristaSelectOptions()
+            Utils.pageIntroAnim()
+        }
     }
 
     async getCartItems() {
@@ -78,7 +81,7 @@ class CartView {
         const optionElement = document.createElement('sl-option')
         optionElement.value = barista_id
         optionElement.innerHTML = baristaName
-        if(selectElement)
+        if (selectElement)
             selectElement.appendChild(optionElement)
     }
 
@@ -129,20 +132,18 @@ class CartView {
 
     render() {
         const template = html`
-            <co-app-header user="${JSON.stringify(Auth.currentUser)}"
-                           cartItemCount="${this.cartItemCount}"></co-app-header>
+            <co-app-header user="${JSON.stringify(Auth.currentUser)}" cartItemCount="${this.cartItemCount}"></co-app-header>
             <div class="row my-4 justify-content-center">
                 <div class="row col-xs-12 col-sm-10">
                     <h1>Cart</h1>
                     <p class="small mb-4 brand-color">You have ${this.cartItemCount} items in your cart.</p>
-                    </div>
+                </div>
 
                 <div class="row col-xs-12 col-sm-10">
                     ${this.cartItemCount === 0 ? html`
                                 <sl-card class="text-center col-12">
                                     <h2>You do not have any items in your cart.</h2>
-                                    <p class="small text-muted mb-0">Explore our website, and we promise you will find what
-                                        you love.</p>
+                                    <p class="small text-muted mb-0">Explore our website, and we promise you will find what you love.</p>
                                 </sl-card>
                             `
                             : html`
@@ -150,13 +151,10 @@ class CartView {
                                     <input name="user" type="hidden" value="${Auth.currentUser._id}"/>
                                     ${this.cartItems.map(cart =>
                                             html`
-
                                                 <sl-card>
                                                     <div class="row gy-3">
                                                         <div class="col d-flex gap-3 align-items-center">
-                                                            <img class="cart-img"
-                                                                 src="${App.apiBase}/images/${cart.image}"
-                                                                 alt="An image of the drink."/>
+                                                            <img class="cart-img" src="${App.apiBase}/images/${cart.image}" alt="An image of the drink."/>
                                                             <div>
                                                                 <h2>${cart.name}</h2>
                                                                 <p>${cart.description.substring(0, 60)}...</p>
@@ -187,18 +185,14 @@ class CartView {
                                     <sl-textarea name="instructions" label="Instructions" placeholder="Enter any instructions (e.g., extra hot, sugar etc.)..."></sl-textarea>
 
 
-                                    <sl-select class="col-12" name="barista" label="Barista"
-                                               placeholder="Select a barista to make your drink/s..." required>
-                                    </sl-select>
+                                    <sl-select class="col-12" name="barista" label="Barista" placeholder="Select a barista to make your drink/s..." required></sl-select>
 
                                     <div class="col-12 d-flex justify-content-between border-top pt-2">
                                         <h3>Total:</h3>
                                         <p class="align-self-end mb-2 fw-bold link-color">$${this.total}</p>
                                     </div>
 
-                                    <sl-button type="submit" variant="primary" class="ms-auto col-md-2 submit-btn">
-                                        Checkout
-                                    </sl-button>
+                                    <sl-button type="submit" variant="primary" class="ms-auto col-md-2 submit-btn">Checkout</sl-button>
                                 </form>
                             `
                     }

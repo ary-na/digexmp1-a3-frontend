@@ -1,5 +1,5 @@
 import App from './../../App'
-import {html, render} from 'lit-html'
+import {html, render} from 'lit'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
@@ -10,13 +10,14 @@ class BaristasView {
     async init() {
         if (Auth.currentUser.accessLevel === 2)
             gotoRoute('/404')
-
-        document.title = `Baristas - ${App.name}`
-        this.baristas = null
-        this.cartItemCount = await Utils.getCartItemCount()
-        await this.getBaristas()
-        this.render()
-        Utils.pageIntroAnim()
+        else {
+            document.title = `Baristas - ${App.name}`
+            this.baristas = null
+            this.cartItemCount = await Utils.getCartItemCount()
+            await this.getBaristas()
+            this.render()
+            Utils.pageIntroAnim()
+        }
     }
 
     async getBaristas() {
@@ -36,13 +37,11 @@ class BaristasView {
 
     render() {
         const template = html`
-            <co-app-header user="${JSON.stringify(Auth.currentUser)}"
-                           cartItemCount="${this.cartItemCount}"></co-app-header>
+            <co-app-header user="${JSON.stringify(Auth.currentUser)}" cartItemCount="${this.cartItemCount}"></co-app-header>
             <div class="row my-4 justify-content-center">
                 <div class="row col-xs-12 col-sm-10">
                     <h1>Baristas</h1>
-                    <p class="small mb-0 brand-color">View our baristas and add them to your list of favourite
-                        baristas.</p>
+                    <p class="small mb-0 brand-color">View our baristas and add them to your list of favourite baristas.</p>
                 </div>
 
                 <div class="col-xs-12 col-sm-10 row g-4 mt-0">
@@ -63,6 +62,5 @@ class BaristasView {
         render(template, App.rootEl)
     }
 }
-
 
 export default new BaristasView()

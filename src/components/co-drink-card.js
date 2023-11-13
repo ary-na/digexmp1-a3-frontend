@@ -13,7 +13,7 @@ export class CoDrinkCard extends LitElement {
       sl-card {
         width: 100%;
       }
-      
+
       sl-card::part(base) {
         --border-color: none;
       }
@@ -53,7 +53,8 @@ export class CoDrinkCard extends LitElement {
         user: {type: Object},
         barista: {type: Object},
         image: {type: String},
-        drinkType: {type: String},
+        type: {type: String},
+        decaf: {type: String},
         brewMethod: {type: String},
         favourite: {type: Number},
         inCart: {type: Number},
@@ -138,8 +139,7 @@ export class CoDrinkCard extends LitElement {
         const dialogContent = html`
             <p>Are you sure you want to remove ${this.name} special?</p>
             <sl-button slot="footer" class="closeBtn" style="margin-right: 0.5em;">Close</sl-button>
-            <sl-button slot="footer" class="removeBtn" variant="primary">Remove</sl-button>
-        `;
+            <sl-button slot="footer" class="removeBtn" variant="primary">Remove</sl-button>`;
         render(dialogContent, dialogEl)
 
         await document.body.append(dialogEl)
@@ -165,16 +165,18 @@ export class CoDrinkCard extends LitElement {
         })
     }
 
-    async readMoreHandler(e){
+    async readMoreHandler(e) {
         e.preventDefault()
         const dialogEl = document.createElement('sl-dialog');
         dialogEl.setAttribute('label', `${this.name}`)
         const dialogContent = html`
+            <div class="badges mb-3">
+                <sl-badge variant="primary" pill>${this.type}</sl-badge>
+                <sl-badge variant="primary" pill>${this.brewMethod.replaceAll('_', ' ')}</sl-badge>
+                ${this.decaf === "true" ? html`<sl-badge variant="primary" pill>decaf</sl-badge>` : html``}
+            </div>
             <p>${this.description}</p>
-            ${this.barista ? html`
-                <small><em>by ${this.barista.firstName} ${this.barista.lastName}</em></small>
-            ` : html``}
-        `;
+            ${this.barista ? html`<small><em>by ${this.barista.firstName} ${this.barista.lastName}</em></small>` : html``}`
         render(dialogContent, dialogEl)
 
         await document.body.append(dialogEl)
@@ -189,11 +191,7 @@ export class CoDrinkCard extends LitElement {
     render() {
         return html`
             <sl-card class="card-overview">
-                <img
-                        slot="image"
-                        src="${App.apiBase}/images/${this.image}"
-                        alt="An image of the special drink."
-                />
+                <img slot="image" src="${App.apiBase}/images/${this.image}" alt="An image of the drink."/>
 
                 <h2>${this.name}</h2>
                 <p>${this.description.substring(0, 60)}...</p>
@@ -201,37 +199,26 @@ export class CoDrinkCard extends LitElement {
                 <small>$${this.price}.00</small>
 
                 <div slot="footer" class="card-footer">
-                    ${Auth.currentUser.accessLevel === 1
-                            ? html`
+                    ${Auth.currentUser.accessLevel === 1 ? html`
                                 ${this.inCart === 1 ? html`
-                                    <sl-button title="Remove from cart" label="Remove drink from cart" pill
-                                               @click="${this.removeFromCartHandler.bind(this)}">
+                                    <sl-button title="Remove from cart" label="Remove drink from cart" pill @click="${this.removeFromCartHandler.bind(this)}">
                                         <sl-icon slot="prefix" name="trash"></sl-icon>
                                     </sl-button>
                                 ` : html`
-                                    <sl-button title="Add to cart" label="Add drink to cart" variant="primary"
-                                               pill @click="${this.addToCartHandler.bind(this)}">
-                                        <sl-icon slot="prefix" name="cart2"></sl-icon>
-                                        Add
+                                    <sl-button title="Add to cart" label="Add drink to cart" variant="primary" pill @click="${this.addToCartHandler.bind(this)}">
+                                        <sl-icon slot="prefix" name="cart2"></sl-icon>Add
                                     </sl-button>
                                 `}
                                 ${this.favourite === 1 ? html`
-                                            <sl-icon-button name="heart-fill" title="Remove from favourites"
-                                                            label="Remove from favourite specials"
-                                                            @click="${this.removeFavouriteHandler.bind(this)}"></sl-icon-button>`
+                                            <sl-icon-button name="heart-fill" title="Remove from favourites" label="Remove from favourite specials" @click="${this.removeFavouriteHandler.bind(this)}"></sl-icon-button>`
                                         : html`
-                                            <sl-icon-button name="heart" title="Add to favourites"
-                                                            label="Add to favourite specials"
-                                                            @click="${this.addFavouriteHandler.bind(this)}"></sl-icon-button>`}
+                                            <sl-icon-button name="heart" title="Add to favourites" label="Add to favourite specials" @click="${this.addFavouriteHandler.bind(this)}"></sl-icon-button>`}
 
                             ` : html`
                                 <sl-button variant="primary" pill @click="${this.editMySpecialHandler.bind(this)}">
-                                    <sl-icon slot="prefix" name="pencil-square"></sl-icon>
-                                    Edit
+                                    <sl-icon slot="prefix" name="pencil-square"></sl-icon>Edit
                                 </sl-button>
-                                <sl-icon-button name="trash3" title="Remove special"
-                                                label="Remove special drink"
-                                                @click="${this.removeMySpecialHandler.bind(this)}"></sl-icon-button>
+                                <sl-icon-button name="trash3" title="Remove special" label="Remove special drink" @click="${this.removeMySpecialHandler.bind(this)}"></sl-icon-button>
                             `}
                 </div>
             </sl-card>

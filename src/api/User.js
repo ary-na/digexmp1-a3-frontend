@@ -1,10 +1,6 @@
 import App from '../App'
-import auth from "./Auth";
-import Auth from "./Auth";
-import drink from "./Drink";
 
 class User {
-
     async updateUser(userId, userData, dataType = 'form') {
         // validate
         if (!userId || !userData) return

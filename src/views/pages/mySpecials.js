@@ -1,5 +1,5 @@
 import App from './../../App'
-import {html, render} from 'lit-html'
+import {html, render} from 'lit'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
@@ -37,8 +37,7 @@ class MySpecialsView {
                     <div class="d-flex gap-3 justify-content-between">
                         <div>
                             <h1>My specials</h1>
-                            <p class="small mb-0 brand-color">View, modify or delete your specials. Keep your
-                                specials up to date to make the most money by earning commissions.</p>
+                            <p class="small mb-0 brand-color">View, modify or delete your specials. Keep your specials up to date to make the most money by earning commissions.</p>
                         </div>
                         <a class="align-self-end" href="/createSpecial" @click=${anchorRoute}>Create</a>
                     </div>
@@ -48,9 +47,7 @@ class MySpecialsView {
                     ${Object.keys(this.mySpecials).length === 0 ? html`
                                 <sl-card class="col-12 text-center">
                                     <h2>You do not have any specials.</h2>
-                                    <p class="small text-muted mb-0">Create a special coffee drink for customers to showcase
-                                        your
-                                        expertise.</p>
+                                    <p class="small text-muted mb-0">Create a special coffee drink for customers to showcase your expertise.</p>
                                 </sl-card>
                             `
                             : html`
@@ -62,7 +59,8 @@ class MySpecialsView {
                                                            price="${special.price}"
                                                            user="${JSON.stringify(special.user)}"
                                                            image="${special.image}"
-                                                           drinkType="${special.drinkType}"
+                                                           type="${special.type}"
+                                                           decaf="${special.decaf}"
                                                            brewMethod="${special.brewMethod}"></co-drink-card>
                                         `
                                 ).reverse()}
@@ -75,6 +73,5 @@ class MySpecialsView {
         render(template, App.rootEl)
     }
 }
-
 
 export default new MySpecialsView()

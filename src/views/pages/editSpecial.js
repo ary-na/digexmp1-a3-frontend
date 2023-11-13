@@ -1,10 +1,11 @@
 import App from './../../App'
-import {html, render} from 'lit-html'
+import {html, render} from 'lit'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
 import Toast from "../../Toast";
 import Drink from "../../api/Drink";
+
 class EditSpecialView {
     async init() {
         if (Auth.currentUser.accessLevel === 1)
@@ -30,7 +31,7 @@ class EditSpecialView {
 
     async retrieveCheckboxCheckedValue() {
         const checkboxEl = await document.querySelector('sl-checkbox')
-        if(this.special.decaf)
+        if (this.special.decaf)
             checkboxEl.checked = true
     }
 
@@ -42,7 +43,7 @@ class EditSpecialView {
         try {
             await Drink.updateSpecial(this.specialId, formData)
             Toast.show('Special updated!')
-        }catch(err){
+        } catch (err) {
             Toast.show(err, 'error')
         }
         submitBtn.removeAttribute('loading')
@@ -60,15 +61,11 @@ class EditSpecialView {
                     <p class="small text-muted mb-4">Edit your specials and make sure you keep them up to date.</p>
 
                     <form class="row gy-3 mt-0" @submit=${this.editSpecialSubmitHandler.bind(this)}>
-                        <sl-input class="col-12" name="name" type="text" label="Drink name"
-                                  placeholder="Enter drink name..." value="${this.special.name}" required></sl-input>
+                        <sl-input class="col-12" name="name" type="text" label="Drink name" placeholder="Enter drink name..." value="${this.special.name}" required></sl-input>
 
-                        <sl-textarea name="description" label="Description"
-                                     placeholder="Enter a detailed description of the drink..."
-                                     value="${this.special.description}" required></sl-textarea>
+                        <sl-textarea name="description" label="Description" placeholder="Enter a detailed description of the drink..." value="${this.special.description}" required></sl-textarea>
 
-                        <sl-select class="col-md-8" name="brewMethod" label="Brew method"
-                                   placeholder="Select a brew method..." value="${this.special.brewMethod}" required>
+                        <sl-select class="col-md-8" name="brewMethod" label="Brew method" placeholder="Select a brew method..." value="${this.special.brewMethod}" required>
                             <sl-option value="Aeropress_(pressure)">Aeropress (pressure)</sl-option>
                             <sl-option value="Auto_drip_(drip)">Auto drip (drip)</sl-option>
                             <sl-option value="Chemex_(drip)">Chemex (drip)</sl-option>
@@ -80,9 +77,7 @@ class EditSpecialView {
                             <sl-option value="Siphon_(pressure)">Siphon (pressure)</sl-option>
                         </sl-select>
 
-                        <sl-input class="col-md-4" name="price" type="text" label="Price" value="${this.special.price}"
-                                  placeholder="Enter price..."
-                                  required>
+                        <sl-input class="col-md-4" name="price" type="text" label="Price" value="${this.special.price}" placeholder="Enter price..." required>
                             <sl-icon class="ps-2" name="currency-dollar" slot="prefix"></sl-icon>
                         </sl-input>
 

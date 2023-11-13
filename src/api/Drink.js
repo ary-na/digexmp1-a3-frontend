@@ -68,7 +68,7 @@ class Drink {
         return await response.json()
     }
 
-    async getSpecials(){
+    async getSpecials() {
 
         // fetch the json data
         const response = await fetch(`${App.apiBase}/drink/special`, {

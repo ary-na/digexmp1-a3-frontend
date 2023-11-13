@@ -1,6 +1,4 @@
 import {LitElement, render, html, css} from 'lit'
-import {anchorRoute, gotoRoute} from '../Router'
-import Auth from './../api/Auth'
 import App from './../App'
 import User from "../api/User"
 import Toast from "../Toast"
@@ -51,7 +49,7 @@ export class CoBaristaCard extends LitElement {
         lastName: {type: String},
         avatar: {type: String},
         bio: {type: String},
-        favourite: {type: Number}
+        favourite: {type: Number},
     }
 
     constructor() {
@@ -82,13 +80,11 @@ export class CoBaristaCard extends LitElement {
         }
     }
 
-    async readMoreHandler(e){
+    async readMoreHandler(e) {
         e.preventDefault()
         const dialogEl = document.createElement('sl-dialog');
         dialogEl.setAttribute('label', `${this.firstName}'s bio`)
-        const dialogContent = html`
-            <p>${this.bio}</p>
-        `;
+        const dialogContent = html`<p>${this.bio}</p>`;
         render(dialogContent, dialogEl)
 
         await document.body.append(dialogEl)

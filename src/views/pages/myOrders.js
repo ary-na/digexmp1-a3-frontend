@@ -1,4 +1,4 @@
-import {html, render} from 'lit-html'
+import {html, render} from 'lit'
 import {gotoRoute, anchorRoute} from '../../Router'
 import Auth from '../../api/Auth'
 import Utils from './../../Utils'
@@ -19,7 +19,7 @@ class MyOrdersView {
         }
     }
 
-    async getMyOrders(id){
+    async getMyOrders(id) {
         try {
             this.myOrders = await Order.getMyOrders(id)
         } catch (err) {
@@ -31,12 +31,12 @@ class MyOrdersView {
         const template = html`
             <co-app-header user="${JSON.stringify(Auth.currentUser)}"></co-app-header>
             <div class="row my-4 justify-content-center">
-                <div class="row col-xs-12 col-sm-10 mb-4">
+                <div class="row col-xs-12 col-sm-10">
                     <h1>My orders</h1>
                     <p class="small mb-0 brand-color">View and prepare your orders. Change the status of the orders to let customers know it is ready for pickup.</p>
                 </div>
 
-              <div class="row col-xs-12 col-sm-10">
+                <div class="row g-4 mt-0 col-xs-12 col-sm-10">
                     ${Object.keys(this.myOrders).length === 0 ? html`
                                 <sl-card class="col-12 text-center">
                                     <h2>You have not received any orders.</h2>
@@ -44,21 +44,19 @@ class MyOrdersView {
                                 </sl-card>
                             `
                             : html`
-                                <div class="col-xs-12 col-sm-10 row g-4 mt-0">
-                                    ${this.myOrders.map(order => html`
-                                        <co-order-card class="col-12" id="${order._id}"
-                                                       date="${order.date}"
-                                                       ready="${order.ready}"
-                                                       instructions="${order.instructions}"
-                                                       barista="${JSON.stringify(order.barista)}"
-                                                       user="${JSON.stringify(order.user)}"
-                                                       drinks="${JSON.stringify(order.drinks)}"
-                                                       total="${order.total}"
-                                        ></co-order-card>
-                                    `).reverse()}
-                                </div>
+                                ${this.myOrders.map(order => html`
+                                    <co-order-card class="col-12" id="${order._id}"
+                                                   date="${order.date}"
+                                                   ready="${order.ready}"
+                                                   instructions="${order.instructions}"
+                                                   barista="${JSON.stringify(order.barista)}"
+                                                   user="${JSON.stringify(order.user)}"
+                                                   drinks="${JSON.stringify(order.drinks)}"
+                                                   total="${order.total}"
+                                    ></co-order-card>
+                                `).reverse()}
                             `}
-                  </div>
+                </div>
             </div>
             <co-app-footer></co-app-footer>
         `

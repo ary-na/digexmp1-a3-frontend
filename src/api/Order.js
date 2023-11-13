@@ -73,7 +73,7 @@ class Order {
         return await response.json()
     }
 
-    async getMyLastOrder(userId){
+    async getMyLastOrder(userId) {
         // validate
         if (!userId) return
 

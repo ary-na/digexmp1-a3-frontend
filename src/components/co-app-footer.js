@@ -1,5 +1,4 @@
 import {LitElement, render, html, css} from 'lit'
-import {anchorRoute, gotoRoute} from '../Router'
 
 export class CoAppFooter extends LitElement {
     static styles = css`
