@@ -13837,7 +13837,7 @@ class App {
   constructor() {
     this.name = "coffee on";
     this.version = "1.0.0";
-    this.apiBase = 'http://localhost:3000';
+    this.apiBase = 'https://anyamchelo-coffeeon-backend-b2n2v.ondigitalocean.app';
     this.rootEl = document.getElementById("root");
     this.version = "1.0.0";
   }
