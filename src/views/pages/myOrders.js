@@ -41,8 +41,7 @@ class MyOrdersView {
                                 <sl-card class="col-12 text-center">
                                     <h2>You have not received any orders.</h2>
                                     <p class="small text-muted mb-0">Create more exciting drinks to receive more orders.</p>
-                                </sl-card>
-                            `
+                                </sl-card>`
                             : html`
                                 ${this.myOrders.map(order => html`
                                     <co-order-card class="col-12" id="${order._id}"
