@@ -12,3 +12,26 @@ For more information, visit [Academic Integrity at Curtin](https://www.curtin.ed
 
 ## 2. Screenshots
 
+#### 2.1. Log in and register pages
+
+![Log in and register pages](static/screenshots/login-register.png)
+
+#### 2.2. Welcome page
+
+![Welcome page](static/screenshots/welcome.png)
+
+#### 2.3. Home and cart pages
+
+![Home and cart pages](static/screenshots/home-cart.png)
+
+#### 2.4. Baristas and drinks pages
+
+![Baristas and drinks pages](static/screenshots/baristas-drinks.png)
+
+#### 2.5. Favourites
+
+![Favourites page](static/screenshots/favourites.png)
+
+#### 2.6. Profile
+
+![Profile page](static/screenshots/profile.png)
