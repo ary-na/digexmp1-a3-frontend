@@ -43,7 +43,7 @@ class OrdersView {
                     ${Object.keys(this.orders).length === 0 ? html`
                                 <sl-card class="col-12 text-center">
                                     <h2>You do not have any orders.</h2>
-                                    <p class="small text-muted mb-0">Order one of our exciting drinks from the drinks menu.</p>
+                                    <p class="small text-muted mb-0">Explore our drinks, and we promise you will find what you love.</p>
                                 </sl-card>`
                             : html`
                                 ${this.orders.map(order => html`
